@@ -1,7 +1,7 @@
 # R Web Technologies
 
 This repository contains the text of 
-<a href="https://www.gastonsanchez.com/R-web-technologies" target="_blank"><strong>A Short Introduction to Web Data Technologies in R</strong></a> by 
+<a href="https://www.gastonsanchez.com/R-web-technologies" target="_blank"><strong>A Short Introduction to Web Technologies in R</strong></a> by 
 <a href="https://www.gastonsanchez.com" target="_blank">Gaston Sanchez</a>
 
 
