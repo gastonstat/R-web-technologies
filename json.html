@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>8 JSON Data | Web Technologies in R</title>
+  <meta name="description" content="<p>This tutorial provides a a short introduction to some of the Web Data
+Technologies available in R.</p>" />
+  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="8 JSON Data | Web Technologies in R" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="<p>This tutorial provides a a short introduction to some of the Web Data
+Technologies available in R.</p>" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="8 JSON Data | Web Technologies in R" />
+  
+  <meta name="twitter:description" content="<p>This tutorial provides a a short introduction to some of the Web Data
+Technologies available in R.</p>" />
+  
+
+<meta name="author" content="Gaston Sanchez" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="html.html"/>
+<link rel="next" href="jsonlite.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./"><b>Web Technologies in R</b><br><small>Gaston Sanchez</small></a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>About</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#my-series-of-r-tutorials"><i class="fa fa-check"></i>My Series of R Tutorials</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#donation"><i class="fa fa-check"></i>Donation</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#license"><i class="fa fa-check"></i>License</a></li>
+</ul></li>
+<li class="part"><span><b>I Intro</b></span></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="introduction.html"><a href="introduction.html#suggested-tools"><i class="fa fa-check"></i><b>1.1</b> Suggested Tools</a></li>
+<li class="chapter" data-level="1.2" data-path="introduction.html"><a href="introduction.html#suggested-r-packages"><i class="fa fa-check"></i><b>1.2</b> Suggested R Packages</a></li>
+<li class="chapter" data-level="1.3" data-path="introduction.html"><a href="introduction.html#some-acronyms"><i class="fa fa-check"></i><b>1.3</b> Some Acronyms</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="web.html"><a href="web.html"><i class="fa fa-check"></i><b>2</b> The Web</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="web.html"><a href="web.html#surfing-the-web"><i class="fa fa-check"></i><b>2.1</b> Surfing the Web</a></li>
+<li class="chapter" data-level="2.2" data-path="web.html"><a href="web.html#how-does-the-web-work"><i class="fa fa-check"></i><b>2.2</b> How Does the Web Work?</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="http.html"><a href="http.html"><i class="fa fa-check"></i><b>3</b> Basics of HTTP</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="http.html"><a href="http.html#what-is-http"><i class="fa fa-check"></i><b>3.1</b> What is HTTP?</a></li>
+<li class="chapter" data-level="3.2" data-path="http.html"><a href="http.html#a-quick-introduction-to-http"><i class="fa fa-check"></i><b>3.2</b> A quick introduction to HTTP</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="http.html"><a href="http.html#http-example"><i class="fa fa-check"></i><b>3.2.1</b> HTTP Example</a></li>
+<li class="chapter" data-level="3.2.2" data-path="http.html"><a href="http.html#http-request"><i class="fa fa-check"></i><b>3.2.2</b> HTTP Request</a></li>
+<li class="chapter" data-level="3.2.3" data-path="http.html"><a href="http.html#http-response"><i class="fa fa-check"></i><b>3.2.3</b> HTTP Response</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="http.html"><a href="http.html#anatomy-of-an-http-message"><i class="fa fa-check"></i><b>3.3</b> Anatomy of an HTTP message</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="http.html"><a href="http.html#http-methods"><i class="fa fa-check"></i><b>3.3.1</b> HTTP Methods</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>II XML</b></span></li>
+<li class="chapter" data-level="4" data-path="xml.html"><a href="xml.html"><i class="fa fa-check"></i><b>4</b> Basics of XML</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="xml.html"><a href="xml.html#what-is-xml"><i class="fa fa-check"></i><b>4.1</b> What is XML?</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="xml.html"><a href="xml.html#marks-in-xml"><i class="fa fa-check"></i><b>4.1.1</b> Marks in XML</a></li>
+<li class="chapter" data-level="4.1.2" data-path="xml.html"><a href="xml.html#minimalist-example"><i class="fa fa-check"></i><b>4.1.2</b> Minimalist Example</a></li>
+<li class="chapter" data-level="4.1.3" data-path="xml.html"><a href="xml.html#well-formedness"><i class="fa fa-check"></i><b>4.1.3</b> Well Formedness</a></li>
+<li class="chapter" data-level="4.1.4" data-path="xml.html"><a href="xml.html#additional-xml-elements"><i class="fa fa-check"></i><b>4.1.4</b> Additional XML Elements</a></li>
+<li class="chapter" data-level="4.1.5" data-path="xml.html"><a href="xml.html#another-example"><i class="fa fa-check"></i><b>4.1.5</b> Another Example</a></li>
+<li class="chapter" data-level="4.1.6" data-path="xml.html"><a href="xml.html#wrapping-up"><i class="fa fa-check"></i><b>4.1.6</b> Wrapping-Up</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="parsing-xml.html"><a href="parsing-xml.html"><i class="fa fa-check"></i><b>5</b> Parsing XML</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="parsing-xml.html"><a href="parsing-xml.html#what-is-parsing"><i class="fa fa-check"></i><b>5.1</b> What is parsing?</a></li>
+<li class="chapter" data-level="5.2" data-path="parsing-xml.html"><a href="parsing-xml.html#r-package-xml2"><i class="fa fa-check"></i><b>5.2</b> R package <code>"xml2"</code></a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="parsing-xml.html"><a href="parsing-xml.html#parsing-functions"><i class="fa fa-check"></i><b>5.2.1</b> Parsing Functions</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="parsing-xml.html"><a href="parsing-xml.html#working-with-parsed-documents"><i class="fa fa-check"></i><b>5.3</b> Working with parsed documents</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="parsing-xml.html"><a href="parsing-xml.html#example-with-a-basic-xml-document"><i class="fa fa-check"></i><b>5.3.1</b> Example with a basic XML document</a></li>
+<li class="chapter" data-level="5.3.2" data-path="parsing-xml.html"><a href="parsing-xml.html#more-functions-in-xml2"><i class="fa fa-check"></i><b>5.3.2</b> More Functions in <code>"xml2"</code></a></li>
+<li class="chapter" data-level="5.3.3" data-path="parsing-xml.html"><a href="parsing-xml.html#navigation-of-xml-html-tree"><i class="fa fa-check"></i><b>5.3.3</b> Navigation of XML / HTML Tree</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="xpath.html"><a href="xpath.html"><i class="fa fa-check"></i><b>6</b> XPath Language</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="xpath.html"><a href="xpath.html#what-is-xpath"><i class="fa fa-check"></i><b>6.1</b> What is XPath?</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="xpath.html"><a href="xpath.html#xpath-syntax"><i class="fa fa-check"></i><b>6.1.1</b> XPath Syntax</a></li>
+<li class="chapter" data-level="6.1.2" data-path="xpath.html"><a href="xpath.html#selecting-nodes"><i class="fa fa-check"></i><b>6.1.2</b> Selecting Nodes</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="xpath.html"><a href="xpath.html#xpath-examples"><i class="fa fa-check"></i><b>6.2</b> XPath Examples</a></li>
+<li class="chapter" data-level="6.3" data-path="xpath.html"><a href="xpath.html#using-xpath-functions"><i class="fa fa-check"></i><b>6.3</b> Using XPath Functions</a></li>
+</ul></li>
+<li class="part"><span><b>III HTML</b></span></li>
+<li class="chapter" data-level="7" data-path="html.html"><a href="html.html"><i class="fa fa-check"></i><b>7</b> Basics of HTML</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="html.html"><a href="html.html#a-quick-introduction-to-html"><i class="fa fa-check"></i><b>7.1</b> A quick introduction to HTML</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="html.html"><a href="html.html#html-document-structure"><i class="fa fa-check"></i><b>7.1.1</b> HTML document structure</a></li>
+<li class="chapter" data-level="7.1.2" data-path="html.html"><a href="html.html#html-syntax"><i class="fa fa-check"></i><b>7.1.2</b> HTML Syntax</a></li>
+<li class="chapter" data-level="7.1.3" data-path="html.html"><a href="html.html#what-the-browser-does"><i class="fa fa-check"></i><b>7.1.3</b> What the browser does</a></li>
+<li class="chapter" data-level="7.1.4" data-path="html.html"><a href="html.html#web-scraping"><i class="fa fa-check"></i><b>7.1.4</b> Web Scraping</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>IV JSON</b></span></li>
+<li class="chapter" data-level="8" data-path="json.html"><a href="json.html"><i class="fa fa-check"></i><b>8</b> JSON Data</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="json.html"><a href="json.html#json-basics"><i class="fa fa-check"></i><b>8.1</b> JSON Basics</a></li>
+<li class="chapter" data-level="8.2" data-path="json.html"><a href="json.html#what-is-json"><i class="fa fa-check"></i><b>8.2</b> What is JSON?</a></li>
+<li class="chapter" data-level="8.3" data-path="json.html"><a href="json.html#understanding-json-syntax"><i class="fa fa-check"></i><b>8.3</b> Understanding JSON Syntax</a>
+<ul>
+<li class="chapter" data-level="8.3.1" data-path="json.html"><a href="json.html#data-types"><i class="fa fa-check"></i><b>8.3.1</b> Data Types</a></li>
+<li class="chapter" data-level="8.3.2" data-path="json.html"><a href="json.html#arrays"><i class="fa fa-check"></i><b>8.3.2</b> Arrays</a></li>
+<li class="chapter" data-level="8.3.3" data-path="json.html"><a href="json.html#objects"><i class="fa fa-check"></i><b>8.3.3</b> Objects</a></li>
+<li class="chapter" data-level="8.3.4" data-path="json.html"><a href="json.html#examples-of-json-data-containers"><i class="fa fa-check"></i><b>8.3.4</b> Examples of JSON Data Containers</a></li>
+<li class="chapter" data-level="8.3.5" data-path="json.html"><a href="json.html#data-table-toy-example"><i class="fa fa-check"></i><b>8.3.5</b> Data Table Toy Example</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="jsonlite.html"><a href="jsonlite.html"><i class="fa fa-check"></i><b>9</b> JSON R packages</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="jsonlite.html"><a href="jsonlite.html#function-tojson"><i class="fa fa-check"></i><b>9.1</b> Function <code>toJSON()</code></a></li>
+<li class="chapter" data-level="9.2" data-path="jsonlite.html"><a href="jsonlite.html#function-fromjson"><i class="fa fa-check"></i><b>9.2</b> Function <code>fromJSON()</code></a></li>
+<li class="chapter" data-level="9.3" data-path="jsonlite.html"><a href="jsonlite.html#reading-json-data"><i class="fa fa-check"></i><b>9.3</b> Reading JSON Data</a></li>
+</ul></li>
+<li class="part"><span><b>V APIs</b></span></li>
+<li class="chapter" data-level="10" data-path="apis.html"><a href="apis.html"><i class="fa fa-check"></i><b>10</b> Web APIs</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="apis.html"><a href="apis.html#introduction-1"><i class="fa fa-check"></i><b>10.1</b> Introduction</a></li>
+<li class="chapter" data-level="10.2" data-path="apis.html"><a href="apis.html#a-little-bit-about-apis"><i class="fa fa-check"></i><b>10.2</b> A little bit about APIs</a></li>
+<li class="chapter" data-level="10.3" data-path="apis.html"><a href="apis.html#using-r-as-an-http-client"><i class="fa fa-check"></i><b>10.3</b> Using R as an HTTP Client</a></li>
+<li class="chapter" data-level="10.4" data-path="apis.html"><a href="apis.html#interacting-with-aps-via-r"><i class="fa fa-check"></i><b>10.4</b> Interacting with AP’s via R</a>
+<ul>
+<li class="chapter" data-level="10.4.1" data-path="apis.html"><a href="apis.html#making-request-from-r"><i class="fa fa-check"></i><b>10.4.1</b> Making request from R</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="api-pubmed.html"><a href="api-pubmed.html"><i class="fa fa-check"></i><b>11</b> PubMed API Example</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="api-pubmed.html"><a href="api-pubmed.html#pubmed"><i class="fa fa-check"></i><b>11.1</b> PubMed</a></li>
+<li class="chapter" data-level="11.2" data-path="api-pubmed.html"><a href="api-pubmed.html#basics-of-e-utilities"><i class="fa fa-check"></i><b>11.2</b> Basics of E-utilities</a>
+<ul>
+<li class="chapter" data-level="11.2.1" data-path="api-pubmed.html"><a href="api-pubmed.html#how-does-e-utilities-work"><i class="fa fa-check"></i><b>11.2.1</b> How does E-utilities work?</a></li>
+<li class="chapter" data-level="11.2.2" data-path="api-pubmed.html"><a href="api-pubmed.html#searching-pubmed-from-within-r"><i class="fa fa-check"></i><b>11.2.2</b> Searching PubMed from within R</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://www.gastonsanchez.com" target="_blank">gastonsanchez.com</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Web Technologies in R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="json" class="section level1 hasAnchor" number="8">
+<h1><span class="header-section-number">8</span> JSON Data<a href="json.html#json" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>The goal of this chapter is to provide an introduction for handling JSON data
+in R.</p>
+<p>We’ll cover the following topics:</p>
+<ul>
+<li>JSON Basics</li>
+<li>R packages for JSON data</li>
+<li>Reading JSON data from the Web</li>
+</ul>
+<div id="json-basics" class="section level2 hasAnchor" number="8.1">
+<h2><span class="header-section-number">8.1</span> JSON Basics<a href="json.html#json-basics" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>JSON stands for <strong>JavaScript Object Notation</strong> and it is a format for
+representing data. More formally, we can say that it is a text-based way to
+store and transmit structured data. By using a simple syntax, you can easily
+store anything from a single number to strings, JSON-arrays, and JSON-objects
+using nothing but a string of plain text. As you will see, you can also nest
+arrays and objects, allowing you to create complex data structures.</p>
+</div>
+<div id="what-is-json" class="section level2 hasAnchor" number="8.2">
+<h2><span class="header-section-number">8.2</span> What is JSON?<a href="json.html#what-is-json" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Let’s first talk about what JSON is and why it is important.</p>
+<p>JSON is a data representation format very similar to XML. It’s used widely
+across the internet for almost every single API that you will access as well as
+for <em>config</em> files and things such as games and text editors. Its popularity
+is based on a handful of attractive aspects:</p>
+<ul>
+<li><p>It’s extremely lightweight and compact to send back and forth due to the small
+size file;</p></li>
+<li><p>It’s easy for both computers and people to read-and-write, compared to
+something like XML, since it’s much cleaner and there’s not as many opening and
+closing tags;</p></li>
+<li><p>It maps very easily onto the data structures used by most programming
+languages (numbers, strings, booleans, nulls, arrays and associative arrays);</p></li>
+<li><p>It also integrates very nicely with
+<a href="https://en.wikipedia.org/wiki/JavaScript" target="_blank">javascript</a>
+since JSON is just a superset of
+<a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/First_steps/What_is_JavaScript" target="_blank">javascript</a>
+which means anything you write in JSON is valid javascript, which is a language
+used all throughout the web for front-end or back-end of applications.</p></li>
+<li><p>Also, every single major language has some form of library or packages with
+built-in functionality to parse JSON strings into objects or classes in that
+language which makes working with JSON data extremely easy inside of a
+programming language.</p></li>
+</ul>
+<p>Why should we care about JSON? When working with data from the Web, we’ll
+inevitably find some JSON data because it is commonly used in web applications
+to send data from the server to the browser. As a matter of fact, in your data
+science career you will be using JSON quite often, whether it is consuming an
+API, creating an API, or creating <em>config</em> files for you or other people to use
+for your application.</p>
+</div>
+<div id="understanding-json-syntax" class="section level2 hasAnchor" number="8.3">
+<h2><span class="header-section-number">8.3</span> Understanding JSON Syntax<a href="json.html#understanding-json-syntax" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Let’s now talk about the syntax used to store and organize data in JSON.</p>
+<div id="data-types" class="section level3 hasAnchor" number="8.3.1">
+<h3><span class="header-section-number">8.3.1</span> Data Types<a href="json.html#data-types" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The first thing to talk about is the <strong>data types</strong> or <strong>values</strong> that JSON can
+represent. As we know, JSON is a data representation format, so we need to be
+able to represent certain data types within it. JSON supports the following types:</p>
+<ul>
+<li><p><code>string</code> (in double quotes)</p></li>
+<li><p><code>number</code> (in any format whether they’re decimal numbers, integers, negative
+numbers, even numbers in scientific notation)</p></li>
+<li><p><code>true</code> and <code>false</code> (booleans)</p></li>
+<li><p><code>null</code></p></li>
+</ul>
+</div>
+<div id="arrays" class="section level3 hasAnchor" number="8.3.2">
+<h3><span class="header-section-number">8.3.2</span> Arrays<a href="json.html#arrays" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>JSON also supports <strong>arrays</strong> (in JSON Sense) which are sets of data types
+defined within brackets, and contains a comma-separated list of values.
+For example <code>[1, 3, 3]</code> or <code>["computing", "with", "data"]</code>,
+which can be a set of any of the data types listed above.</p>
+<p>We typically use arrays when we have a set of unnamed values, this is why some
+people refer to them as <strong>ordered unnamed arrays</strong>. The closest R object to a
+JSON array would be a vector:</p>
+<ul>
+<li><p>JSON: <code>[1, 2, 3, ... ]</code>; -vs- R: <code>c(1, 2, 3, ...)</code></p></li>
+<li><p>JSON: <code>[true, true, false, ... ]</code>; -vs- R: <code>c(TRUE, TRUE, FALSE, ...)</code></p></li>
+</ul>
+</div>
+<div id="objects" class="section level3 hasAnchor" number="8.3.3">
+<h3><span class="header-section-number">8.3.3</span> Objects<a href="json.html#objects" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Another type of data container is the so-called JSON <strong>object</strong>, which is the
+most complex but also the most used type of object within JSON, and it allows
+you to represent values that are key-value pairs:</p>
+<p><code>{"key": "value"}</code></p>
+<p>You use curly braces to define a JSON-object, and inside the braces you put
+key-value pairs. The key must be surrounded by double quotes, followed by a
+colon, followed by the value. The value can be a single data type, but it
+can also be a JSON-array (which in turn can contain a JSON-object). Because
+you have the association of a <em>key</em> with its <em>value</em>, these JSON structures
+are also referred to as associative arrays.</p>
+<p>For example, say the key is <code>"year"</code> and the value <code>2000</code>, then a simple JSON
+object will look like this:</p>
+<p><code>{"year": 2000}</code></p>
+<p>Another example can be a key <code>"name"</code> and a value <code>"Jessica"</code>:</p>
+<p><code>{"name": "Jessica"}</code></p>
+<p>If you have multiple key-value pairs, you separate each of them with a comma:</p>
+<pre><code>{
+  &quot;name1&quot;: &quot;Nicole&quot;,
+  &quot;name2&quot;: &quot;Pleuni&quot;,
+  &quot;name3&quot;: &quot;Rori&quot;
+}</code></pre>
+<p>A more complex object might look like the following example. In this case we
+have JSON-object that contains three key-value pairs. Each of the keys is a
+<code>"person"</code> and the associated pair corresponds to an array which in turn
+contains a JSON-object with two key-value pairs: the <em>first name</em>, and the
+<em>last name</em>:</p>
+<pre><code>{
+  &quot;person1&quot;: [
+    {
+      &quot;first&quot;: &quot;Nicole&quot;,
+      &quot;last&quot;: &quot;Adelstein&quot;
+    }
+  ],
+  &quot;person2&quot;: [
+    {
+      &quot;first&quot;: &quot;Pleuni&quot;,
+      &quot;last&quot;: &quot;Pennings&quot;
+    }
+  ],
+  &quot;person3&quot;: [
+    {
+      &quot;first&quot;: &quot;Rori&quot;,
+      &quot;last&quot;: &quot;Rohlfs&quot;
+    }
+  ]
+}</code></pre>
+<p>Because the data inside a JSON object is formed of key-value pairs, you could
+think of them as <strong>named arrays</strong>.</p>
+<p>What do JSON-objects correspond to in R? Well, there’s not really a unique
+correspondence between a JSON-object and its equivalent in structure R. For
+instance, let’s bring back one of the JSON-objects previously discussed:</p>
+<pre><code>{
+  &quot;name1&quot;: &quot;Nicole&quot;,
+  &quot;name2&quot;: &quot;Pleuni&quot;,
+  &quot;name3&quot;: &quot;Rori&quot;
+}</code></pre>
+<p>We could use a named R vector to store the same data:</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="json.html#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co"># named vector in R</span></span>
+<span id="cb53-2"><a href="json.html#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="st">&quot;name1&quot;</span> <span class="ot">=</span> <span class="st">&quot;Nicole&quot;</span>, <span class="st">&quot;name2&quot;</span> <span class="ot">=</span> <span class="st">&quot;Pleuni&quot;</span>, <span class="st">&quot;name3&quot;</span> <span class="ot">=</span> <span class="st">&quot;Rori&quot;</span>)</span></code></pre></div>
+<p>But we could also use an R list:</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="json.html#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="co"># named list in R</span></span>
+<span id="cb54-2"><a href="json.html#cb54-2" aria-hidden="true" tabindex="-1"></a><span class="fu">list</span>(<span class="st">&quot;name1&quot;</span> <span class="ot">=</span> <span class="st">&quot;Nicole&quot;</span>, <span class="st">&quot;name2&quot;</span> <span class="ot">=</span> <span class="st">&quot;Pleuni&quot;</span>, <span class="st">&quot;name3&quot;</span> <span class="ot">=</span> <span class="st">&quot;Rori&quot;</span>)</span></code></pre></div>
+<p>Keep in mind that JSON-objects can be more complex than this basic example.
+Because JSON objects can contain any other type of JSON data structure in them,
+the similar container in R to a JSON-object is a <code>list</code>.</p>
+</div>
+<div id="examples-of-json-data-containers" class="section level3 hasAnchor" number="8.3.4">
+<h3><span class="header-section-number">8.3.4</span> Examples of JSON Data Containers<a href="json.html#examples-of-json-data-containers" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Here’s a series of examples involving combinations of JSON arrays and objects.</p>
+<p>JSON containers can be nested. Here’s one example:</p>
+<pre><code>{
+    &quot;name&quot;: [&quot;X&quot;, &quot;Y&quot;, &quot;Z&quot;],
+    &quot;grams&quot;: [300, 200, 500], 
+    &quot;qty&quot;: [4, 5, null],
+    &quot;new&quot;: [true, false, true]
+}</code></pre>
+<p>Here’s another example of nested containers:</p>
+<pre><code>[
+    { &quot;name&quot;: &quot;X&quot;, 
+      &quot;grams&quot;: 300,
+      &quot;qty&quot;: 4,
+      &quot;new&quot;: true },
+    { &quot;name&quot;: &quot;Y&quot;,
+      &quot;grams&quot;: 200,
+      &quot;qty&quot;: 5,
+      &quot;new&quot;: false },
+    { &quot;name&quot;: &quot;Z&quot;,
+      &quot;grams&quot;: 500, 
+      &quot;qty&quot;: null,
+      &quot;new&quot;: true}
+]</code></pre>
+</div>
+<div id="data-table-toy-example" class="section level3 hasAnchor" number="8.3.5">
+<h3><span class="header-section-number">8.3.5</span> Data Table Toy Example<a href="json.html#data-table-toy-example" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Let’s consider a less basic example with some tabular data set:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Name</th>
+<th align="left">Gender</th>
+<th align="left">Homeland</th>
+<th align="left">Born</th>
+<th align="left">Jedi</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Anakin</td>
+<td align="left">male</td>
+<td align="left">Tatooine</td>
+<td align="left">41.9BBY</td>
+<td align="left">yes</td>
+</tr>
+<tr class="even">
+<td align="left">Amidala</td>
+<td align="left">female</td>
+<td align="left">Naboo</td>
+<td align="left">46BBY</td>
+<td align="left">no</td>
+</tr>
+<tr class="odd">
+<td align="left">Luke</td>
+<td align="left">male</td>
+<td align="left">Tatooine</td>
+<td align="left">19BBY</td>
+<td align="left">yes</td>
+</tr>
+<tr class="even">
+<td align="left">Leia</td>
+<td align="left">female</td>
+<td align="left">Alderaan</td>
+<td align="left">19BBY</td>
+<td align="left">no</td>
+</tr>
+<tr class="odd">
+<td align="left">Obi-Wan</td>
+<td align="left">male</td>
+<td align="left">Stewjon</td>
+<td align="left">57BBY</td>
+<td align="left">yes</td>
+</tr>
+<tr class="even">
+<td align="left">Han</td>
+<td align="left">male</td>
+<td align="left">Corellia</td>
+<td align="left">29BBY</td>
+<td align="left">no</td>
+</tr>
+<tr class="odd">
+<td align="left">Palpatine</td>
+<td align="left">male</td>
+<td align="left">Naboo</td>
+<td align="left">82BBY</td>
+<td align="left">no</td>
+</tr>
+<tr class="even">
+<td align="left">R2-D2</td>
+<td align="left">unknown</td>
+<td align="left">Naboo</td>
+<td align="left">33BBY</td>
+<td align="left">no</td>
+</tr>
+</tbody>
+</table>
+<p>How can we store this tabular data in JSON format? There are several ways to
+represent this data in JSON format. One option could be a JSON-array containing
+JSON-objects. Each JSON-object represents an individual:</p>
+<pre><code>    [
+        {
+         &quot;Name&quot;: &quot;Anakin&quot;,
+         &quot;Gender&quot;: &quot;male&quot;, 
+         &quot;Homeworld&quot;: &quot;Tatooine&quot;,
+         &quot;Born&quot;: &quot;41.9BBY&quot;,
+         &quot;Jedi&quot;: &quot;yes&quot;
+        },
+        {
+         &quot;Name&quot;: &quot;Amidala&quot;,
+         &quot;Gender&quot;: &quot;female&quot;, 
+         &quot;Homeworld&quot;: &quot;Naboo&quot;,
+         &quot;Born&quot;: 46BBY&quot;,
+         &quot;Jedi&quot;: &quot;no&quot;
+        },
+        ...
+        {
+         &quot;Name&quot;: &quot;R2-D2&quot;,
+         &quot;Gender&quot;: &quot;unknown&quot;,
+         &quot;Homeworld&quot;: &quot;Naboo&quot;,
+         &quot;Born&quot;: &quot;33BBY&quot;,
+         &quot;Jedi&quot;: &quot;no&quot;
+        }
+    ]</code></pre>
+<p>Another way to represent the data in the table above is by using an object
+containing key-value pairs in which the <em>keys</em> are the names of the columns,
+and the <em>pairs</em> are arrays (the data values in each column).</p>
+<pre><code>{
+  &quot;Name&quot;: [ &quot;Anakin&quot;, &quot;Amidala&quot;, &quot;Luke&quot;, ... , &quot;R2-D2&quot; ],
+  &quot;Gender&quot;: [ &quot;male&quot;, &quot;female&quot;, &quot;male&quot;, ... , &quot;unknown&quot; ],
+  &quot;Homeworld&quot;: [ &quot;Tatooine&quot;, &quot;Naboo&quot;, &quot;Tatooine&quot;, ... , &quot;Naboo&quot; ],
+  &quot;Born&quot;: [ &quot;41.9BBY&quot;, &quot;46BBY&quot;, &quot;19BBY&quot;, ... , &quot;33BBY&quot; ],
+  &quot;Jedi&quot;: [ &quot;yes&quot;, &quot;no&quot;, &quot;yes&quot;, ... , &quot;no&quot; ] 
+}</code></pre>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="html.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="jsonlite.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["R-web-tech.pdf", "R-web-tech.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>4 Basics of XML | Web Technologies in R</title>
+  <meta name="description" content="<p>This tutorial provides a a short introduction to some of the Web Data
+Technologies available in R.</p>" />
+  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="4 Basics of XML | Web Technologies in R" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="<p>This tutorial provides a a short introduction to some of the Web Data
+Technologies available in R.</p>" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="4 Basics of XML | Web Technologies in R" />
+  
+  <meta name="twitter:description" content="<p>This tutorial provides a a short introduction to some of the Web Data
+Technologies available in R.</p>" />
+  
+
+<meta name="author" content="Gaston Sanchez" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="http.html"/>
+<link rel="next" href="parsing-xml.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./"><b>Web Technologies in R</b><br><small>Gaston Sanchez</small></a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>About</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#my-series-of-r-tutorials"><i class="fa fa-check"></i>My Series of R Tutorials</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#donation"><i class="fa fa-check"></i>Donation</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#license"><i class="fa fa-check"></i>License</a></li>
+</ul></li>
+<li class="part"><span><b>I Intro</b></span></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="introduction.html"><a href="introduction.html#suggested-tools"><i class="fa fa-check"></i><b>1.1</b> Suggested Tools</a></li>
+<li class="chapter" data-level="1.2" data-path="introduction.html"><a href="introduction.html#suggested-r-packages"><i class="fa fa-check"></i><b>1.2</b> Suggested R Packages</a></li>
+<li class="chapter" data-level="1.3" data-path="introduction.html"><a href="introduction.html#some-acronyms"><i class="fa fa-check"></i><b>1.3</b> Some Acronyms</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="web.html"><a href="web.html"><i class="fa fa-check"></i><b>2</b> The Web</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="web.html"><a href="web.html#surfing-the-web"><i class="fa fa-check"></i><b>2.1</b> Surfing the Web</a></li>
+<li class="chapter" data-level="2.2" data-path="web.html"><a href="web.html#how-does-the-web-work"><i class="fa fa-check"></i><b>2.2</b> How Does the Web Work?</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="http.html"><a href="http.html"><i class="fa fa-check"></i><b>3</b> Basics of HTTP</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="http.html"><a href="http.html#what-is-http"><i class="fa fa-check"></i><b>3.1</b> What is HTTP?</a></li>
+<li class="chapter" data-level="3.2" data-path="http.html"><a href="http.html#a-quick-introduction-to-http"><i class="fa fa-check"></i><b>3.2</b> A quick introduction to HTTP</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="http.html"><a href="http.html#http-example"><i class="fa fa-check"></i><b>3.2.1</b> HTTP Example</a></li>
+<li class="chapter" data-level="3.2.2" data-path="http.html"><a href="http.html#http-request"><i class="fa fa-check"></i><b>3.2.2</b> HTTP Request</a></li>
+<li class="chapter" data-level="3.2.3" data-path="http.html"><a href="http.html#http-response"><i class="fa fa-check"></i><b>3.2.3</b> HTTP Response</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="http.html"><a href="http.html#anatomy-of-an-http-message"><i class="fa fa-check"></i><b>3.3</b> Anatomy of an HTTP message</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="http.html"><a href="http.html#http-methods"><i class="fa fa-check"></i><b>3.3.1</b> HTTP Methods</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>II XML</b></span></li>
+<li class="chapter" data-level="4" data-path="xml.html"><a href="xml.html"><i class="fa fa-check"></i><b>4</b> Basics of XML</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="xml.html"><a href="xml.html#what-is-xml"><i class="fa fa-check"></i><b>4.1</b> What is XML?</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="xml.html"><a href="xml.html#marks-in-xml"><i class="fa fa-check"></i><b>4.1.1</b> Marks in XML</a></li>
+<li class="chapter" data-level="4.1.2" data-path="xml.html"><a href="xml.html#minimalist-example"><i class="fa fa-check"></i><b>4.1.2</b> Minimalist Example</a></li>
+<li class="chapter" data-level="4.1.3" data-path="xml.html"><a href="xml.html#well-formedness"><i class="fa fa-check"></i><b>4.1.3</b> Well Formedness</a></li>
+<li class="chapter" data-level="4.1.4" data-path="xml.html"><a href="xml.html#additional-xml-elements"><i class="fa fa-check"></i><b>4.1.4</b> Additional XML Elements</a></li>
+<li class="chapter" data-level="4.1.5" data-path="xml.html"><a href="xml.html#another-example"><i class="fa fa-check"></i><b>4.1.5</b> Another Example</a></li>
+<li class="chapter" data-level="4.1.6" data-path="xml.html"><a href="xml.html#wrapping-up"><i class="fa fa-check"></i><b>4.1.6</b> Wrapping-Up</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="parsing-xml.html"><a href="parsing-xml.html"><i class="fa fa-check"></i><b>5</b> Parsing XML</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="parsing-xml.html"><a href="parsing-xml.html#what-is-parsing"><i class="fa fa-check"></i><b>5.1</b> What is parsing?</a></li>
+<li class="chapter" data-level="5.2" data-path="parsing-xml.html"><a href="parsing-xml.html#r-package-xml2"><i class="fa fa-check"></i><b>5.2</b> R package <code>"xml2"</code></a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="parsing-xml.html"><a href="parsing-xml.html#parsing-functions"><i class="fa fa-check"></i><b>5.2.1</b> Parsing Functions</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="parsing-xml.html"><a href="parsing-xml.html#working-with-parsed-documents"><i class="fa fa-check"></i><b>5.3</b> Working with parsed documents</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="parsing-xml.html"><a href="parsing-xml.html#example-with-a-basic-xml-document"><i class="fa fa-check"></i><b>5.3.1</b> Example with a basic XML document</a></li>
+<li class="chapter" data-level="5.3.2" data-path="parsing-xml.html"><a href="parsing-xml.html#more-functions-in-xml2"><i class="fa fa-check"></i><b>5.3.2</b> More Functions in <code>"xml2"</code></a></li>
+<li class="chapter" data-level="5.3.3" data-path="parsing-xml.html"><a href="parsing-xml.html#navigation-of-xml-html-tree"><i class="fa fa-check"></i><b>5.3.3</b> Navigation of XML / HTML Tree</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="xpath.html"><a href="xpath.html"><i class="fa fa-check"></i><b>6</b> XPath Language</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="xpath.html"><a href="xpath.html#what-is-xpath"><i class="fa fa-check"></i><b>6.1</b> What is XPath?</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="xpath.html"><a href="xpath.html#xpath-syntax"><i class="fa fa-check"></i><b>6.1.1</b> XPath Syntax</a></li>
+<li class="chapter" data-level="6.1.2" data-path="xpath.html"><a href="xpath.html#selecting-nodes"><i class="fa fa-check"></i><b>6.1.2</b> Selecting Nodes</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="xpath.html"><a href="xpath.html#xpath-examples"><i class="fa fa-check"></i><b>6.2</b> XPath Examples</a></li>
+<li class="chapter" data-level="6.3" data-path="xpath.html"><a href="xpath.html#using-xpath-functions"><i class="fa fa-check"></i><b>6.3</b> Using XPath Functions</a></li>
+</ul></li>
+<li class="part"><span><b>III HTML</b></span></li>
+<li class="chapter" data-level="7" data-path="html.html"><a href="html.html"><i class="fa fa-check"></i><b>7</b> Basics of HTML</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="html.html"><a href="html.html#a-quick-introduction-to-html"><i class="fa fa-check"></i><b>7.1</b> A quick introduction to HTML</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="html.html"><a href="html.html#html-document-structure"><i class="fa fa-check"></i><b>7.1.1</b> HTML document structure</a></li>
+<li class="chapter" data-level="7.1.2" data-path="html.html"><a href="html.html#html-syntax"><i class="fa fa-check"></i><b>7.1.2</b> HTML Syntax</a></li>
+<li class="chapter" data-level="7.1.3" data-path="html.html"><a href="html.html#what-the-browser-does"><i class="fa fa-check"></i><b>7.1.3</b> What the browser does</a></li>
+<li class="chapter" data-level="7.1.4" data-path="html.html"><a href="html.html#web-scraping"><i class="fa fa-check"></i><b>7.1.4</b> Web Scraping</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>IV JSON</b></span></li>
+<li class="chapter" data-level="8" data-path="json.html"><a href="json.html"><i class="fa fa-check"></i><b>8</b> JSON Data</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="json.html"><a href="json.html#json-basics"><i class="fa fa-check"></i><b>8.1</b> JSON Basics</a></li>
+<li class="chapter" data-level="8.2" data-path="json.html"><a href="json.html#what-is-json"><i class="fa fa-check"></i><b>8.2</b> What is JSON?</a></li>
+<li class="chapter" data-level="8.3" data-path="json.html"><a href="json.html#understanding-json-syntax"><i class="fa fa-check"></i><b>8.3</b> Understanding JSON Syntax</a>
+<ul>
+<li class="chapter" data-level="8.3.1" data-path="json.html"><a href="json.html#data-types"><i class="fa fa-check"></i><b>8.3.1</b> Data Types</a></li>
+<li class="chapter" data-level="8.3.2" data-path="json.html"><a href="json.html#arrays"><i class="fa fa-check"></i><b>8.3.2</b> Arrays</a></li>
+<li class="chapter" data-level="8.3.3" data-path="json.html"><a href="json.html#objects"><i class="fa fa-check"></i><b>8.3.3</b> Objects</a></li>
+<li class="chapter" data-level="8.3.4" data-path="json.html"><a href="json.html#examples-of-json-data-containers"><i class="fa fa-check"></i><b>8.3.4</b> Examples of JSON Data Containers</a></li>
+<li class="chapter" data-level="8.3.5" data-path="json.html"><a href="json.html#data-table-toy-example"><i class="fa fa-check"></i><b>8.3.5</b> Data Table Toy Example</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="jsonlite.html"><a href="jsonlite.html"><i class="fa fa-check"></i><b>9</b> JSON R packages</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="jsonlite.html"><a href="jsonlite.html#function-tojson"><i class="fa fa-check"></i><b>9.1</b> Function <code>toJSON()</code></a></li>
+<li class="chapter" data-level="9.2" data-path="jsonlite.html"><a href="jsonlite.html#function-fromjson"><i class="fa fa-check"></i><b>9.2</b> Function <code>fromJSON()</code></a></li>
+<li class="chapter" data-level="9.3" data-path="jsonlite.html"><a href="jsonlite.html#reading-json-data"><i class="fa fa-check"></i><b>9.3</b> Reading JSON Data</a></li>
+</ul></li>
+<li class="part"><span><b>V APIs</b></span></li>
+<li class="chapter" data-level="10" data-path="apis.html"><a href="apis.html"><i class="fa fa-check"></i><b>10</b> Web APIs</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="apis.html"><a href="apis.html#introduction-1"><i class="fa fa-check"></i><b>10.1</b> Introduction</a></li>
+<li class="chapter" data-level="10.2" data-path="apis.html"><a href="apis.html#a-little-bit-about-apis"><i class="fa fa-check"></i><b>10.2</b> A little bit about APIs</a></li>
+<li class="chapter" data-level="10.3" data-path="apis.html"><a href="apis.html#using-r-as-an-http-client"><i class="fa fa-check"></i><b>10.3</b> Using R as an HTTP Client</a></li>
+<li class="chapter" data-level="10.4" data-path="apis.html"><a href="apis.html#interacting-with-aps-via-r"><i class="fa fa-check"></i><b>10.4</b> Interacting with AP’s via R</a>
+<ul>
+<li class="chapter" data-level="10.4.1" data-path="apis.html"><a href="apis.html#making-request-from-r"><i class="fa fa-check"></i><b>10.4.1</b> Making request from R</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="api-pubmed.html"><a href="api-pubmed.html"><i class="fa fa-check"></i><b>11</b> PubMed API Example</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="api-pubmed.html"><a href="api-pubmed.html#pubmed"><i class="fa fa-check"></i><b>11.1</b> PubMed</a></li>
+<li class="chapter" data-level="11.2" data-path="api-pubmed.html"><a href="api-pubmed.html#basics-of-e-utilities"><i class="fa fa-check"></i><b>11.2</b> Basics of E-utilities</a>
+<ul>
+<li class="chapter" data-level="11.2.1" data-path="api-pubmed.html"><a href="api-pubmed.html#how-does-e-utilities-work"><i class="fa fa-check"></i><b>11.2.1</b> How does E-utilities work?</a></li>
+<li class="chapter" data-level="11.2.2" data-path="api-pubmed.html"><a href="api-pubmed.html#searching-pubmed-from-within-r"><i class="fa fa-check"></i><b>11.2.2</b> Searching PubMed from within R</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://www.gastonsanchez.com" target="_blank">gastonsanchez.com</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Web Technologies in R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="xml" class="section level1 hasAnchor" number="4">
+<h1><span class="header-section-number">4</span> Basics of XML<a href="xml.html#xml" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>The goal of this chapter is to give you a crash introduction to XML so that
+you can get a good grasp of this format for the rest of the book.</p>
+<ul>
+<li><p>Large amounts of data and information are stored, shared and distributed
+using XML-dialects.</p></li>
+<li><p>They are widely adopted and used in many applications.</p></li>
+<li><p>Working with data from the Web often means dealing with some kind of XML
+dialect.</p></li>
+</ul>
+<div id="what-is-xml" class="section level2 hasAnchor" number="4.1">
+<h2><span class="header-section-number">4.1</span> What is XML?<a href="xml.html#what-is-xml" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>XML stands for <em>eXtensible Markup Language</em></p>
+<p>Let’s dissect the meaning of this acronym. On one hand, XML is a markup language.
+which means, XML defines a set of rules for encoding information in a format
+that is both human-readable and machine-readable.</p>
+<p>Compared to other types of markup languages (e.g LaTeX, Markdown), XML is used
+to describe data. To be more precise, XML is a standard for the semantic,
+<strong>hierarchical</strong> representation of data. This is an important aspect of XML
+and any of its dialects, because data is represented following a hierarchy.</p>
+<p>For instance, one way to organize data is in a table. Conceptually, all elements
+are stored in cells of a grid structure of rows and columns. Another way to
+organize data is with hierarchies, that can be visually represented with tree
+like structures. This latter form of organizing data is what XML uses.</p>
+<p>The second aspect, “extensible”, means that we can define any number of new
+formats to represent any kind of data. Therefore, it is extensible.
+This is a very interesting aspect of XML because it provides a flexible
+framework to create new formats for describing and representing data.</p>
+<div id="comments" class="section level4 unnumbered hasAnchor">
+<h4>Comments<a href="xml.html#comments" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Before moving on, we want to clarify some key terms.</p>
+<p>A <strong>markup</strong> is a sequence of characters or other symbols inserted at certain
+places in a document to indicate either:</p>
+<ul>
+<li>how the content should be displayed when printed or in screen</li>
+<li>describe the document’s structure</li>
+</ul>
+<p>A Markup Language is a system for annotating (i.e. marking) a document in a
+way that the content is distinguished from its representation (e.g. LaTeX,
+PostScript, HTML, SVG)</p>
+</div>
+<div id="marks-in-xml" class="section level3 hasAnchor" number="4.1.1">
+<h3><span class="header-section-number">4.1.1</span> Marks in XML<a href="xml.html#marks-in-xml" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>In XML (as well as in HTML) the marks (also known as tags) are defined using
+angle brackets: <code>&lt; &gt;</code>.</p>
+<p>For example:</p>
+<pre><code>&lt;mark&gt;Text marked with special tag&lt;/mark&gt;</code></pre>
+<p>The concept of extensibility means that we can define our own marks, the order
+in which they occur, and how they should be processed. For example we could
+define marks such as:</p>
+<ul>
+<li><code>&lt;my_mark&gt;</code></li>
+<li><code>&lt;awesome&gt;</code></li>
+<li><code>&lt;boring&gt;</code></li>
+<li><code>&lt;pathetic&gt;</code></li>
+</ul>
+<p>Before moving on, we should mention that XML is NOT:</p>
+<ul>
+<li>a programming language</li>
+<li>a network transfer protocol</li>
+<li>a database</li>
+</ul>
+<p>Instead, XML is:</p>
+<ul>
+<li>more than a markup language</li>
+<li>a generic language that provides structure and syntax for representing any
+type of information</li>
+<li>a meta-language: it allows us to create or define other languages</li>
+</ul>
+<p>Here are some famous examples of XML dialects:</p>
+<ul>
+<li><p><strong>KML</strong> (Keyhole Markup Language) for describing geo-spatial information used
+in Google Earth, Google Maps, Google Sky</p></li>
+<li><p><strong>SVG</strong> (Scalable Vector Graphics) for visual graphical displays of
+two-dimensional graphics with support for interactivity and animation</p></li>
+<li><p><strong>PMML</strong> (Predictive Model Markup Language) for describing and exchanging
+models produced by data mining and machine learning algorithms</p></li>
+<li><p><strong>RSS</strong> (Rich Site Summary) feeds for publishing blog entries</p></li>
+<li><p><strong>SDMX</strong> (Statistical Data and Metadata Exchange) for organizing and
+exchanging statistical information</p></li>
+<li><p><strong>SBML</strong> (Systems Biology Markup Language) for describing biological systems</p></li>
+</ul>
+</div>
+<div id="minimalist-example" class="section level3 hasAnchor" number="4.1.2">
+<h3><span class="header-section-number">4.1.2</span> Minimalist Example<a href="xml.html#minimalist-example" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Let’s consider a handful of XML examples using one of my favorite movies:
+<em>Good Will Hunting</em>, a 1997 American psychological drama film directed by Gus
+Van Sant, and written by Ben Affleck and Matt Damon.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-16"></span>
+<img src="images/xml/xml-good-will-hunting.png" alt="Good Will Hunting (Directed by Gus Van Sant, 1997)" width="50%" />
+<p class="caption">
+Figure 4.1: Good Will Hunting (Directed by Gus Van Sant, 1997)
+</p>
+</div>
+<div id="ultra-simple-example" class="section level4 unnumbered hasAnchor">
+<h4>Ultra Simple example<a href="xml.html#ultra-simple-example" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Let’s see an ultra simple XML example:</p>
+<pre><code>&lt;movie&gt;
+  Good Will Hunting
+&lt;/movie&gt;</code></pre>
+<ul>
+<li>one single element <em>movie</em></li>
+<li>start-tag: <code>&lt;movie&gt;</code></li>
+<li>end-tag: <code>&lt;/movie&gt;</code></li>
+<li>content: <code>Good Will Hunting</code></li>
+</ul>
+</div>
+<div id="elements-with-attributes" class="section level4 unnumbered hasAnchor">
+<h4>Elements with attributes<a href="xml.html#elements-with-attributes" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>XML elements can have attributes, for example:</p>
+<pre><code>&lt;movie mins=&quot;126&quot; lang=&quot;en&quot;&gt;
+  Good Will Hunting
+&lt;/movie&gt;</code></pre>
+<ul>
+<li>attributes: <code>mins</code> (minutes) and <code>lang</code> (language)</li>
+<li>attributes are attached to the element’s start tag</li>
+<li>attribute values must be quoted!</li>
+</ul>
+</div>
+<div id="elements-within-other-elements" class="section level4 unnumbered hasAnchor">
+<h4>Elements within other elements<a href="xml.html#elements-within-other-elements" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>XML elements may contain other elements, for example:</p>
+<pre><code>&lt;movie mins=&quot;126&quot; lang=&quot;en&quot;&gt;
+  &lt;title&gt;Good Will Hunting&lt;/title&gt;
+  &lt;director&gt;Gus Van Sant&lt;/director&gt;
+  &lt;year&gt;1998&lt;/year&gt;
+  &lt;genre&gt;drama&lt;/genre&gt;
+&lt;/movie&gt;</code></pre>
+<ul>
+<li><p>an xml element may contain other elements</p></li>
+<li><p><em>movie</em> contains several elements: <em>title</em>, <em>director</em>, <em>year</em>, <em>genre</em></p></li>
+</ul>
+</div>
+<div id="more-embedded-elements" class="section level4 unnumbered hasAnchor">
+<h4>More Embedded elements<a href="xml.html#more-embedded-elements" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>As you can tell, the xml element <em>movie</em> has a now a hierarchy. We can make it
+more interesting by including more elements inside <em>director</em>.</p>
+<pre><code>&lt;movie mins=&quot;126&quot; lang=&quot;en&quot;&gt;
+  &lt;title&gt;Good Will Hunting&lt;/title&gt;
+  &lt;director&gt;
+    &lt;first_name&gt;Gus&lt;/first_name&gt;
+    &lt;last_name&gt;Van Sant&lt;/last_name&gt;
+  &lt;/director&gt;
+  &lt;year&gt;1998&lt;/year&gt;
+  &lt;genre&gt;drama&lt;/genre&gt;
+&lt;/movie&gt;</code></pre>
+<p>Formally, we say that <em>director</em> has two child elements: <code>first_name</code> and
+<code>last_name</code>.</p>
+</div>
+<div id="tree-structure-in-xml" class="section level4 unnumbered hasAnchor">
+<h4>Tree Structure in XML<a href="xml.html#tree-structure-in-xml" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>We can graphically display the structure of an XML document with a tree
+diagram, like the following one:</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-17"></span>
+<img src="images/xml/xml-tree1.png" alt="XML tree structure" width="65%" />
+<p class="caption">
+Figure 4.2: XML tree structure
+</p>
+</div>
+<ul>
+<li><p>An XML document can be represented with a <strong>tree structure</strong></p></li>
+<li><p>An XML document must have <strong>one single Root</strong> element</p></li>
+<li><p>The <code>Root</code> may contain <code>child</code> elements</p></li>
+<li><p>A <code>child</code> element may contain <code>subchild</code> elements</p></li>
+</ul>
+</div>
+</div>
+<div id="well-formedness" class="section level3 hasAnchor" number="4.1.3">
+<h3><span class="header-section-number">4.1.3</span> Well Formedness<a href="xml.html#well-formedness" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We say that an XML document is <strong>well-formed</strong> when it obeys the basic syntax
+rules of XML. Some of those rules are:</p>
+<ul>
+<li>one root element containing the rest of elements</li>
+<li>properly nested elements</li>
+<li>self-closing tags</li>
+<li>attributes appear in start-tags of elements</li>
+<li>attribute values must be quoted</li>
+<li>element names and attribute names are case sensitive</li>
+</ul>
+<p>Does it matter if an XML document is not Well-formed? Not well-formed XML
+documents produce potentially fatal errors or warnings when parsed.</p>
+<p>Keep in mind that documents may be well-formed but not valid. Well-formed just
+guarantees that the document meets the basic XML structure, not that the content
+is valid.</p>
+</div>
+<div id="additional-xml-elements" class="section level3 hasAnchor" number="4.1.4">
+<h3><span class="header-section-number">4.1.4</span> Additional XML Elements<a href="xml.html#additional-xml-elements" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Some Additional Elements</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot;? encoding=&quot;UTF-8&quot; ?&gt;
+&lt;![CDATA[ a &gt; 5 &amp; b &lt; 10 ]]&gt;
+&lt;?GS print(format = TRUE)&gt;
+&lt;!DOCTYPE Movie&gt;
+&lt;!-- This is a commet --&gt;
+&lt;movie mins=&quot;126&quot; lang=&quot;en&quot;&gt;
+  &lt;title&gt;Good Will Hunting&lt;/title&gt;
+  &lt;director&gt;
+    &lt;first_name&gt;Gus&lt;/first_name&gt;
+    &lt;last_name&gt;Van Sant&lt;/last_name&gt;
+  &lt;/director&gt;
+  &lt;year&gt;1998&lt;/year&gt;
+  &lt;genre&gt;drama&lt;/genre&gt;
+&lt;/movie&gt;</code></pre>
+<p>The following table lists some of the common additional XML elements:</p>
+<table>
+<colgroup>
+<col width="26%" />
+<col width="42%" />
+<col width="31%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Markup</th>
+<th align="left">Name</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>&lt;?xml &gt;</code></td>
+<td align="left">XML Declaration</td>
+<td align="left">Identifies content as an XML document</td>
+</tr>
+<tr class="even">
+<td align="left"><code>&lt;?PI &gt;</code></td>
+<td align="left">Processing Instruction</td>
+<td align="left">Processing instructions passed to application PI</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>&lt;!DOCTYPE &gt;</code></td>
+<td align="left">Document-type Declaration</td>
+<td align="left">Defines the structure of an XML document</td>
+</tr>
+<tr class="even">
+<td align="left"><code>&lt;![CDATA[ ]]&gt;</code></td>
+<td align="left">CDATA Character Data</td>
+<td align="left">Anything inside a CDATA is ignored by the parser</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>&lt;!--  --&gt;</code></td>
+<td align="left">Comment</td>
+<td align="left">For writing comments</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="another-example" class="section level3 hasAnchor" number="4.1.5">
+<h3><span class="header-section-number">4.1.5</span> Another Example<a href="xml.html#another-example" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Let’s go back to the <em>movie</em> example, but now let’s see how the content of
+our hypothetical XML document should look like:</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;!DOCTYPE movies&gt;
+&lt;movie mins=&quot;126&quot; lang=&quot;en&quot;&gt;
+  &lt;!-- this is a comment --&gt;
+  &lt;title&gt;Good Will Hunting&lt;/title&gt;
+  &lt;director&gt;
+    &lt;first_name&gt;Gus&lt;/first_name&gt;
+    &lt;last_name&gt;Van Sant&lt;/last_name&gt;
+  &lt;/director&gt;
+  &lt;year&gt;1998&lt;/year&gt;
+  &lt;genre&gt;drama&lt;/genre&gt;
+&lt;/movie&gt;</code></pre>
+<p>Each Node can have</p>
+<ul>
+<li>a Name</li>
+<li>any number of attributes</li>
+<li>optional content</li>
+<li>other nested elements</li>
+</ul>
+</div>
+<div id="wrapping-up" class="section level3 hasAnchor" number="4.1.6">
+<h3><span class="header-section-number">4.1.6</span> Wrapping-Up<a href="xml.html#wrapping-up" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>About XML</p>
+<ul>
+<li>designed to store and transfer data</li>
+<li>designed to be self-descriptive</li>
+<li>tags are not predefined and can be extended</li>
+<li>a generic language that provides structure and syntax for many markup dialects</li>
+<li>is a syntax or format for defining markup languages</li>
+<li>a standard for the semantic, hierarchical representation of data</li>
+<li>provides a general approach for representing all types of information dialects</li>
+</ul>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="http.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="parsing-xml.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["R-web-tech.pdf", "R-web-tech.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

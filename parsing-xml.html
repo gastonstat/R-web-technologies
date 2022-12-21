@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>5 Parsing XML | Web Technologies in R</title>
+  <meta name="description" content="<p>This tutorial provides a a short introduction to some of the Web Data
+Technologies available in R.</p>" />
+  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="5 Parsing XML | Web Technologies in R" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="<p>This tutorial provides a a short introduction to some of the Web Data
+Technologies available in R.</p>" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="5 Parsing XML | Web Technologies in R" />
+  
+  <meta name="twitter:description" content="<p>This tutorial provides a a short introduction to some of the Web Data
+Technologies available in R.</p>" />
+  
+
+<meta name="author" content="Gaston Sanchez" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="xml.html"/>
+<link rel="next" href="xpath.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./"><b>Web Technologies in R</b><br><small>Gaston Sanchez</small></a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>About</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#my-series-of-r-tutorials"><i class="fa fa-check"></i>My Series of R Tutorials</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#donation"><i class="fa fa-check"></i>Donation</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#license"><i class="fa fa-check"></i>License</a></li>
+</ul></li>
+<li class="part"><span><b>I Intro</b></span></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="introduction.html"><a href="introduction.html#suggested-tools"><i class="fa fa-check"></i><b>1.1</b> Suggested Tools</a></li>
+<li class="chapter" data-level="1.2" data-path="introduction.html"><a href="introduction.html#suggested-r-packages"><i class="fa fa-check"></i><b>1.2</b> Suggested R Packages</a></li>
+<li class="chapter" data-level="1.3" data-path="introduction.html"><a href="introduction.html#some-acronyms"><i class="fa fa-check"></i><b>1.3</b> Some Acronyms</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="web.html"><a href="web.html"><i class="fa fa-check"></i><b>2</b> The Web</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="web.html"><a href="web.html#surfing-the-web"><i class="fa fa-check"></i><b>2.1</b> Surfing the Web</a></li>
+<li class="chapter" data-level="2.2" data-path="web.html"><a href="web.html#how-does-the-web-work"><i class="fa fa-check"></i><b>2.2</b> How Does the Web Work?</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="http.html"><a href="http.html"><i class="fa fa-check"></i><b>3</b> Basics of HTTP</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="http.html"><a href="http.html#what-is-http"><i class="fa fa-check"></i><b>3.1</b> What is HTTP?</a></li>
+<li class="chapter" data-level="3.2" data-path="http.html"><a href="http.html#a-quick-introduction-to-http"><i class="fa fa-check"></i><b>3.2</b> A quick introduction to HTTP</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="http.html"><a href="http.html#http-example"><i class="fa fa-check"></i><b>3.2.1</b> HTTP Example</a></li>
+<li class="chapter" data-level="3.2.2" data-path="http.html"><a href="http.html#http-request"><i class="fa fa-check"></i><b>3.2.2</b> HTTP Request</a></li>
+<li class="chapter" data-level="3.2.3" data-path="http.html"><a href="http.html#http-response"><i class="fa fa-check"></i><b>3.2.3</b> HTTP Response</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="http.html"><a href="http.html#anatomy-of-an-http-message"><i class="fa fa-check"></i><b>3.3</b> Anatomy of an HTTP message</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="http.html"><a href="http.html#http-methods"><i class="fa fa-check"></i><b>3.3.1</b> HTTP Methods</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>II XML</b></span></li>
+<li class="chapter" data-level="4" data-path="xml.html"><a href="xml.html"><i class="fa fa-check"></i><b>4</b> Basics of XML</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="xml.html"><a href="xml.html#what-is-xml"><i class="fa fa-check"></i><b>4.1</b> What is XML?</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="xml.html"><a href="xml.html#marks-in-xml"><i class="fa fa-check"></i><b>4.1.1</b> Marks in XML</a></li>
+<li class="chapter" data-level="4.1.2" data-path="xml.html"><a href="xml.html#minimalist-example"><i class="fa fa-check"></i><b>4.1.2</b> Minimalist Example</a></li>
+<li class="chapter" data-level="4.1.3" data-path="xml.html"><a href="xml.html#well-formedness"><i class="fa fa-check"></i><b>4.1.3</b> Well Formedness</a></li>
+<li class="chapter" data-level="4.1.4" data-path="xml.html"><a href="xml.html#additional-xml-elements"><i class="fa fa-check"></i><b>4.1.4</b> Additional XML Elements</a></li>
+<li class="chapter" data-level="4.1.5" data-path="xml.html"><a href="xml.html#another-example"><i class="fa fa-check"></i><b>4.1.5</b> Another Example</a></li>
+<li class="chapter" data-level="4.1.6" data-path="xml.html"><a href="xml.html#wrapping-up"><i class="fa fa-check"></i><b>4.1.6</b> Wrapping-Up</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="parsing-xml.html"><a href="parsing-xml.html"><i class="fa fa-check"></i><b>5</b> Parsing XML</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="parsing-xml.html"><a href="parsing-xml.html#what-is-parsing"><i class="fa fa-check"></i><b>5.1</b> What is parsing?</a></li>
+<li class="chapter" data-level="5.2" data-path="parsing-xml.html"><a href="parsing-xml.html#r-package-xml2"><i class="fa fa-check"></i><b>5.2</b> R package <code>"xml2"</code></a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="parsing-xml.html"><a href="parsing-xml.html#parsing-functions"><i class="fa fa-check"></i><b>5.2.1</b> Parsing Functions</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="parsing-xml.html"><a href="parsing-xml.html#working-with-parsed-documents"><i class="fa fa-check"></i><b>5.3</b> Working with parsed documents</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="parsing-xml.html"><a href="parsing-xml.html#example-with-a-basic-xml-document"><i class="fa fa-check"></i><b>5.3.1</b> Example with a basic XML document</a></li>
+<li class="chapter" data-level="5.3.2" data-path="parsing-xml.html"><a href="parsing-xml.html#more-functions-in-xml2"><i class="fa fa-check"></i><b>5.3.2</b> More Functions in <code>"xml2"</code></a></li>
+<li class="chapter" data-level="5.3.3" data-path="parsing-xml.html"><a href="parsing-xml.html#navigation-of-xml-html-tree"><i class="fa fa-check"></i><b>5.3.3</b> Navigation of XML / HTML Tree</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="xpath.html"><a href="xpath.html"><i class="fa fa-check"></i><b>6</b> XPath Language</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="xpath.html"><a href="xpath.html#what-is-xpath"><i class="fa fa-check"></i><b>6.1</b> What is XPath?</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="xpath.html"><a href="xpath.html#xpath-syntax"><i class="fa fa-check"></i><b>6.1.1</b> XPath Syntax</a></li>
+<li class="chapter" data-level="6.1.2" data-path="xpath.html"><a href="xpath.html#selecting-nodes"><i class="fa fa-check"></i><b>6.1.2</b> Selecting Nodes</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="xpath.html"><a href="xpath.html#xpath-examples"><i class="fa fa-check"></i><b>6.2</b> XPath Examples</a></li>
+<li class="chapter" data-level="6.3" data-path="xpath.html"><a href="xpath.html#using-xpath-functions"><i class="fa fa-check"></i><b>6.3</b> Using XPath Functions</a></li>
+</ul></li>
+<li class="part"><span><b>III HTML</b></span></li>
+<li class="chapter" data-level="7" data-path="html.html"><a href="html.html"><i class="fa fa-check"></i><b>7</b> Basics of HTML</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="html.html"><a href="html.html#a-quick-introduction-to-html"><i class="fa fa-check"></i><b>7.1</b> A quick introduction to HTML</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="html.html"><a href="html.html#html-document-structure"><i class="fa fa-check"></i><b>7.1.1</b> HTML document structure</a></li>
+<li class="chapter" data-level="7.1.2" data-path="html.html"><a href="html.html#html-syntax"><i class="fa fa-check"></i><b>7.1.2</b> HTML Syntax</a></li>
+<li class="chapter" data-level="7.1.3" data-path="html.html"><a href="html.html#what-the-browser-does"><i class="fa fa-check"></i><b>7.1.3</b> What the browser does</a></li>
+<li class="chapter" data-level="7.1.4" data-path="html.html"><a href="html.html#web-scraping"><i class="fa fa-check"></i><b>7.1.4</b> Web Scraping</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>IV JSON</b></span></li>
+<li class="chapter" data-level="8" data-path="json.html"><a href="json.html"><i class="fa fa-check"></i><b>8</b> JSON Data</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="json.html"><a href="json.html#json-basics"><i class="fa fa-check"></i><b>8.1</b> JSON Basics</a></li>
+<li class="chapter" data-level="8.2" data-path="json.html"><a href="json.html#what-is-json"><i class="fa fa-check"></i><b>8.2</b> What is JSON?</a></li>
+<li class="chapter" data-level="8.3" data-path="json.html"><a href="json.html#understanding-json-syntax"><i class="fa fa-check"></i><b>8.3</b> Understanding JSON Syntax</a>
+<ul>
+<li class="chapter" data-level="8.3.1" data-path="json.html"><a href="json.html#data-types"><i class="fa fa-check"></i><b>8.3.1</b> Data Types</a></li>
+<li class="chapter" data-level="8.3.2" data-path="json.html"><a href="json.html#arrays"><i class="fa fa-check"></i><b>8.3.2</b> Arrays</a></li>
+<li class="chapter" data-level="8.3.3" data-path="json.html"><a href="json.html#objects"><i class="fa fa-check"></i><b>8.3.3</b> Objects</a></li>
+<li class="chapter" data-level="8.3.4" data-path="json.html"><a href="json.html#examples-of-json-data-containers"><i class="fa fa-check"></i><b>8.3.4</b> Examples of JSON Data Containers</a></li>
+<li class="chapter" data-level="8.3.5" data-path="json.html"><a href="json.html#data-table-toy-example"><i class="fa fa-check"></i><b>8.3.5</b> Data Table Toy Example</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="jsonlite.html"><a href="jsonlite.html"><i class="fa fa-check"></i><b>9</b> JSON R packages</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="jsonlite.html"><a href="jsonlite.html#function-tojson"><i class="fa fa-check"></i><b>9.1</b> Function <code>toJSON()</code></a></li>
+<li class="chapter" data-level="9.2" data-path="jsonlite.html"><a href="jsonlite.html#function-fromjson"><i class="fa fa-check"></i><b>9.2</b> Function <code>fromJSON()</code></a></li>
+<li class="chapter" data-level="9.3" data-path="jsonlite.html"><a href="jsonlite.html#reading-json-data"><i class="fa fa-check"></i><b>9.3</b> Reading JSON Data</a></li>
+</ul></li>
+<li class="part"><span><b>V APIs</b></span></li>
+<li class="chapter" data-level="10" data-path="apis.html"><a href="apis.html"><i class="fa fa-check"></i><b>10</b> Web APIs</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="apis.html"><a href="apis.html#introduction-1"><i class="fa fa-check"></i><b>10.1</b> Introduction</a></li>
+<li class="chapter" data-level="10.2" data-path="apis.html"><a href="apis.html#a-little-bit-about-apis"><i class="fa fa-check"></i><b>10.2</b> A little bit about APIs</a></li>
+<li class="chapter" data-level="10.3" data-path="apis.html"><a href="apis.html#using-r-as-an-http-client"><i class="fa fa-check"></i><b>10.3</b> Using R as an HTTP Client</a></li>
+<li class="chapter" data-level="10.4" data-path="apis.html"><a href="apis.html#interacting-with-aps-via-r"><i class="fa fa-check"></i><b>10.4</b> Interacting with AP’s via R</a>
+<ul>
+<li class="chapter" data-level="10.4.1" data-path="apis.html"><a href="apis.html#making-request-from-r"><i class="fa fa-check"></i><b>10.4.1</b> Making request from R</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="api-pubmed.html"><a href="api-pubmed.html"><i class="fa fa-check"></i><b>11</b> PubMed API Example</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="api-pubmed.html"><a href="api-pubmed.html#pubmed"><i class="fa fa-check"></i><b>11.1</b> PubMed</a></li>
+<li class="chapter" data-level="11.2" data-path="api-pubmed.html"><a href="api-pubmed.html#basics-of-e-utilities"><i class="fa fa-check"></i><b>11.2</b> Basics of E-utilities</a>
+<ul>
+<li class="chapter" data-level="11.2.1" data-path="api-pubmed.html"><a href="api-pubmed.html#how-does-e-utilities-work"><i class="fa fa-check"></i><b>11.2.1</b> How does E-utilities work?</a></li>
+<li class="chapter" data-level="11.2.2" data-path="api-pubmed.html"><a href="api-pubmed.html#searching-pubmed-from-within-r"><i class="fa fa-check"></i><b>11.2.2</b> Searching PubMed from within R</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://www.gastonsanchez.com" target="_blank">gastonsanchez.com</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Web Technologies in R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="parsing-xml" class="section level1 hasAnchor" number="5">
+<h1><span class="header-section-number">5</span> Parsing XML<a href="parsing-xml.html#parsing-xml" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>The goal of this chapter is to describe how we can parse XML content
+with the R package <code>xml2</code></p>
+<p>You will need the following packages</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="parsing-xml.html#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(xml2)</span>
+<span id="cb11-2"><a href="parsing-xml.html#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span></code></pre></div>
+<p>We’ll cover a variety of situations you most likely will find yourself dealing
+with:</p>
+<ul>
+<li><p>R package <code>"xml2"</code></p></li>
+<li><p>Navigating the XML tree structure</p></li>
+<li><p>XPath expressions</p></li>
+</ul>
+<div id="what-is-parsing" class="section level2 hasAnchor" number="5.1">
+<h2><span class="header-section-number">5.1</span> What is parsing?<a href="parsing-xml.html#what-is-parsing" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Getting data from the web often involves reading and processing content from
+XML and HTML documents. This is known as <strong>parsing</strong>.</p>
+<p>The dictionary defines “parse” as:</p>
+<blockquote>
+<p>analyze (a sentence) into its parts and describe their syntactic roles.</p>
+</blockquote>
+<p>In regards to “computing”, parse has to do with:</p>
+<blockquote>
+<p>analyze (a string or text) into logical syntactic components, typically in
+order to test conformability to a logical grammar.</p>
+<p>an act of or the result obtained by parsing a string or a text.</p>
+</blockquote>
+<p>According to <a href="http://en.wikipedia.org/wiki/Parsing\#Parser" target="_blank">Wikipedia</a>, a parser is:</p>
+<blockquote>
+<p>A parser is a software component that takes input data (frequently text) and
+builds a data structure —often some kind of parse tree, abstract syntax
+tree or other hierarchical structure— giving a structural representation of
+the input, checking for correct syntax in the process</p>
+</blockquote>
+</div>
+<div id="r-package-xml2" class="section level2 hasAnchor" number="5.2">
+<h2><span class="header-section-number">5.2</span> R package <code>"xml2"</code><a href="parsing-xml.html#r-package-xml2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The package <code>"xml2"</code> is designed for one major purpose, namely, to parse
+XML and HTML content. Remember that HTML is one the countless XML dialects.</p>
+<p>As of this writing, <code>"xml2"</code> has minimal functionality for writing
+content in XML. Hadley Wickham has mentioned that he plans to add more functions
+for writing XML. So it is possible that in the future, <code>"xml2"</code> integrates
+more writing-XML functionality. Having said that, we will focus exclusively on
+reading XML content.</p>
+<p>We’ll cover 4 major types of tasks that we can perform with <code>"xml2"</code></p>
+<ul>
+<li>parsing (ie <em>reading</em>) xml / html content</li>
+<li>obtaining descriptive information about parsed contents</li>
+<li>navigating the tree structure (i.e. accessing its components)</li>
+<li>querying and extracting data from parsed contents</li>
+</ul>
+<div id="parsing-functions" class="section level3 hasAnchor" number="5.2.1">
+<h3><span class="header-section-number">5.2.1</span> Parsing Functions<a href="parsing-xml.html#parsing-functions" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>There are two main parsing functions:</p>
+<ul>
+<li><p><code>read_xml()</code></p></li>
+<li><p><code>read_html()</code></p></li>
+</ul>
+<p>For XML files in general, you should use <code>read_xml()</code>. For HTML files, then
+it’s better to use <code>read_html()</code> because it is more robust, and can handle
+no well-formed HTML files, which are not uncommon to deal with in practice.</p>
+<p>The main input for these reading functions is either a string, an R connection,
+or a raw vector.</p>
+<p>The string can be either a path, a URL or literal xml. URL’s will be converted
+into connections either using <code>base::url()</code> or, if installed, <code>curl::curl()</code>.
+Local paths ending in .gz, .bz2, .xz, .zip will be automatically uncompressed.</p>
+<p>Both <code>read_xml()</code> and <code>read_html()</code> return an object of class <code>"xml_document"</code>.</p>
+<p>Let’s see an example. Consider one of the examples from the previous chapter,
+for instance some content in XML:</p>
+<pre><code>&lt;movie mins=&quot;126&quot; lang=&quot;en&quot;&gt;
+  &lt;title&gt;Good Will Hunting&lt;/title&gt;
+  &lt;director&gt;
+    &lt;first_name&gt;Gus&lt;/first_name&gt;
+    &lt;last_name&gt;Van Sant&lt;/last_name&gt;
+  &lt;/director&gt;
+  &lt;year&gt;1998&lt;/year&gt;
+  &lt;genre&gt;drama&lt;/genre&gt;
+&lt;/movie&gt;</code></pre>
+<p>For illustration purposes, let’s take the XML content, treating it as a single
+character string, that we then pass to <code>read_xml()</code>:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="parsing-xml.html#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># toy example with xml string</span></span>
+<span id="cb13-2"><a href="parsing-xml.html#cb13-2" aria-hidden="true" tabindex="-1"></a>movie <span class="ot">&lt;-</span> <span class="fu">read_xml</span>(</span>
+<span id="cb13-3"><a href="parsing-xml.html#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;&lt;movie&gt;</span></span>
+<span id="cb13-4"><a href="parsing-xml.html#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;title&gt;Good Will Hunting&lt;/title&gt;</span></span>
+<span id="cb13-5"><a href="parsing-xml.html#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;director&gt;</span></span>
+<span id="cb13-6"><a href="parsing-xml.html#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;first_name&gt;Gus&lt;/first_name&gt;</span></span>
+<span id="cb13-7"><a href="parsing-xml.html#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;last_name&gt;Van Sant&lt;/last_name&gt;</span></span>
+<span id="cb13-8"><a href="parsing-xml.html#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;/director&gt;</span></span>
+<span id="cb13-9"><a href="parsing-xml.html#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;year&gt;1998&lt;/year&gt;</span></span>
+<span id="cb13-10"><a href="parsing-xml.html#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;genre&gt;drama&lt;/genre&gt;</span></span>
+<span id="cb13-11"><a href="parsing-xml.html#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;/movie&gt;&quot;</span>)</span>
+<span id="cb13-12"><a href="parsing-xml.html#cb13-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-13"><a href="parsing-xml.html#cb13-13" aria-hidden="true" tabindex="-1"></a>movie</span>
+<span id="cb13-14"><a href="parsing-xml.html#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; {xml_document}</span></span>
+<span id="cb13-15"><a href="parsing-xml.html#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; &lt;movie&gt;</span></span>
+<span id="cb13-16"><a href="parsing-xml.html#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &lt;title&gt;Good Will Hunting&lt;/title&gt;</span></span>
+<span id="cb13-17"><a href="parsing-xml.html#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2] &lt;director&gt;\n  &lt;first_name&gt;Gus&lt;/first_name&gt;\n  &lt;last_name&gt;Van Sant&lt;/last_n ...</span></span>
+<span id="cb13-18"><a href="parsing-xml.html#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3] &lt;year&gt;1998&lt;/year&gt;</span></span>
+<span id="cb13-19"><a href="parsing-xml.html#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4] &lt;genre&gt;drama&lt;/genre&gt;</span></span></code></pre></div>
+<p>As we mention, the <code>movie</code> is an XML object:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="parsing-xml.html#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(movie)</span>
+<span id="cb14-2"><a href="parsing-xml.html#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;xml_document&quot; &quot;xml_node&quot;</span></span></code></pre></div>
+<p>This type of object has an internal structure in order to maintain the
+hierarchical tree-structure of any XML content.</p>
+</div>
+</div>
+<div id="working-with-parsed-documents" class="section level2 hasAnchor" number="5.3">
+<h2><span class="header-section-number">5.3</span> Working with parsed documents<a href="parsing-xml.html#working-with-parsed-documents" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Having parsed an XML / HTML document, we can use 2 main functions to start
+working on the tree structure:</p>
+<ul>
+<li><p><code>xml_root()</code> gets access to the root node and its elements</p></li>
+<li><p><code>xml_children()</code> gets access to the children nodes of a given node</p></li>
+</ul>
+<div id="example-with-a-basic-xml-document" class="section level3 hasAnchor" number="5.3.1">
+<h3><span class="header-section-number">5.3.1</span> Example with a basic XML document<a href="parsing-xml.html#example-with-a-basic-xml-document" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Here’s some content: a movie elements in XML syntax</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-22"></span>
+<img src="images/xml/xml-movie1.png" alt="XML Movie" width="70%" />
+<p class="caption">
+Figure 5.1: XML Movie
+</p>
+</div>
+<p>The following figure identifies the main nodes:</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-23"></span>
+<img src="images/xml/xml-movie2.png" alt="XML Movie nodes" width="70%" />
+<p class="caption">
+Figure 5.2: XML Movie nodes
+</p>
+</div>
+<p>Below is an abstract representation of an XML file, and its main nodes</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-24"></span>
+<img src="images/xml/xml-functions.png" alt="Functions of `xml2`" width="85%" />
+<p class="caption">
+Figure 5.3: Functions of <code>xml2</code>
+</p>
+</div>
+</div>
+<div id="more-functions-in-xml2" class="section level3 hasAnchor" number="5.3.2">
+<h3><span class="header-section-number">5.3.2</span> More Functions in <code>"xml2"</code><a href="parsing-xml.html#more-functions-in-xml2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>In addition to <code>xml_root()</code> and <code>xml_children()</code>, there are other functions
+to parse the various kinds of content within a given node.</p>
+<p>Here’s a table with the main navigation functions. Keep in mind that the
+applicability of the functions depends on the class of objects we are working on.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Function</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>xml_root()</code></td>
+<td align="left">Returns root node</td>
+</tr>
+<tr class="even">
+<td align="left"><code>xml_children()</code></td>
+<td align="left">Returns children nodes</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>xml_child()</code></td>
+<td align="left">Returns specified children number</td>
+</tr>
+<tr class="even">
+<td align="left"><code>xml_name()</code></td>
+<td align="left">Returns name of a node</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>xml_contents()</code></td>
+<td align="left">Returns contents of a node</td>
+</tr>
+<tr class="even">
+<td align="left"><code>xml_text()</code></td>
+<td align="left">Returns text</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>xml_length()</code></td>
+<td align="left">Returns number of children nodes</td>
+</tr>
+<tr class="even">
+<td align="left"><code>xml_parents()</code></td>
+<td align="left">Returns set of parent nodes</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>xml_siblings()</code></td>
+<td align="left">Returns set of sibling nodes</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="navigation-of-xml-html-tree" class="section level3 hasAnchor" number="5.3.3">
+<h3><span class="header-section-number">5.3.3</span> Navigation of XML / HTML Tree<a href="parsing-xml.html#navigation-of-xml-html-tree" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Let’s consider the following XML content:</p>
+<pre><code>&lt;movies&gt;
+     &lt;movie mins=&quot;126&quot; lang=&quot;eng&quot;&gt;
+        &lt;title&gt;Good Will Hunting&lt;/title&gt;
+        &lt;director&gt;
+           &lt;first_name&gt;Gus&lt;/first_name&gt;
+           &lt;last_name&gt;Van Sant&lt;/last_name&gt;
+        &lt;/director&gt;
+        &lt;year&gt;1998&lt;/year&gt;
+        &lt;genre&gt;drama&lt;/genre&gt;
+     &lt;/movie&gt;
+     &lt;movie mins=&quot;106&quot; lang=&quot;spa&quot;&gt;
+        &lt;title&gt;Y tu mama tambien&lt;/title&gt;
+        &lt;director&gt;
+           &lt;first_name&gt;Alfonso&lt;/first_name&gt;
+           &lt;last_name&gt;Cuaron&lt;/last_name&gt;
+        &lt;/director&gt;
+        &lt;year&gt;2001&lt;/year&gt;
+        &lt;genre&gt;drama&lt;/genre&gt;
+     &lt;/movie&gt;
+  &lt;/movies&gt;</code></pre>
+<p>Theis content can be depicted in the following tree-diagram:</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-25"></span>
+<img src="images/xml/xml-movies-tree1.png" alt="XML movies tree" width="85%" />
+<p class="caption">
+Figure 5.4: XML movies tree
+</p>
+</div>
+<p>Let’s create a character vector to store the XML content:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="parsing-xml.html#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># toy example with xml string</span></span>
+<span id="cb16-2"><a href="parsing-xml.html#cb16-2" aria-hidden="true" tabindex="-1"></a>xml_string <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb16-3"><a href="parsing-xml.html#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&#39;</span>,</span>
+<span id="cb16-4"><a href="parsing-xml.html#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;&lt;movies&gt;&#39;</span>,</span>
+<span id="cb16-5"><a href="parsing-xml.html#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;&lt;movie mins=&quot;126&quot; lang=&quot;eng&quot;&gt;&#39;</span>,</span>
+<span id="cb16-6"><a href="parsing-xml.html#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;&lt;title&gt;Good Will Hunting&lt;/title&gt;&#39;</span>,</span>
+<span id="cb16-7"><a href="parsing-xml.html#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;&lt;director&gt;&#39;</span>,</span>
+<span id="cb16-8"><a href="parsing-xml.html#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;&lt;first_name&gt;Gus&lt;/first_name&gt;&#39;</span>,</span>
+<span id="cb16-9"><a href="parsing-xml.html#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;&lt;last_name&gt;Van Sant&lt;/last_name&gt;&#39;</span>,</span>
+<span id="cb16-10"><a href="parsing-xml.html#cb16-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;&lt;/director&gt;&#39;</span>,</span>
+<span id="cb16-11"><a href="parsing-xml.html#cb16-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;&lt;year&gt;1998&lt;/year&gt;&#39;</span>,</span>
+<span id="cb16-12"><a href="parsing-xml.html#cb16-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;&lt;genre&gt;drama&lt;/genre&gt;&#39;</span>,</span>
+<span id="cb16-13"><a href="parsing-xml.html#cb16-13" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;&lt;/movie&gt;&#39;</span>,</span>
+<span id="cb16-14"><a href="parsing-xml.html#cb16-14" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;&lt;movie mins=&quot;106&quot; lang=&quot;spa&quot;&gt;&#39;</span>,</span>
+<span id="cb16-15"><a href="parsing-xml.html#cb16-15" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;&lt;title&gt;Y tu mama tambien&lt;/title&gt;&#39;</span>,</span>
+<span id="cb16-16"><a href="parsing-xml.html#cb16-16" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;&lt;director&gt;&#39;</span>,</span>
+<span id="cb16-17"><a href="parsing-xml.html#cb16-17" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;&lt;first_name&gt;Alfonso&lt;/first_name&gt;&#39;</span>,</span>
+<span id="cb16-18"><a href="parsing-xml.html#cb16-18" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;&lt;last_name&gt;Cuaron&lt;/last_name&gt;&#39;</span>,</span>
+<span id="cb16-19"><a href="parsing-xml.html#cb16-19" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;&lt;/director&gt;&#39;</span>,</span>
+<span id="cb16-20"><a href="parsing-xml.html#cb16-20" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;&lt;year&gt;2001&lt;/year&gt;&#39;</span>,</span>
+<span id="cb16-21"><a href="parsing-xml.html#cb16-21" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;&lt;genre&gt;drama&lt;/genre&gt;&#39;</span>,</span>
+<span id="cb16-22"><a href="parsing-xml.html#cb16-22" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;&lt;/movie&gt;&#39;</span>,</span>
+<span id="cb16-23"><a href="parsing-xml.html#cb16-23" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;&lt;/movies&gt;&#39;</span>)</span></code></pre></div>
+<p>Let’s parse the content. To do this, we must first create a single contiguous
+xml string, which is done with <code>paste()</code> and its <code>collapse = ''</code> argument:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="parsing-xml.html#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># parsing xml string</span></span>
+<span id="cb17-2"><a href="parsing-xml.html#cb17-2" aria-hidden="true" tabindex="-1"></a>doc <span class="ot">&lt;-</span> <span class="fu">read_xml</span>(<span class="fu">paste</span>(xml_string, <span class="at">collapse =</span> <span class="st">&#39;&#39;</span>))</span>
+<span id="cb17-3"><a href="parsing-xml.html#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="parsing-xml.html#cb17-4" aria-hidden="true" tabindex="-1"></a>doc</span>
+<span id="cb17-5"><a href="parsing-xml.html#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; {xml_document}</span></span>
+<span id="cb17-6"><a href="parsing-xml.html#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; &lt;movies&gt;</span></span>
+<span id="cb17-7"><a href="parsing-xml.html#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &lt;movie mins=&quot;126&quot; lang=&quot;eng&quot;&gt;\n  &lt;title&gt;Good Will Hunting&lt;/title&gt;\n  &lt;dir ...</span></span>
+<span id="cb17-8"><a href="parsing-xml.html#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2] &lt;movie mins=&quot;106&quot; lang=&quot;spa&quot;&gt;\n  &lt;title&gt;Y tu mama tambien&lt;/title&gt;\n  &lt;dir ...</span></span></code></pre></div>
+<p>And let’s navigate the tree structure. We begin with <code>xml_root()</code> to get
+access to the root node:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="parsing-xml.html#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># root node</span></span>
+<span id="cb18-2"><a href="parsing-xml.html#cb18-2" aria-hidden="true" tabindex="-1"></a>movies <span class="ot">&lt;-</span> <span class="fu">xml_root</span>(doc)</span>
+<span id="cb18-3"><a href="parsing-xml.html#cb18-3" aria-hidden="true" tabindex="-1"></a>movies</span>
+<span id="cb18-4"><a href="parsing-xml.html#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; {xml_document}</span></span>
+<span id="cb18-5"><a href="parsing-xml.html#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; &lt;movies&gt;</span></span>
+<span id="cb18-6"><a href="parsing-xml.html#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &lt;movie mins=&quot;126&quot; lang=&quot;eng&quot;&gt;\n  &lt;title&gt;Good Will Hunting&lt;/title&gt;\n  &lt;dir ...</span></span>
+<span id="cb18-7"><a href="parsing-xml.html#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2] &lt;movie mins=&quot;106&quot; lang=&quot;spa&quot;&gt;\n  &lt;title&gt;Y tu mama tambien&lt;/title&gt;\n  &lt;dir ...</span></span></code></pre></div>
+<p>It turns out that <code>doc</code> and <code>movies</code> are actually identical:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="parsing-xml.html#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">identical</span>(doc, movies)</span>
+<span id="cb19-2"><a href="parsing-xml.html#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
+<p>We use the <code>xml_length()</code> to know how many elements or nodes are in the root
+node:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="parsing-xml.html#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># parsing xml string</span></span>
+<span id="cb20-2"><a href="parsing-xml.html#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">xml_length</span>(doc)</span>
+<span id="cb20-3"><a href="parsing-xml.html#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 2</span></span></code></pre></div>
+<p>which confirms what we know about the movies string that contains two <code>movie</code>
+elements: one node for “Good Will Hunting” and another node for “Y tu mama
+tambien”.</p>
+<p>The function <code>xml_children()</code> allows you to access the children nodes:</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="parsing-xml.html#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">xml_children</span>(doc)</span>
+<span id="cb21-2"><a href="parsing-xml.html#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; {xml_nodeset (2)}</span></span>
+<span id="cb21-3"><a href="parsing-xml.html#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &lt;movie mins=&quot;126&quot; lang=&quot;eng&quot;&gt;\n  &lt;title&gt;Good Will Hunting&lt;/title&gt;\n  &lt;dir ...</span></span>
+<span id="cb21-4"><a href="parsing-xml.html#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2] &lt;movie mins=&quot;106&quot; lang=&quot;spa&quot;&gt;\n  &lt;title&gt;Y tu mama tambien&lt;/title&gt;\n  &lt;dir ...</span></span></code></pre></div>
+<p>Notice that the output is an object of class <code>"xml_nodeset"</code>. To access a
+specific node, you use the function <code>xml_child()</code>. In this example, the node
+for movie “Good Will Hunting” corresponds to the first node, and we pass this
+value to the <code>search</code> argument:</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="parsing-xml.html#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">xml_child</span>(doc, <span class="at">search =</span> <span class="dv">1</span>)</span>
+<span id="cb22-2"><a href="parsing-xml.html#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; {xml_node}</span></span>
+<span id="cb22-3"><a href="parsing-xml.html#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; &lt;movie mins=&quot;126&quot; lang=&quot;eng&quot;&gt;</span></span>
+<span id="cb22-4"><a href="parsing-xml.html#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &lt;title&gt;Good Will Hunting&lt;/title&gt;</span></span>
+<span id="cb22-5"><a href="parsing-xml.html#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2] &lt;director&gt;\n  &lt;first_name&gt;Gus&lt;/first_name&gt;\n  &lt;last_name&gt;Van Sant&lt;/last_n ...</span></span>
+<span id="cb22-6"><a href="parsing-xml.html#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3] &lt;year&gt;1998&lt;/year&gt;</span></span>
+<span id="cb22-7"><a href="parsing-xml.html#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4] &lt;genre&gt;drama&lt;/genre&gt;</span></span></code></pre></div>
+<p>Likewise, the second node (“Y tu mama tambien”) is accessed by specifying the
+argument <code>search = 2</code>:</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="parsing-xml.html#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">xml_child</span>(doc, <span class="at">search =</span> <span class="dv">2</span>)</span>
+<span id="cb23-2"><a href="parsing-xml.html#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; {xml_node}</span></span>
+<span id="cb23-3"><a href="parsing-xml.html#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; &lt;movie mins=&quot;106&quot; lang=&quot;spa&quot;&gt;</span></span>
+<span id="cb23-4"><a href="parsing-xml.html#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &lt;title&gt;Y tu mama tambien&lt;/title&gt;</span></span>
+<span id="cb23-5"><a href="parsing-xml.html#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2] &lt;director&gt;\n  &lt;first_name&gt;Alfonso&lt;/first_name&gt;\n  &lt;last_name&gt;Cuaron&lt;/last ...</span></span>
+<span id="cb23-6"><a href="parsing-xml.html#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3] &lt;year&gt;2001&lt;/year&gt;</span></span>
+<span id="cb23-7"><a href="parsing-xml.html#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4] &lt;genre&gt;drama&lt;/genre&gt;</span></span></code></pre></div>
+<p>This is the view of the tree structure so far:</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-34"></span>
+<img src="images/xml/xml-movies-tree2.png" alt="Two movie nodes" width="85%" />
+<p class="caption">
+Figure 5.5: Two movie nodes
+</p>
+</div>
+<div id="inspecting-first-node" class="section level4 unnumbered hasAnchor">
+<h4>Inspecting first node<a href="parsing-xml.html#inspecting-first-node" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Let’s go inside the first node, and store the content in the object
+<code>good_will</code></p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="parsing-xml.html#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># first child</span></span>
+<span id="cb24-2"><a href="parsing-xml.html#cb24-2" aria-hidden="true" tabindex="-1"></a>good_will <span class="ot">&lt;-</span> <span class="fu">xml_child</span>(doc, <span class="at">search =</span> <span class="dv">1</span>)</span>
+<span id="cb24-3"><a href="parsing-xml.html#cb24-3" aria-hidden="true" tabindex="-1"></a>good_will</span>
+<span id="cb24-4"><a href="parsing-xml.html#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; {xml_node}</span></span>
+<span id="cb24-5"><a href="parsing-xml.html#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; &lt;movie mins=&quot;126&quot; lang=&quot;eng&quot;&gt;</span></span>
+<span id="cb24-6"><a href="parsing-xml.html#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &lt;title&gt;Good Will Hunting&lt;/title&gt;</span></span>
+<span id="cb24-7"><a href="parsing-xml.html#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2] &lt;director&gt;\n  &lt;first_name&gt;Gus&lt;/first_name&gt;\n  &lt;last_name&gt;Van Sant&lt;/last_n ...</span></span>
+<span id="cb24-8"><a href="parsing-xml.html#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3] &lt;year&gt;1998&lt;/year&gt;</span></span>
+<span id="cb24-9"><a href="parsing-xml.html#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4] &lt;genre&gt;drama&lt;/genre&gt;</span></span></code></pre></div>
+<p>and let’s do the same for the second node, storing the content in the object
+<code>tu_mama</code>:</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="parsing-xml.html#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># second child</span></span>
+<span id="cb25-2"><a href="parsing-xml.html#cb25-2" aria-hidden="true" tabindex="-1"></a>tu_mama <span class="ot">&lt;-</span> <span class="fu">xml_child</span>(doc, <span class="at">search =</span> <span class="dv">2</span>)</span>
+<span id="cb25-3"><a href="parsing-xml.html#cb25-3" aria-hidden="true" tabindex="-1"></a>tu_mama</span>
+<span id="cb25-4"><a href="parsing-xml.html#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; {xml_node}</span></span>
+<span id="cb25-5"><a href="parsing-xml.html#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; &lt;movie mins=&quot;106&quot; lang=&quot;spa&quot;&gt;</span></span>
+<span id="cb25-6"><a href="parsing-xml.html#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &lt;title&gt;Y tu mama tambien&lt;/title&gt;</span></span>
+<span id="cb25-7"><a href="parsing-xml.html#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2] &lt;director&gt;\n  &lt;first_name&gt;Alfonso&lt;/first_name&gt;\n  &lt;last_name&gt;Cuaron&lt;/last ...</span></span>
+<span id="cb25-8"><a href="parsing-xml.html#cb25-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3] &lt;year&gt;2001&lt;/year&gt;</span></span>
+<span id="cb25-9"><a href="parsing-xml.html#cb25-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4] &lt;genre&gt;drama&lt;/genre&gt;</span></span></code></pre></div>
+<p>We can then again apply <code>xml_children()</code> on each node to see what children
+nodes <code>good_will</code> and <code>tu_mama</code> have:</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="parsing-xml.html#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># children of good_will</span></span>
+<span id="cb26-2"><a href="parsing-xml.html#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">xml_children</span>(good_will)</span>
+<span id="cb26-3"><a href="parsing-xml.html#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; {xml_nodeset (4)}</span></span>
+<span id="cb26-4"><a href="parsing-xml.html#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &lt;title&gt;Good Will Hunting&lt;/title&gt;</span></span>
+<span id="cb26-5"><a href="parsing-xml.html#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2] &lt;director&gt;\n  &lt;first_name&gt;Gus&lt;/first_name&gt;\n  &lt;last_name&gt;Van Sant&lt;/last_n ...</span></span>
+<span id="cb26-6"><a href="parsing-xml.html#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3] &lt;year&gt;1998&lt;/year&gt;</span></span>
+<span id="cb26-7"><a href="parsing-xml.html#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4] &lt;genre&gt;drama&lt;/genre&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="parsing-xml.html#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># children of tu_mama</span></span>
+<span id="cb27-2"><a href="parsing-xml.html#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">xml_children</span>(tu_mama)</span>
+<span id="cb27-3"><a href="parsing-xml.html#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; {xml_nodeset (4)}</span></span>
+<span id="cb27-4"><a href="parsing-xml.html#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &lt;title&gt;Y tu mama tambien&lt;/title&gt;</span></span>
+<span id="cb27-5"><a href="parsing-xml.html#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2] &lt;director&gt;\n  &lt;first_name&gt;Alfonso&lt;/first_name&gt;\n  &lt;last_name&gt;Cuaron&lt;/last ...</span></span>
+<span id="cb27-6"><a href="parsing-xml.html#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3] &lt;year&gt;2001&lt;/year&gt;</span></span>
+<span id="cb27-7"><a href="parsing-xml.html#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4] &lt;genre&gt;drama&lt;/genre&gt;</span></span></code></pre></div>
+<p>The visual diagram for <code>good_will</code> depicts the four nodes:</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-39"></span>
+<img src="images/xml/xml-movies-tree3.png" alt="Children nodes of 'Good Will Hunting'" width="85%" />
+<p class="caption">
+Figure 5.6: Children nodes of ‘Good Will Hunting’
+</p>
+</div>
+<p>The code below shows a deeper inspection of <code>good_will</code>. The function
+<code>xml_name()</code> gives the name of a node.</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="parsing-xml.html#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># name of an element</span></span>
+<span id="cb28-2"><a href="parsing-xml.html#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">xml_name</span>(good_will)</span>
+<span id="cb28-3"><a href="parsing-xml.html#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;movie&quot;</span></span></code></pre></div>
+<p>The function <code>xml_attrs()</code> gives you the attributes of a node. In this case,
+the node of <code>good_will</code> has to attributes <code>"mins"</code> and <code>"lang"</code></p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="parsing-xml.html#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># attributes</span></span>
+<span id="cb29-2"><a href="parsing-xml.html#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">xml_attrs</span>(good_will)</span>
+<span id="cb29-3"><a href="parsing-xml.html#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  mins  lang </span></span>
+<span id="cb29-4"><a href="parsing-xml.html#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; &quot;126&quot; &quot;eng&quot;</span></span></code></pre></div>
+<p>As we previously saw, <code>xml_length()</code> gives the number of children nodes inside
+a given node:</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="parsing-xml.html#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># how many children</span></span>
+<span id="cb30-2"><a href="parsing-xml.html#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">xml_length</span>(good_will)</span>
+<span id="cb30-3"><a href="parsing-xml.html#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 4</span></span></code></pre></div>
+<p>Likewise, we can move along the children nodes, and find information about
+their names, their subchildren, and so on:</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="parsing-xml.html#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># name of children (of good_will)</span></span>
+<span id="cb31-2"><a href="parsing-xml.html#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">xml_name</span>(<span class="fu">xml_children</span>(good_will))</span>
+<span id="cb31-3"><a href="parsing-xml.html#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;title&quot;    &quot;director&quot; &quot;year&quot;     &quot;genre&quot;</span></span>
+<span id="cb31-4"><a href="parsing-xml.html#cb31-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-5"><a href="parsing-xml.html#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="co"># good_will title</span></span>
+<span id="cb31-6"><a href="parsing-xml.html#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="fu">xml_child</span>(good_will, <span class="st">&quot;title&quot;</span>)</span>
+<span id="cb31-7"><a href="parsing-xml.html#cb31-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; {xml_node}</span></span>
+<span id="cb31-8"><a href="parsing-xml.html#cb31-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; &lt;title&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="parsing-xml.html#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># good_will title</span></span>
+<span id="cb32-2"><a href="parsing-xml.html#cb32-2" aria-hidden="true" tabindex="-1"></a>title1 <span class="ot">&lt;-</span> <span class="fu">xml_child</span>(good_will, <span class="st">&quot;title&quot;</span>)</span>
+<span id="cb32-3"><a href="parsing-xml.html#cb32-3" aria-hidden="true" tabindex="-1"></a>title1</span>
+<span id="cb32-4"><a href="parsing-xml.html#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; {xml_node}</span></span>
+<span id="cb32-5"><a href="parsing-xml.html#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; &lt;title&gt;</span></span>
+<span id="cb32-6"><a href="parsing-xml.html#cb32-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-7"><a href="parsing-xml.html#cb32-7" aria-hidden="true" tabindex="-1"></a><span class="co"># content good_will title</span></span>
+<span id="cb32-8"><a href="parsing-xml.html#cb32-8" aria-hidden="true" tabindex="-1"></a><span class="fu">xml_contents</span>(title1)</span>
+<span id="cb32-9"><a href="parsing-xml.html#cb32-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; {xml_nodeset (1)}</span></span>
+<span id="cb32-10"><a href="parsing-xml.html#cb32-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] Good Will Hunting</span></span>
+<span id="cb32-11"><a href="parsing-xml.html#cb32-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-12"><a href="parsing-xml.html#cb32-12" aria-hidden="true" tabindex="-1"></a><span class="co"># text good_will title</span></span>
+<span id="cb32-13"><a href="parsing-xml.html#cb32-13" aria-hidden="true" tabindex="-1"></a><span class="fu">xml_text</span>(title1)</span>
+<span id="cb32-14"><a href="parsing-xml.html#cb32-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Good Will Hunting&quot;</span></span></code></pre></div>
+</div>
+<div id="inspecting-director-node" class="section level4 hasAnchor" number="5.3.3.1">
+<h4><span class="header-section-number">5.3.3.1</span> Inspecting director node<a href="parsing-xml.html#inspecting-director-node" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="parsing-xml.html#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># good_will director</span></span>
+<span id="cb33-2"><a href="parsing-xml.html#cb33-2" aria-hidden="true" tabindex="-1"></a>dir1 <span class="ot">&lt;-</span> <span class="fu">xml_child</span>(good_will, <span class="st">&quot;director&quot;</span>)</span>
+<span id="cb33-3"><a href="parsing-xml.html#cb33-3" aria-hidden="true" tabindex="-1"></a>dir1</span>
+<span id="cb33-4"><a href="parsing-xml.html#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; {xml_node}</span></span>
+<span id="cb33-5"><a href="parsing-xml.html#cb33-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; &lt;director&gt;</span></span>
+<span id="cb33-6"><a href="parsing-xml.html#cb33-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &lt;first_name&gt;Gus&lt;/first_name&gt;</span></span>
+<span id="cb33-7"><a href="parsing-xml.html#cb33-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2] &lt;last_name&gt;Van Sant&lt;/last_name&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="parsing-xml.html#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">xml_children</span>(dir1)</span>
+<span id="cb34-2"><a href="parsing-xml.html#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; {xml_nodeset (2)}</span></span>
+<span id="cb34-3"><a href="parsing-xml.html#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &lt;first_name&gt;Gus&lt;/first_name&gt;</span></span>
+<span id="cb34-4"><a href="parsing-xml.html#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2] &lt;last_name&gt;Van Sant&lt;/last_name&gt;</span></span></code></pre></div>
+<p>To extract just the text, we use <code>xml_text()</code>:</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="parsing-xml.html#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">xml_text</span>(dir1)</span>
+<span id="cb35-2"><a href="parsing-xml.html#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;GusVan Sant&quot;</span></span></code></pre></div>
+<p>The visual diagram for <code>good_will</code> with its director node is depicted in this
+figure:</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-48"></span>
+<img src="images/xml/xml-movies-tree4.png" alt="Director node of 'Good Will Hunting'" width="85%" />
+<p class="caption">
+Figure 5.7: Director node of ‘Good Will Hunting’
+</p>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="xml.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="xpath.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["R-web-tech.pdf", "R-web-tech.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
