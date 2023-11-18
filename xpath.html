@@ -247,7 +247,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10.4" data-path="apis.html"><a href="apis.html#interacting-with-aps-via-r"><i class="fa fa-check"></i><b>10.4</b> Interacting with AP’s via R</a>
 <ul>
 <li class="chapter" data-level="10.4.1" data-path="apis.html"><a href="apis.html#making-request-from-r"><i class="fa fa-check"></i><b>10.4.1</b> Making request from R</a></li>
+<li class="chapter" data-level="10.4.2" data-path="apis.html"><a href="apis.html#performing-a-request"><i class="fa fa-check"></i><b>10.4.2</b> Performing a Request</a></li>
+<li class="chapter" data-level="10.4.3" data-path="apis.html"><a href="apis.html#extracting-response-as-string"><i class="fa fa-check"></i><b>10.4.3</b> Extracting response as string</a></li>
+<li class="chapter" data-level="10.4.4" data-path="apis.html"><a href="apis.html#extracting-response-as-html"><i class="fa fa-check"></i><b>10.4.4</b> Extracting response as HTML</a></li>
 </ul></li>
+<li class="chapter" data-level="10.5" data-path="apis.html"><a href="apis.html#example-search-with-advice-id"><i class="fa fa-check"></i><b>10.5</b> Example: Search with Advice ID</a></li>
+<li class="chapter" data-level="10.6" data-path="apis.html"><a href="apis.html#example-search-query"><i class="fa fa-check"></i><b>10.6</b> Example: Search Query</a></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="api-pubmed.html"><a href="api-pubmed.html"><i class="fa fa-check"></i><b>11</b> PubMed API Example</a>
 <ul>
@@ -485,73 +490,73 @@ Figure 6.12: Any atrribute of “movie” nodes
 XPath expressions; these functions have the <code>xpath</code> argument. The following
 code snippets, based on the above pattern examples, show you how to use
 some of these functions.</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="xpath.html#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># toy example with xml string</span></span>
-<span id="cb37-2"><a href="xpath.html#cb37-2" aria-hidden="true" tabindex="-1"></a>xml_string <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb37-3"><a href="xpath.html#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&#39;</span>,</span>
-<span id="cb37-4"><a href="xpath.html#cb37-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;&lt;movies&gt;&#39;</span>,</span>
-<span id="cb37-5"><a href="xpath.html#cb37-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;&lt;movie mins=&quot;126&quot; lang=&quot;eng&quot;&gt;&#39;</span>,</span>
-<span id="cb37-6"><a href="xpath.html#cb37-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;&lt;title&gt;Good Will Hunting&lt;/title&gt;&#39;</span>,</span>
-<span id="cb37-7"><a href="xpath.html#cb37-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;&lt;director&gt;&#39;</span>,</span>
-<span id="cb37-8"><a href="xpath.html#cb37-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;&lt;first_name&gt;Gus&lt;/first_name&gt;&#39;</span>,</span>
-<span id="cb37-9"><a href="xpath.html#cb37-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;&lt;last_name&gt;Van Sant&lt;/last_name&gt;&#39;</span>,</span>
-<span id="cb37-10"><a href="xpath.html#cb37-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;&lt;/director&gt;&#39;</span>,</span>
-<span id="cb37-11"><a href="xpath.html#cb37-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;&lt;year&gt;1998&lt;/year&gt;&#39;</span>,</span>
-<span id="cb37-12"><a href="xpath.html#cb37-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;&lt;genre&gt;drama&lt;/genre&gt;&#39;</span>,</span>
-<span id="cb37-13"><a href="xpath.html#cb37-13" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;&lt;/movie&gt;&#39;</span>,</span>
-<span id="cb37-14"><a href="xpath.html#cb37-14" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;&lt;movie mins=&quot;106&quot; lang=&quot;spa&quot;&gt;&#39;</span>,</span>
-<span id="cb37-15"><a href="xpath.html#cb37-15" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;&lt;title&gt;Y tu mama tambien&lt;/title&gt;&#39;</span>,</span>
-<span id="cb37-16"><a href="xpath.html#cb37-16" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;&lt;director&gt;&#39;</span>,</span>
-<span id="cb37-17"><a href="xpath.html#cb37-17" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;&lt;first_name&gt;Alfonso&lt;/first_name&gt;&#39;</span>,</span>
-<span id="cb37-18"><a href="xpath.html#cb37-18" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;&lt;last_name&gt;Cuaron&lt;/last_name&gt;&#39;</span>,</span>
-<span id="cb37-19"><a href="xpath.html#cb37-19" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;&lt;/director&gt;&#39;</span>,</span>
-<span id="cb37-20"><a href="xpath.html#cb37-20" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;&lt;year&gt;2001&lt;/year&gt;&#39;</span>,</span>
-<span id="cb37-21"><a href="xpath.html#cb37-21" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;&lt;genre&gt;drama&lt;/genre&gt;&#39;</span>,</span>
-<span id="cb37-22"><a href="xpath.html#cb37-22" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;&lt;/movie&gt;&#39;</span>,</span>
-<span id="cb37-23"><a href="xpath.html#cb37-23" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;&lt;/movies&gt;&#39;</span>)</span>
-<span id="cb37-24"><a href="xpath.html#cb37-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-25"><a href="xpath.html#cb37-25" aria-hidden="true" tabindex="-1"></a><span class="co"># parsing xml string</span></span>
-<span id="cb37-26"><a href="xpath.html#cb37-26" aria-hidden="true" tabindex="-1"></a>doc <span class="ot">=</span> <span class="fu">read_xml</span>(<span class="fu">paste</span>(xml_string, <span class="at">collapse =</span> <span class="st">&#39;&#39;</span>))</span></code></pre></div>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="xpath.html#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># movie children (from root node)</span></span>
-<span id="cb38-2"><a href="xpath.html#cb38-2" aria-hidden="true" tabindex="-1"></a>movie_nodes <span class="ot">=</span> <span class="fu">xml_find_all</span>(doc, <span class="at">xpath =</span> <span class="st">&quot;/movies/movie&quot;</span>)</span>
-<span id="cb38-3"><a href="xpath.html#cb38-3" aria-hidden="true" tabindex="-1"></a>movie_nodes</span>
-<span id="cb38-4"><a href="xpath.html#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; {xml_nodeset (2)}</span></span>
-<span id="cb38-5"><a href="xpath.html#cb38-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &lt;movie mins=&quot;126&quot; lang=&quot;eng&quot;&gt;\n  &lt;title&gt;Good Will Hunting&lt;/title&gt;\n  &lt;dir ...</span></span>
-<span id="cb38-6"><a href="xpath.html#cb38-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2] &lt;movie mins=&quot;106&quot; lang=&quot;spa&quot;&gt;\n  &lt;title&gt;Y tu mama tambien&lt;/title&gt;\n  &lt;dir ...</span></span></code></pre></div>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="xpath.html#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># title children (from root node)</span></span>
-<span id="cb39-2"><a href="xpath.html#cb39-2" aria-hidden="true" tabindex="-1"></a>title_nodes <span class="ot">=</span> <span class="fu">xml_find_all</span>(doc, <span class="at">xpath =</span> <span class="st">&quot;/movies/movie/title&quot;</span>)</span>
-<span id="cb39-3"><a href="xpath.html#cb39-3" aria-hidden="true" tabindex="-1"></a>title_nodes</span>
-<span id="cb39-4"><a href="xpath.html#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; {xml_nodeset (2)}</span></span>
-<span id="cb39-5"><a href="xpath.html#cb39-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &lt;title&gt;Good Will Hunting&lt;/title&gt;</span></span>
-<span id="cb39-6"><a href="xpath.html#cb39-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2] &lt;title&gt;Y tu mama tambien&lt;/title&gt;</span></span></code></pre></div>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="xpath.html#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># text content of title_nodes</span></span>
-<span id="cb40-2"><a href="xpath.html#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">xml_text</span>(title_nodes)</span>
-<span id="cb40-3"><a href="xpath.html#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Good Will Hunting&quot; &quot;Y tu mama tambien&quot;</span></span></code></pre></div>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="xpath.html#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># director children (from any movie element)</span></span>
-<span id="cb41-2"><a href="xpath.html#cb41-2" aria-hidden="true" tabindex="-1"></a>director_nodes <span class="ot">=</span> <span class="fu">xml_find_all</span>(doc, <span class="st">&quot;//movie/director&quot;</span>)</span>
-<span id="cb41-3"><a href="xpath.html#cb41-3" aria-hidden="true" tabindex="-1"></a>director_nodes</span>
-<span id="cb41-4"><a href="xpath.html#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; {xml_nodeset (2)}</span></span>
-<span id="cb41-5"><a href="xpath.html#cb41-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &lt;director&gt;\n  &lt;first_name&gt;Gus&lt;/first_name&gt;\n  &lt;last_name&gt;Van Sant&lt;/last_n ...</span></span>
-<span id="cb41-6"><a href="xpath.html#cb41-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2] &lt;director&gt;\n  &lt;first_name&gt;Alfonso&lt;/first_name&gt;\n  &lt;last_name&gt;Cuaron&lt;/last ...</span></span></code></pre></div>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="xpath.html#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># text content of director_nodes</span></span>
-<span id="cb42-2"><a href="xpath.html#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="fu">xml_text</span>(director_nodes)</span>
-<span id="cb42-3"><a href="xpath.html#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;GusVan Sant&quot;   &quot;AlfonsoCuaron&quot;</span></span></code></pre></div>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="xpath.html#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># last_name (from anywhere in the tree)</span></span>
-<span id="cb43-2"><a href="xpath.html#cb43-2" aria-hidden="true" tabindex="-1"></a>last_name_nodes <span class="ot">=</span> <span class="fu">xml_find_all</span>(doc, <span class="st">&quot;//last_name&quot;</span>)</span>
-<span id="cb43-3"><a href="xpath.html#cb43-3" aria-hidden="true" tabindex="-1"></a>last_name_nodes</span>
-<span id="cb43-4"><a href="xpath.html#cb43-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; {xml_nodeset (2)}</span></span>
-<span id="cb43-5"><a href="xpath.html#cb43-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &lt;last_name&gt;Van Sant&lt;/last_name&gt;</span></span>
-<span id="cb43-6"><a href="xpath.html#cb43-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2] &lt;last_name&gt;Cuaron&lt;/last_name&gt;</span></span></code></pre></div>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="xpath.html#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># text of last_name (from anywhere in the tree)</span></span>
-<span id="cb44-2"><a href="xpath.html#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="fu">xml_text</span>(last_name_nodes)</span>
-<span id="cb44-3"><a href="xpath.html#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Van Sant&quot; &quot;Cuaron&quot;</span></span></code></pre></div>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="xpath.html#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># title node of movie with attribute lang=&#39;spa&#39;</span></span>
-<span id="cb45-2"><a href="xpath.html#cb45-2" aria-hidden="true" tabindex="-1"></a>title_spa <span class="ot">=</span> <span class="fu">xml_find_all</span>(doc, <span class="st">&quot;/movies/movie[@lang=&#39;spa&#39;]/title&quot;</span>)</span>
-<span id="cb45-3"><a href="xpath.html#cb45-3" aria-hidden="true" tabindex="-1"></a>title_spa</span>
-<span id="cb45-4"><a href="xpath.html#cb45-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; {xml_nodeset (1)}</span></span>
-<span id="cb45-5"><a href="xpath.html#cb45-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &lt;title&gt;Y tu mama tambien&lt;/title&gt;</span></span></code></pre></div>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="xpath.html#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># text content of title_spa</span></span>
-<span id="cb46-2"><a href="xpath.html#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="fu">xml_text</span>(title_spa)</span>
-<span id="cb46-3"><a href="xpath.html#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Y tu mama tambien&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="xpath.html#cb37-1" tabindex="-1"></a><span class="co"># toy example with xml string</span></span>
+<span id="cb37-2"><a href="xpath.html#cb37-2" tabindex="-1"></a>xml_string <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb37-3"><a href="xpath.html#cb37-3" tabindex="-1"></a>  <span class="st">&#39;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&#39;</span>,</span>
+<span id="cb37-4"><a href="xpath.html#cb37-4" tabindex="-1"></a>  <span class="st">&#39;&lt;movies&gt;&#39;</span>,</span>
+<span id="cb37-5"><a href="xpath.html#cb37-5" tabindex="-1"></a>  <span class="st">&#39;&lt;movie mins=&quot;126&quot; lang=&quot;eng&quot;&gt;&#39;</span>,</span>
+<span id="cb37-6"><a href="xpath.html#cb37-6" tabindex="-1"></a>  <span class="st">&#39;&lt;title&gt;Good Will Hunting&lt;/title&gt;&#39;</span>,</span>
+<span id="cb37-7"><a href="xpath.html#cb37-7" tabindex="-1"></a>  <span class="st">&#39;&lt;director&gt;&#39;</span>,</span>
+<span id="cb37-8"><a href="xpath.html#cb37-8" tabindex="-1"></a>  <span class="st">&#39;&lt;first_name&gt;Gus&lt;/first_name&gt;&#39;</span>,</span>
+<span id="cb37-9"><a href="xpath.html#cb37-9" tabindex="-1"></a>  <span class="st">&#39;&lt;last_name&gt;Van Sant&lt;/last_name&gt;&#39;</span>,</span>
+<span id="cb37-10"><a href="xpath.html#cb37-10" tabindex="-1"></a>  <span class="st">&#39;&lt;/director&gt;&#39;</span>,</span>
+<span id="cb37-11"><a href="xpath.html#cb37-11" tabindex="-1"></a>  <span class="st">&#39;&lt;year&gt;1998&lt;/year&gt;&#39;</span>,</span>
+<span id="cb37-12"><a href="xpath.html#cb37-12" tabindex="-1"></a>  <span class="st">&#39;&lt;genre&gt;drama&lt;/genre&gt;&#39;</span>,</span>
+<span id="cb37-13"><a href="xpath.html#cb37-13" tabindex="-1"></a>  <span class="st">&#39;&lt;/movie&gt;&#39;</span>,</span>
+<span id="cb37-14"><a href="xpath.html#cb37-14" tabindex="-1"></a>  <span class="st">&#39;&lt;movie mins=&quot;106&quot; lang=&quot;spa&quot;&gt;&#39;</span>,</span>
+<span id="cb37-15"><a href="xpath.html#cb37-15" tabindex="-1"></a>  <span class="st">&#39;&lt;title&gt;Y tu mama tambien&lt;/title&gt;&#39;</span>,</span>
+<span id="cb37-16"><a href="xpath.html#cb37-16" tabindex="-1"></a>  <span class="st">&#39;&lt;director&gt;&#39;</span>,</span>
+<span id="cb37-17"><a href="xpath.html#cb37-17" tabindex="-1"></a>  <span class="st">&#39;&lt;first_name&gt;Alfonso&lt;/first_name&gt;&#39;</span>,</span>
+<span id="cb37-18"><a href="xpath.html#cb37-18" tabindex="-1"></a>  <span class="st">&#39;&lt;last_name&gt;Cuaron&lt;/last_name&gt;&#39;</span>,</span>
+<span id="cb37-19"><a href="xpath.html#cb37-19" tabindex="-1"></a>  <span class="st">&#39;&lt;/director&gt;&#39;</span>,</span>
+<span id="cb37-20"><a href="xpath.html#cb37-20" tabindex="-1"></a>  <span class="st">&#39;&lt;year&gt;2001&lt;/year&gt;&#39;</span>,</span>
+<span id="cb37-21"><a href="xpath.html#cb37-21" tabindex="-1"></a>  <span class="st">&#39;&lt;genre&gt;drama&lt;/genre&gt;&#39;</span>,</span>
+<span id="cb37-22"><a href="xpath.html#cb37-22" tabindex="-1"></a>  <span class="st">&#39;&lt;/movie&gt;&#39;</span>,</span>
+<span id="cb37-23"><a href="xpath.html#cb37-23" tabindex="-1"></a>  <span class="st">&#39;&lt;/movies&gt;&#39;</span>)</span>
+<span id="cb37-24"><a href="xpath.html#cb37-24" tabindex="-1"></a></span>
+<span id="cb37-25"><a href="xpath.html#cb37-25" tabindex="-1"></a><span class="co"># parsing xml string</span></span>
+<span id="cb37-26"><a href="xpath.html#cb37-26" tabindex="-1"></a>doc <span class="ot">=</span> <span class="fu">read_xml</span>(<span class="fu">paste</span>(xml_string, <span class="at">collapse =</span> <span class="st">&#39;&#39;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="xpath.html#cb38-1" tabindex="-1"></a><span class="co"># movie children (from root node)</span></span>
+<span id="cb38-2"><a href="xpath.html#cb38-2" tabindex="-1"></a>movie_nodes <span class="ot">=</span> <span class="fu">xml_find_all</span>(doc, <span class="at">xpath =</span> <span class="st">&quot;/movies/movie&quot;</span>)</span>
+<span id="cb38-3"><a href="xpath.html#cb38-3" tabindex="-1"></a>movie_nodes</span>
+<span id="cb38-4"><a href="xpath.html#cb38-4" tabindex="-1"></a><span class="co">#&gt; {xml_nodeset (2)}</span></span>
+<span id="cb38-5"><a href="xpath.html#cb38-5" tabindex="-1"></a><span class="co">#&gt; [1] &lt;movie mins=&quot;126&quot; lang=&quot;eng&quot;&gt;\n  &lt;title&gt;Good Will Hunting&lt;/title&gt;\n  &lt;dir ...</span></span>
+<span id="cb38-6"><a href="xpath.html#cb38-6" tabindex="-1"></a><span class="co">#&gt; [2] &lt;movie mins=&quot;106&quot; lang=&quot;spa&quot;&gt;\n  &lt;title&gt;Y tu mama tambien&lt;/title&gt;\n  &lt;dir ...</span></span></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="xpath.html#cb39-1" tabindex="-1"></a><span class="co"># title children (from root node)</span></span>
+<span id="cb39-2"><a href="xpath.html#cb39-2" tabindex="-1"></a>title_nodes <span class="ot">=</span> <span class="fu">xml_find_all</span>(doc, <span class="at">xpath =</span> <span class="st">&quot;/movies/movie/title&quot;</span>)</span>
+<span id="cb39-3"><a href="xpath.html#cb39-3" tabindex="-1"></a>title_nodes</span>
+<span id="cb39-4"><a href="xpath.html#cb39-4" tabindex="-1"></a><span class="co">#&gt; {xml_nodeset (2)}</span></span>
+<span id="cb39-5"><a href="xpath.html#cb39-5" tabindex="-1"></a><span class="co">#&gt; [1] &lt;title&gt;Good Will Hunting&lt;/title&gt;</span></span>
+<span id="cb39-6"><a href="xpath.html#cb39-6" tabindex="-1"></a><span class="co">#&gt; [2] &lt;title&gt;Y tu mama tambien&lt;/title&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="xpath.html#cb40-1" tabindex="-1"></a><span class="co"># text content of title_nodes</span></span>
+<span id="cb40-2"><a href="xpath.html#cb40-2" tabindex="-1"></a><span class="fu">xml_text</span>(title_nodes)</span>
+<span id="cb40-3"><a href="xpath.html#cb40-3" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Good Will Hunting&quot; &quot;Y tu mama tambien&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="xpath.html#cb41-1" tabindex="-1"></a><span class="co"># director children (from any movie element)</span></span>
+<span id="cb41-2"><a href="xpath.html#cb41-2" tabindex="-1"></a>director_nodes <span class="ot">=</span> <span class="fu">xml_find_all</span>(doc, <span class="st">&quot;//movie/director&quot;</span>)</span>
+<span id="cb41-3"><a href="xpath.html#cb41-3" tabindex="-1"></a>director_nodes</span>
+<span id="cb41-4"><a href="xpath.html#cb41-4" tabindex="-1"></a><span class="co">#&gt; {xml_nodeset (2)}</span></span>
+<span id="cb41-5"><a href="xpath.html#cb41-5" tabindex="-1"></a><span class="co">#&gt; [1] &lt;director&gt;\n  &lt;first_name&gt;Gus&lt;/first_name&gt;\n  &lt;last_name&gt;Van Sant&lt;/last_n ...</span></span>
+<span id="cb41-6"><a href="xpath.html#cb41-6" tabindex="-1"></a><span class="co">#&gt; [2] &lt;director&gt;\n  &lt;first_name&gt;Alfonso&lt;/first_name&gt;\n  &lt;last_name&gt;Cuaron&lt;/last ...</span></span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="xpath.html#cb42-1" tabindex="-1"></a><span class="co"># text content of director_nodes</span></span>
+<span id="cb42-2"><a href="xpath.html#cb42-2" tabindex="-1"></a><span class="fu">xml_text</span>(director_nodes)</span>
+<span id="cb42-3"><a href="xpath.html#cb42-3" tabindex="-1"></a><span class="co">#&gt; [1] &quot;GusVan Sant&quot;   &quot;AlfonsoCuaron&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="xpath.html#cb43-1" tabindex="-1"></a><span class="co"># last_name (from anywhere in the tree)</span></span>
+<span id="cb43-2"><a href="xpath.html#cb43-2" tabindex="-1"></a>last_name_nodes <span class="ot">=</span> <span class="fu">xml_find_all</span>(doc, <span class="st">&quot;//last_name&quot;</span>)</span>
+<span id="cb43-3"><a href="xpath.html#cb43-3" tabindex="-1"></a>last_name_nodes</span>
+<span id="cb43-4"><a href="xpath.html#cb43-4" tabindex="-1"></a><span class="co">#&gt; {xml_nodeset (2)}</span></span>
+<span id="cb43-5"><a href="xpath.html#cb43-5" tabindex="-1"></a><span class="co">#&gt; [1] &lt;last_name&gt;Van Sant&lt;/last_name&gt;</span></span>
+<span id="cb43-6"><a href="xpath.html#cb43-6" tabindex="-1"></a><span class="co">#&gt; [2] &lt;last_name&gt;Cuaron&lt;/last_name&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="xpath.html#cb44-1" tabindex="-1"></a><span class="co"># text of last_name (from anywhere in the tree)</span></span>
+<span id="cb44-2"><a href="xpath.html#cb44-2" tabindex="-1"></a><span class="fu">xml_text</span>(last_name_nodes)</span>
+<span id="cb44-3"><a href="xpath.html#cb44-3" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Van Sant&quot; &quot;Cuaron&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="xpath.html#cb45-1" tabindex="-1"></a><span class="co"># title node of movie with attribute lang=&#39;spa&#39;</span></span>
+<span id="cb45-2"><a href="xpath.html#cb45-2" tabindex="-1"></a>title_spa <span class="ot">=</span> <span class="fu">xml_find_all</span>(doc, <span class="st">&quot;/movies/movie[@lang=&#39;spa&#39;]/title&quot;</span>)</span>
+<span id="cb45-3"><a href="xpath.html#cb45-3" tabindex="-1"></a>title_spa</span>
+<span id="cb45-4"><a href="xpath.html#cb45-4" tabindex="-1"></a><span class="co">#&gt; {xml_nodeset (1)}</span></span>
+<span id="cb45-5"><a href="xpath.html#cb45-5" tabindex="-1"></a><span class="co">#&gt; [1] &lt;title&gt;Y tu mama tambien&lt;/title&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="xpath.html#cb46-1" tabindex="-1"></a><span class="co"># text content of title_spa</span></span>
+<span id="cb46-2"><a href="xpath.html#cb46-2" tabindex="-1"></a><span class="fu">xml_text</span>(title_spa)</span>
+<span id="cb46-3"><a href="xpath.html#cb46-3" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Y tu mama tambien&quot;</span></span></code></pre></div>
 
 </div>
 </div>

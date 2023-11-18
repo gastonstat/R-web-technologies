@@ -247,7 +247,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10.4" data-path="apis.html"><a href="apis.html#interacting-with-aps-via-r"><i class="fa fa-check"></i><b>10.4</b> Interacting with AP’s via R</a>
 <ul>
 <li class="chapter" data-level="10.4.1" data-path="apis.html"><a href="apis.html#making-request-from-r"><i class="fa fa-check"></i><b>10.4.1</b> Making request from R</a></li>
+<li class="chapter" data-level="10.4.2" data-path="apis.html"><a href="apis.html#performing-a-request"><i class="fa fa-check"></i><b>10.4.2</b> Performing a Request</a></li>
+<li class="chapter" data-level="10.4.3" data-path="apis.html"><a href="apis.html#extracting-response-as-string"><i class="fa fa-check"></i><b>10.4.3</b> Extracting response as string</a></li>
+<li class="chapter" data-level="10.4.4" data-path="apis.html"><a href="apis.html#extracting-response-as-html"><i class="fa fa-check"></i><b>10.4.4</b> Extracting response as HTML</a></li>
 </ul></li>
+<li class="chapter" data-level="10.5" data-path="apis.html"><a href="apis.html#example-search-with-advice-id"><i class="fa fa-check"></i><b>10.5</b> Example: Search with Advice ID</a></li>
+<li class="chapter" data-level="10.6" data-path="apis.html"><a href="apis.html#example-search-query"><i class="fa fa-check"></i><b>10.6</b> Example: Search Query</a></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="api-pubmed.html"><a href="api-pubmed.html"><i class="fa fa-check"></i><b>11</b> PubMed API Example</a>
 <ul>
@@ -283,8 +288,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The goal of this chapter is to describe how we can parse XML content
 with the R package <code>xml2</code></p>
 <p>You will need the following packages</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="parsing-xml.html#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(xml2)</span>
-<span id="cb11-2"><a href="parsing-xml.html#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="parsing-xml.html#cb11-1" tabindex="-1"></a><span class="fu">library</span>(xml2)</span>
+<span id="cb11-2"><a href="parsing-xml.html#cb11-2" tabindex="-1"></a><span class="fu">library</span>(stringr)</span></code></pre></div>
 <p>We’ll cover a variety of situations you most likely will find yourself dealing
 with:</p>
 <ul>
@@ -359,28 +364,28 @@ for instance some content in XML:</p>
 &lt;/movie&gt;</code></pre>
 <p>For illustration purposes, let’s take the XML content, treating it as a single
 character string, that we then pass to <code>read_xml()</code>:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="parsing-xml.html#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># toy example with xml string</span></span>
-<span id="cb13-2"><a href="parsing-xml.html#cb13-2" aria-hidden="true" tabindex="-1"></a>movie <span class="ot">&lt;-</span> <span class="fu">read_xml</span>(</span>
-<span id="cb13-3"><a href="parsing-xml.html#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;&lt;movie&gt;</span></span>
-<span id="cb13-4"><a href="parsing-xml.html#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;title&gt;Good Will Hunting&lt;/title&gt;</span></span>
-<span id="cb13-5"><a href="parsing-xml.html#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;director&gt;</span></span>
-<span id="cb13-6"><a href="parsing-xml.html#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;first_name&gt;Gus&lt;/first_name&gt;</span></span>
-<span id="cb13-7"><a href="parsing-xml.html#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;last_name&gt;Van Sant&lt;/last_name&gt;</span></span>
-<span id="cb13-8"><a href="parsing-xml.html#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;/director&gt;</span></span>
-<span id="cb13-9"><a href="parsing-xml.html#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;year&gt;1998&lt;/year&gt;</span></span>
-<span id="cb13-10"><a href="parsing-xml.html#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;genre&gt;drama&lt;/genre&gt;</span></span>
-<span id="cb13-11"><a href="parsing-xml.html#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;/movie&gt;&quot;</span>)</span>
-<span id="cb13-12"><a href="parsing-xml.html#cb13-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-13"><a href="parsing-xml.html#cb13-13" aria-hidden="true" tabindex="-1"></a>movie</span>
-<span id="cb13-14"><a href="parsing-xml.html#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; {xml_document}</span></span>
-<span id="cb13-15"><a href="parsing-xml.html#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; &lt;movie&gt;</span></span>
-<span id="cb13-16"><a href="parsing-xml.html#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &lt;title&gt;Good Will Hunting&lt;/title&gt;</span></span>
-<span id="cb13-17"><a href="parsing-xml.html#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2] &lt;director&gt;\n  &lt;first_name&gt;Gus&lt;/first_name&gt;\n  &lt;last_name&gt;Van Sant&lt;/last_n ...</span></span>
-<span id="cb13-18"><a href="parsing-xml.html#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3] &lt;year&gt;1998&lt;/year&gt;</span></span>
-<span id="cb13-19"><a href="parsing-xml.html#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4] &lt;genre&gt;drama&lt;/genre&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="parsing-xml.html#cb13-1" tabindex="-1"></a><span class="co"># toy example with xml string</span></span>
+<span id="cb13-2"><a href="parsing-xml.html#cb13-2" tabindex="-1"></a>movie <span class="ot">&lt;-</span> <span class="fu">read_xml</span>(</span>
+<span id="cb13-3"><a href="parsing-xml.html#cb13-3" tabindex="-1"></a><span class="st">&quot;&lt;movie&gt;</span></span>
+<span id="cb13-4"><a href="parsing-xml.html#cb13-4" tabindex="-1"></a><span class="st">&lt;title&gt;Good Will Hunting&lt;/title&gt;</span></span>
+<span id="cb13-5"><a href="parsing-xml.html#cb13-5" tabindex="-1"></a><span class="st">&lt;director&gt;</span></span>
+<span id="cb13-6"><a href="parsing-xml.html#cb13-6" tabindex="-1"></a><span class="st">&lt;first_name&gt;Gus&lt;/first_name&gt;</span></span>
+<span id="cb13-7"><a href="parsing-xml.html#cb13-7" tabindex="-1"></a><span class="st">&lt;last_name&gt;Van Sant&lt;/last_name&gt;</span></span>
+<span id="cb13-8"><a href="parsing-xml.html#cb13-8" tabindex="-1"></a><span class="st">&lt;/director&gt;</span></span>
+<span id="cb13-9"><a href="parsing-xml.html#cb13-9" tabindex="-1"></a><span class="st">&lt;year&gt;1998&lt;/year&gt;</span></span>
+<span id="cb13-10"><a href="parsing-xml.html#cb13-10" tabindex="-1"></a><span class="st">&lt;genre&gt;drama&lt;/genre&gt;</span></span>
+<span id="cb13-11"><a href="parsing-xml.html#cb13-11" tabindex="-1"></a><span class="st">&lt;/movie&gt;&quot;</span>)</span>
+<span id="cb13-12"><a href="parsing-xml.html#cb13-12" tabindex="-1"></a></span>
+<span id="cb13-13"><a href="parsing-xml.html#cb13-13" tabindex="-1"></a>movie</span>
+<span id="cb13-14"><a href="parsing-xml.html#cb13-14" tabindex="-1"></a><span class="co">#&gt; {xml_document}</span></span>
+<span id="cb13-15"><a href="parsing-xml.html#cb13-15" tabindex="-1"></a><span class="co">#&gt; &lt;movie&gt;</span></span>
+<span id="cb13-16"><a href="parsing-xml.html#cb13-16" tabindex="-1"></a><span class="co">#&gt; [1] &lt;title&gt;Good Will Hunting&lt;/title&gt;</span></span>
+<span id="cb13-17"><a href="parsing-xml.html#cb13-17" tabindex="-1"></a><span class="co">#&gt; [2] &lt;director&gt;\n  &lt;first_name&gt;Gus&lt;/first_name&gt;\n  &lt;last_name&gt;Van Sant&lt;/last_n ...</span></span>
+<span id="cb13-18"><a href="parsing-xml.html#cb13-18" tabindex="-1"></a><span class="co">#&gt; [3] &lt;year&gt;1998&lt;/year&gt;</span></span>
+<span id="cb13-19"><a href="parsing-xml.html#cb13-19" tabindex="-1"></a><span class="co">#&gt; [4] &lt;genre&gt;drama&lt;/genre&gt;</span></span></code></pre></div>
 <p>As we mention, the <code>movie</code> is an XML object:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="parsing-xml.html#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(movie)</span>
-<span id="cb14-2"><a href="parsing-xml.html#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;xml_document&quot; &quot;xml_node&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="parsing-xml.html#cb14-1" tabindex="-1"></a><span class="fu">class</span>(movie)</span>
+<span id="cb14-2"><a href="parsing-xml.html#cb14-2" tabindex="-1"></a><span class="co">#&gt; [1] &quot;xml_document&quot; &quot;xml_node&quot;</span></span></code></pre></div>
 <p>This type of object has an internal structure in order to maintain the
 hierarchical tree-structure of any XML content.</p>
 </div>
@@ -501,84 +506,84 @@ Figure 5.4: XML movies tree
 </p>
 </div>
 <p>Let’s create a character vector to store the XML content:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="parsing-xml.html#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># toy example with xml string</span></span>
-<span id="cb16-2"><a href="parsing-xml.html#cb16-2" aria-hidden="true" tabindex="-1"></a>xml_string <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb16-3"><a href="parsing-xml.html#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&#39;</span>,</span>
-<span id="cb16-4"><a href="parsing-xml.html#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;&lt;movies&gt;&#39;</span>,</span>
-<span id="cb16-5"><a href="parsing-xml.html#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;&lt;movie mins=&quot;126&quot; lang=&quot;eng&quot;&gt;&#39;</span>,</span>
-<span id="cb16-6"><a href="parsing-xml.html#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;&lt;title&gt;Good Will Hunting&lt;/title&gt;&#39;</span>,</span>
-<span id="cb16-7"><a href="parsing-xml.html#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;&lt;director&gt;&#39;</span>,</span>
-<span id="cb16-8"><a href="parsing-xml.html#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;&lt;first_name&gt;Gus&lt;/first_name&gt;&#39;</span>,</span>
-<span id="cb16-9"><a href="parsing-xml.html#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;&lt;last_name&gt;Van Sant&lt;/last_name&gt;&#39;</span>,</span>
-<span id="cb16-10"><a href="parsing-xml.html#cb16-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;&lt;/director&gt;&#39;</span>,</span>
-<span id="cb16-11"><a href="parsing-xml.html#cb16-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;&lt;year&gt;1998&lt;/year&gt;&#39;</span>,</span>
-<span id="cb16-12"><a href="parsing-xml.html#cb16-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;&lt;genre&gt;drama&lt;/genre&gt;&#39;</span>,</span>
-<span id="cb16-13"><a href="parsing-xml.html#cb16-13" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;&lt;/movie&gt;&#39;</span>,</span>
-<span id="cb16-14"><a href="parsing-xml.html#cb16-14" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;&lt;movie mins=&quot;106&quot; lang=&quot;spa&quot;&gt;&#39;</span>,</span>
-<span id="cb16-15"><a href="parsing-xml.html#cb16-15" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;&lt;title&gt;Y tu mama tambien&lt;/title&gt;&#39;</span>,</span>
-<span id="cb16-16"><a href="parsing-xml.html#cb16-16" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;&lt;director&gt;&#39;</span>,</span>
-<span id="cb16-17"><a href="parsing-xml.html#cb16-17" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;&lt;first_name&gt;Alfonso&lt;/first_name&gt;&#39;</span>,</span>
-<span id="cb16-18"><a href="parsing-xml.html#cb16-18" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;&lt;last_name&gt;Cuaron&lt;/last_name&gt;&#39;</span>,</span>
-<span id="cb16-19"><a href="parsing-xml.html#cb16-19" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;&lt;/director&gt;&#39;</span>,</span>
-<span id="cb16-20"><a href="parsing-xml.html#cb16-20" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;&lt;year&gt;2001&lt;/year&gt;&#39;</span>,</span>
-<span id="cb16-21"><a href="parsing-xml.html#cb16-21" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;&lt;genre&gt;drama&lt;/genre&gt;&#39;</span>,</span>
-<span id="cb16-22"><a href="parsing-xml.html#cb16-22" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;&lt;/movie&gt;&#39;</span>,</span>
-<span id="cb16-23"><a href="parsing-xml.html#cb16-23" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;&lt;/movies&gt;&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="parsing-xml.html#cb16-1" tabindex="-1"></a><span class="co"># toy example with xml string</span></span>
+<span id="cb16-2"><a href="parsing-xml.html#cb16-2" tabindex="-1"></a>xml_string <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb16-3"><a href="parsing-xml.html#cb16-3" tabindex="-1"></a>  <span class="st">&#39;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&#39;</span>,</span>
+<span id="cb16-4"><a href="parsing-xml.html#cb16-4" tabindex="-1"></a>  <span class="st">&#39;&lt;movies&gt;&#39;</span>,</span>
+<span id="cb16-5"><a href="parsing-xml.html#cb16-5" tabindex="-1"></a>  <span class="st">&#39;&lt;movie mins=&quot;126&quot; lang=&quot;eng&quot;&gt;&#39;</span>,</span>
+<span id="cb16-6"><a href="parsing-xml.html#cb16-6" tabindex="-1"></a>  <span class="st">&#39;&lt;title&gt;Good Will Hunting&lt;/title&gt;&#39;</span>,</span>
+<span id="cb16-7"><a href="parsing-xml.html#cb16-7" tabindex="-1"></a>  <span class="st">&#39;&lt;director&gt;&#39;</span>,</span>
+<span id="cb16-8"><a href="parsing-xml.html#cb16-8" tabindex="-1"></a>  <span class="st">&#39;&lt;first_name&gt;Gus&lt;/first_name&gt;&#39;</span>,</span>
+<span id="cb16-9"><a href="parsing-xml.html#cb16-9" tabindex="-1"></a>  <span class="st">&#39;&lt;last_name&gt;Van Sant&lt;/last_name&gt;&#39;</span>,</span>
+<span id="cb16-10"><a href="parsing-xml.html#cb16-10" tabindex="-1"></a>  <span class="st">&#39;&lt;/director&gt;&#39;</span>,</span>
+<span id="cb16-11"><a href="parsing-xml.html#cb16-11" tabindex="-1"></a>  <span class="st">&#39;&lt;year&gt;1998&lt;/year&gt;&#39;</span>,</span>
+<span id="cb16-12"><a href="parsing-xml.html#cb16-12" tabindex="-1"></a>  <span class="st">&#39;&lt;genre&gt;drama&lt;/genre&gt;&#39;</span>,</span>
+<span id="cb16-13"><a href="parsing-xml.html#cb16-13" tabindex="-1"></a>  <span class="st">&#39;&lt;/movie&gt;&#39;</span>,</span>
+<span id="cb16-14"><a href="parsing-xml.html#cb16-14" tabindex="-1"></a>  <span class="st">&#39;&lt;movie mins=&quot;106&quot; lang=&quot;spa&quot;&gt;&#39;</span>,</span>
+<span id="cb16-15"><a href="parsing-xml.html#cb16-15" tabindex="-1"></a>  <span class="st">&#39;&lt;title&gt;Y tu mama tambien&lt;/title&gt;&#39;</span>,</span>
+<span id="cb16-16"><a href="parsing-xml.html#cb16-16" tabindex="-1"></a>  <span class="st">&#39;&lt;director&gt;&#39;</span>,</span>
+<span id="cb16-17"><a href="parsing-xml.html#cb16-17" tabindex="-1"></a>  <span class="st">&#39;&lt;first_name&gt;Alfonso&lt;/first_name&gt;&#39;</span>,</span>
+<span id="cb16-18"><a href="parsing-xml.html#cb16-18" tabindex="-1"></a>  <span class="st">&#39;&lt;last_name&gt;Cuaron&lt;/last_name&gt;&#39;</span>,</span>
+<span id="cb16-19"><a href="parsing-xml.html#cb16-19" tabindex="-1"></a>  <span class="st">&#39;&lt;/director&gt;&#39;</span>,</span>
+<span id="cb16-20"><a href="parsing-xml.html#cb16-20" tabindex="-1"></a>  <span class="st">&#39;&lt;year&gt;2001&lt;/year&gt;&#39;</span>,</span>
+<span id="cb16-21"><a href="parsing-xml.html#cb16-21" tabindex="-1"></a>  <span class="st">&#39;&lt;genre&gt;drama&lt;/genre&gt;&#39;</span>,</span>
+<span id="cb16-22"><a href="parsing-xml.html#cb16-22" tabindex="-1"></a>  <span class="st">&#39;&lt;/movie&gt;&#39;</span>,</span>
+<span id="cb16-23"><a href="parsing-xml.html#cb16-23" tabindex="-1"></a>  <span class="st">&#39;&lt;/movies&gt;&#39;</span>)</span></code></pre></div>
 <p>Let’s parse the content. To do this, we must first create a single contiguous
 xml string, which is done with <code>paste()</code> and its <code>collapse = ''</code> argument:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="parsing-xml.html#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># parsing xml string</span></span>
-<span id="cb17-2"><a href="parsing-xml.html#cb17-2" aria-hidden="true" tabindex="-1"></a>doc <span class="ot">&lt;-</span> <span class="fu">read_xml</span>(<span class="fu">paste</span>(xml_string, <span class="at">collapse =</span> <span class="st">&#39;&#39;</span>))</span>
-<span id="cb17-3"><a href="parsing-xml.html#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-4"><a href="parsing-xml.html#cb17-4" aria-hidden="true" tabindex="-1"></a>doc</span>
-<span id="cb17-5"><a href="parsing-xml.html#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; {xml_document}</span></span>
-<span id="cb17-6"><a href="parsing-xml.html#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; &lt;movies&gt;</span></span>
-<span id="cb17-7"><a href="parsing-xml.html#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &lt;movie mins=&quot;126&quot; lang=&quot;eng&quot;&gt;\n  &lt;title&gt;Good Will Hunting&lt;/title&gt;\n  &lt;dir ...</span></span>
-<span id="cb17-8"><a href="parsing-xml.html#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2] &lt;movie mins=&quot;106&quot; lang=&quot;spa&quot;&gt;\n  &lt;title&gt;Y tu mama tambien&lt;/title&gt;\n  &lt;dir ...</span></span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="parsing-xml.html#cb17-1" tabindex="-1"></a><span class="co"># parsing xml string</span></span>
+<span id="cb17-2"><a href="parsing-xml.html#cb17-2" tabindex="-1"></a>doc <span class="ot">&lt;-</span> <span class="fu">read_xml</span>(<span class="fu">paste</span>(xml_string, <span class="at">collapse =</span> <span class="st">&#39;&#39;</span>))</span>
+<span id="cb17-3"><a href="parsing-xml.html#cb17-3" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="parsing-xml.html#cb17-4" tabindex="-1"></a>doc</span>
+<span id="cb17-5"><a href="parsing-xml.html#cb17-5" tabindex="-1"></a><span class="co">#&gt; {xml_document}</span></span>
+<span id="cb17-6"><a href="parsing-xml.html#cb17-6" tabindex="-1"></a><span class="co">#&gt; &lt;movies&gt;</span></span>
+<span id="cb17-7"><a href="parsing-xml.html#cb17-7" tabindex="-1"></a><span class="co">#&gt; [1] &lt;movie mins=&quot;126&quot; lang=&quot;eng&quot;&gt;\n  &lt;title&gt;Good Will Hunting&lt;/title&gt;\n  &lt;dir ...</span></span>
+<span id="cb17-8"><a href="parsing-xml.html#cb17-8" tabindex="-1"></a><span class="co">#&gt; [2] &lt;movie mins=&quot;106&quot; lang=&quot;spa&quot;&gt;\n  &lt;title&gt;Y tu mama tambien&lt;/title&gt;\n  &lt;dir ...</span></span></code></pre></div>
 <p>And let’s navigate the tree structure. We begin with <code>xml_root()</code> to get
 access to the root node:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="parsing-xml.html#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># root node</span></span>
-<span id="cb18-2"><a href="parsing-xml.html#cb18-2" aria-hidden="true" tabindex="-1"></a>movies <span class="ot">&lt;-</span> <span class="fu">xml_root</span>(doc)</span>
-<span id="cb18-3"><a href="parsing-xml.html#cb18-3" aria-hidden="true" tabindex="-1"></a>movies</span>
-<span id="cb18-4"><a href="parsing-xml.html#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; {xml_document}</span></span>
-<span id="cb18-5"><a href="parsing-xml.html#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; &lt;movies&gt;</span></span>
-<span id="cb18-6"><a href="parsing-xml.html#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &lt;movie mins=&quot;126&quot; lang=&quot;eng&quot;&gt;\n  &lt;title&gt;Good Will Hunting&lt;/title&gt;\n  &lt;dir ...</span></span>
-<span id="cb18-7"><a href="parsing-xml.html#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2] &lt;movie mins=&quot;106&quot; lang=&quot;spa&quot;&gt;\n  &lt;title&gt;Y tu mama tambien&lt;/title&gt;\n  &lt;dir ...</span></span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="parsing-xml.html#cb18-1" tabindex="-1"></a><span class="co"># root node</span></span>
+<span id="cb18-2"><a href="parsing-xml.html#cb18-2" tabindex="-1"></a>movies <span class="ot">&lt;-</span> <span class="fu">xml_root</span>(doc)</span>
+<span id="cb18-3"><a href="parsing-xml.html#cb18-3" tabindex="-1"></a>movies</span>
+<span id="cb18-4"><a href="parsing-xml.html#cb18-4" tabindex="-1"></a><span class="co">#&gt; {xml_document}</span></span>
+<span id="cb18-5"><a href="parsing-xml.html#cb18-5" tabindex="-1"></a><span class="co">#&gt; &lt;movies&gt;</span></span>
+<span id="cb18-6"><a href="parsing-xml.html#cb18-6" tabindex="-1"></a><span class="co">#&gt; [1] &lt;movie mins=&quot;126&quot; lang=&quot;eng&quot;&gt;\n  &lt;title&gt;Good Will Hunting&lt;/title&gt;\n  &lt;dir ...</span></span>
+<span id="cb18-7"><a href="parsing-xml.html#cb18-7" tabindex="-1"></a><span class="co">#&gt; [2] &lt;movie mins=&quot;106&quot; lang=&quot;spa&quot;&gt;\n  &lt;title&gt;Y tu mama tambien&lt;/title&gt;\n  &lt;dir ...</span></span></code></pre></div>
 <p>It turns out that <code>doc</code> and <code>movies</code> are actually identical:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="parsing-xml.html#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">identical</span>(doc, movies)</span>
-<span id="cb19-2"><a href="parsing-xml.html#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="parsing-xml.html#cb19-1" tabindex="-1"></a><span class="fu">identical</span>(doc, movies)</span>
+<span id="cb19-2"><a href="parsing-xml.html#cb19-2" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
 <p>We use the <code>xml_length()</code> to know how many elements or nodes are in the root
 node:</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="parsing-xml.html#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># parsing xml string</span></span>
-<span id="cb20-2"><a href="parsing-xml.html#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">xml_length</span>(doc)</span>
-<span id="cb20-3"><a href="parsing-xml.html#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 2</span></span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="parsing-xml.html#cb20-1" tabindex="-1"></a><span class="co"># parsing xml string</span></span>
+<span id="cb20-2"><a href="parsing-xml.html#cb20-2" tabindex="-1"></a><span class="fu">xml_length</span>(doc)</span>
+<span id="cb20-3"><a href="parsing-xml.html#cb20-3" tabindex="-1"></a><span class="co">#&gt; [1] 2</span></span></code></pre></div>
 <p>which confirms what we know about the movies string that contains two <code>movie</code>
 elements: one node for “Good Will Hunting” and another node for “Y tu mama
 tambien”.</p>
 <p>The function <code>xml_children()</code> allows you to access the children nodes:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="parsing-xml.html#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">xml_children</span>(doc)</span>
-<span id="cb21-2"><a href="parsing-xml.html#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; {xml_nodeset (2)}</span></span>
-<span id="cb21-3"><a href="parsing-xml.html#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &lt;movie mins=&quot;126&quot; lang=&quot;eng&quot;&gt;\n  &lt;title&gt;Good Will Hunting&lt;/title&gt;\n  &lt;dir ...</span></span>
-<span id="cb21-4"><a href="parsing-xml.html#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2] &lt;movie mins=&quot;106&quot; lang=&quot;spa&quot;&gt;\n  &lt;title&gt;Y tu mama tambien&lt;/title&gt;\n  &lt;dir ...</span></span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="parsing-xml.html#cb21-1" tabindex="-1"></a><span class="fu">xml_children</span>(doc)</span>
+<span id="cb21-2"><a href="parsing-xml.html#cb21-2" tabindex="-1"></a><span class="co">#&gt; {xml_nodeset (2)}</span></span>
+<span id="cb21-3"><a href="parsing-xml.html#cb21-3" tabindex="-1"></a><span class="co">#&gt; [1] &lt;movie mins=&quot;126&quot; lang=&quot;eng&quot;&gt;\n  &lt;title&gt;Good Will Hunting&lt;/title&gt;\n  &lt;dir ...</span></span>
+<span id="cb21-4"><a href="parsing-xml.html#cb21-4" tabindex="-1"></a><span class="co">#&gt; [2] &lt;movie mins=&quot;106&quot; lang=&quot;spa&quot;&gt;\n  &lt;title&gt;Y tu mama tambien&lt;/title&gt;\n  &lt;dir ...</span></span></code></pre></div>
 <p>Notice that the output is an object of class <code>"xml_nodeset"</code>. To access a
 specific node, you use the function <code>xml_child()</code>. In this example, the node
 for movie “Good Will Hunting” corresponds to the first node, and we pass this
 value to the <code>search</code> argument:</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="parsing-xml.html#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">xml_child</span>(doc, <span class="at">search =</span> <span class="dv">1</span>)</span>
-<span id="cb22-2"><a href="parsing-xml.html#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; {xml_node}</span></span>
-<span id="cb22-3"><a href="parsing-xml.html#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; &lt;movie mins=&quot;126&quot; lang=&quot;eng&quot;&gt;</span></span>
-<span id="cb22-4"><a href="parsing-xml.html#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &lt;title&gt;Good Will Hunting&lt;/title&gt;</span></span>
-<span id="cb22-5"><a href="parsing-xml.html#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2] &lt;director&gt;\n  &lt;first_name&gt;Gus&lt;/first_name&gt;\n  &lt;last_name&gt;Van Sant&lt;/last_n ...</span></span>
-<span id="cb22-6"><a href="parsing-xml.html#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3] &lt;year&gt;1998&lt;/year&gt;</span></span>
-<span id="cb22-7"><a href="parsing-xml.html#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4] &lt;genre&gt;drama&lt;/genre&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="parsing-xml.html#cb22-1" tabindex="-1"></a><span class="fu">xml_child</span>(doc, <span class="at">search =</span> <span class="dv">1</span>)</span>
+<span id="cb22-2"><a href="parsing-xml.html#cb22-2" tabindex="-1"></a><span class="co">#&gt; {xml_node}</span></span>
+<span id="cb22-3"><a href="parsing-xml.html#cb22-3" tabindex="-1"></a><span class="co">#&gt; &lt;movie mins=&quot;126&quot; lang=&quot;eng&quot;&gt;</span></span>
+<span id="cb22-4"><a href="parsing-xml.html#cb22-4" tabindex="-1"></a><span class="co">#&gt; [1] &lt;title&gt;Good Will Hunting&lt;/title&gt;</span></span>
+<span id="cb22-5"><a href="parsing-xml.html#cb22-5" tabindex="-1"></a><span class="co">#&gt; [2] &lt;director&gt;\n  &lt;first_name&gt;Gus&lt;/first_name&gt;\n  &lt;last_name&gt;Van Sant&lt;/last_n ...</span></span>
+<span id="cb22-6"><a href="parsing-xml.html#cb22-6" tabindex="-1"></a><span class="co">#&gt; [3] &lt;year&gt;1998&lt;/year&gt;</span></span>
+<span id="cb22-7"><a href="parsing-xml.html#cb22-7" tabindex="-1"></a><span class="co">#&gt; [4] &lt;genre&gt;drama&lt;/genre&gt;</span></span></code></pre></div>
 <p>Likewise, the second node (“Y tu mama tambien”) is accessed by specifying the
 argument <code>search = 2</code>:</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="parsing-xml.html#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">xml_child</span>(doc, <span class="at">search =</span> <span class="dv">2</span>)</span>
-<span id="cb23-2"><a href="parsing-xml.html#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; {xml_node}</span></span>
-<span id="cb23-3"><a href="parsing-xml.html#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; &lt;movie mins=&quot;106&quot; lang=&quot;spa&quot;&gt;</span></span>
-<span id="cb23-4"><a href="parsing-xml.html#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &lt;title&gt;Y tu mama tambien&lt;/title&gt;</span></span>
-<span id="cb23-5"><a href="parsing-xml.html#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2] &lt;director&gt;\n  &lt;first_name&gt;Alfonso&lt;/first_name&gt;\n  &lt;last_name&gt;Cuaron&lt;/last ...</span></span>
-<span id="cb23-6"><a href="parsing-xml.html#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3] &lt;year&gt;2001&lt;/year&gt;</span></span>
-<span id="cb23-7"><a href="parsing-xml.html#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4] &lt;genre&gt;drama&lt;/genre&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="parsing-xml.html#cb23-1" tabindex="-1"></a><span class="fu">xml_child</span>(doc, <span class="at">search =</span> <span class="dv">2</span>)</span>
+<span id="cb23-2"><a href="parsing-xml.html#cb23-2" tabindex="-1"></a><span class="co">#&gt; {xml_node}</span></span>
+<span id="cb23-3"><a href="parsing-xml.html#cb23-3" tabindex="-1"></a><span class="co">#&gt; &lt;movie mins=&quot;106&quot; lang=&quot;spa&quot;&gt;</span></span>
+<span id="cb23-4"><a href="parsing-xml.html#cb23-4" tabindex="-1"></a><span class="co">#&gt; [1] &lt;title&gt;Y tu mama tambien&lt;/title&gt;</span></span>
+<span id="cb23-5"><a href="parsing-xml.html#cb23-5" tabindex="-1"></a><span class="co">#&gt; [2] &lt;director&gt;\n  &lt;first_name&gt;Alfonso&lt;/first_name&gt;\n  &lt;last_name&gt;Cuaron&lt;/last ...</span></span>
+<span id="cb23-6"><a href="parsing-xml.html#cb23-6" tabindex="-1"></a><span class="co">#&gt; [3] &lt;year&gt;2001&lt;/year&gt;</span></span>
+<span id="cb23-7"><a href="parsing-xml.html#cb23-7" tabindex="-1"></a><span class="co">#&gt; [4] &lt;genre&gt;drama&lt;/genre&gt;</span></span></code></pre></div>
 <p>This is the view of the tree structure so far:</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-34"></span>
 <img src="images/xml/xml-movies-tree2.png" alt="Two movie nodes" width="85%" />
@@ -590,42 +595,42 @@ Figure 5.5: Two movie nodes
 <h4>Inspecting first node<a href="parsing-xml.html#inspecting-first-node" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>Let’s go inside the first node, and store the content in the object
 <code>good_will</code></p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="parsing-xml.html#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># first child</span></span>
-<span id="cb24-2"><a href="parsing-xml.html#cb24-2" aria-hidden="true" tabindex="-1"></a>good_will <span class="ot">&lt;-</span> <span class="fu">xml_child</span>(doc, <span class="at">search =</span> <span class="dv">1</span>)</span>
-<span id="cb24-3"><a href="parsing-xml.html#cb24-3" aria-hidden="true" tabindex="-1"></a>good_will</span>
-<span id="cb24-4"><a href="parsing-xml.html#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; {xml_node}</span></span>
-<span id="cb24-5"><a href="parsing-xml.html#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; &lt;movie mins=&quot;126&quot; lang=&quot;eng&quot;&gt;</span></span>
-<span id="cb24-6"><a href="parsing-xml.html#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &lt;title&gt;Good Will Hunting&lt;/title&gt;</span></span>
-<span id="cb24-7"><a href="parsing-xml.html#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2] &lt;director&gt;\n  &lt;first_name&gt;Gus&lt;/first_name&gt;\n  &lt;last_name&gt;Van Sant&lt;/last_n ...</span></span>
-<span id="cb24-8"><a href="parsing-xml.html#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3] &lt;year&gt;1998&lt;/year&gt;</span></span>
-<span id="cb24-9"><a href="parsing-xml.html#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4] &lt;genre&gt;drama&lt;/genre&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="parsing-xml.html#cb24-1" tabindex="-1"></a><span class="co"># first child</span></span>
+<span id="cb24-2"><a href="parsing-xml.html#cb24-2" tabindex="-1"></a>good_will <span class="ot">&lt;-</span> <span class="fu">xml_child</span>(doc, <span class="at">search =</span> <span class="dv">1</span>)</span>
+<span id="cb24-3"><a href="parsing-xml.html#cb24-3" tabindex="-1"></a>good_will</span>
+<span id="cb24-4"><a href="parsing-xml.html#cb24-4" tabindex="-1"></a><span class="co">#&gt; {xml_node}</span></span>
+<span id="cb24-5"><a href="parsing-xml.html#cb24-5" tabindex="-1"></a><span class="co">#&gt; &lt;movie mins=&quot;126&quot; lang=&quot;eng&quot;&gt;</span></span>
+<span id="cb24-6"><a href="parsing-xml.html#cb24-6" tabindex="-1"></a><span class="co">#&gt; [1] &lt;title&gt;Good Will Hunting&lt;/title&gt;</span></span>
+<span id="cb24-7"><a href="parsing-xml.html#cb24-7" tabindex="-1"></a><span class="co">#&gt; [2] &lt;director&gt;\n  &lt;first_name&gt;Gus&lt;/first_name&gt;\n  &lt;last_name&gt;Van Sant&lt;/last_n ...</span></span>
+<span id="cb24-8"><a href="parsing-xml.html#cb24-8" tabindex="-1"></a><span class="co">#&gt; [3] &lt;year&gt;1998&lt;/year&gt;</span></span>
+<span id="cb24-9"><a href="parsing-xml.html#cb24-9" tabindex="-1"></a><span class="co">#&gt; [4] &lt;genre&gt;drama&lt;/genre&gt;</span></span></code></pre></div>
 <p>and let’s do the same for the second node, storing the content in the object
 <code>tu_mama</code>:</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="parsing-xml.html#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># second child</span></span>
-<span id="cb25-2"><a href="parsing-xml.html#cb25-2" aria-hidden="true" tabindex="-1"></a>tu_mama <span class="ot">&lt;-</span> <span class="fu">xml_child</span>(doc, <span class="at">search =</span> <span class="dv">2</span>)</span>
-<span id="cb25-3"><a href="parsing-xml.html#cb25-3" aria-hidden="true" tabindex="-1"></a>tu_mama</span>
-<span id="cb25-4"><a href="parsing-xml.html#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; {xml_node}</span></span>
-<span id="cb25-5"><a href="parsing-xml.html#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; &lt;movie mins=&quot;106&quot; lang=&quot;spa&quot;&gt;</span></span>
-<span id="cb25-6"><a href="parsing-xml.html#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &lt;title&gt;Y tu mama tambien&lt;/title&gt;</span></span>
-<span id="cb25-7"><a href="parsing-xml.html#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2] &lt;director&gt;\n  &lt;first_name&gt;Alfonso&lt;/first_name&gt;\n  &lt;last_name&gt;Cuaron&lt;/last ...</span></span>
-<span id="cb25-8"><a href="parsing-xml.html#cb25-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3] &lt;year&gt;2001&lt;/year&gt;</span></span>
-<span id="cb25-9"><a href="parsing-xml.html#cb25-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4] &lt;genre&gt;drama&lt;/genre&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="parsing-xml.html#cb25-1" tabindex="-1"></a><span class="co"># second child</span></span>
+<span id="cb25-2"><a href="parsing-xml.html#cb25-2" tabindex="-1"></a>tu_mama <span class="ot">&lt;-</span> <span class="fu">xml_child</span>(doc, <span class="at">search =</span> <span class="dv">2</span>)</span>
+<span id="cb25-3"><a href="parsing-xml.html#cb25-3" tabindex="-1"></a>tu_mama</span>
+<span id="cb25-4"><a href="parsing-xml.html#cb25-4" tabindex="-1"></a><span class="co">#&gt; {xml_node}</span></span>
+<span id="cb25-5"><a href="parsing-xml.html#cb25-5" tabindex="-1"></a><span class="co">#&gt; &lt;movie mins=&quot;106&quot; lang=&quot;spa&quot;&gt;</span></span>
+<span id="cb25-6"><a href="parsing-xml.html#cb25-6" tabindex="-1"></a><span class="co">#&gt; [1] &lt;title&gt;Y tu mama tambien&lt;/title&gt;</span></span>
+<span id="cb25-7"><a href="parsing-xml.html#cb25-7" tabindex="-1"></a><span class="co">#&gt; [2] &lt;director&gt;\n  &lt;first_name&gt;Alfonso&lt;/first_name&gt;\n  &lt;last_name&gt;Cuaron&lt;/last ...</span></span>
+<span id="cb25-8"><a href="parsing-xml.html#cb25-8" tabindex="-1"></a><span class="co">#&gt; [3] &lt;year&gt;2001&lt;/year&gt;</span></span>
+<span id="cb25-9"><a href="parsing-xml.html#cb25-9" tabindex="-1"></a><span class="co">#&gt; [4] &lt;genre&gt;drama&lt;/genre&gt;</span></span></code></pre></div>
 <p>We can then again apply <code>xml_children()</code> on each node to see what children
 nodes <code>good_will</code> and <code>tu_mama</code> have:</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="parsing-xml.html#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># children of good_will</span></span>
-<span id="cb26-2"><a href="parsing-xml.html#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">xml_children</span>(good_will)</span>
-<span id="cb26-3"><a href="parsing-xml.html#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; {xml_nodeset (4)}</span></span>
-<span id="cb26-4"><a href="parsing-xml.html#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &lt;title&gt;Good Will Hunting&lt;/title&gt;</span></span>
-<span id="cb26-5"><a href="parsing-xml.html#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2] &lt;director&gt;\n  &lt;first_name&gt;Gus&lt;/first_name&gt;\n  &lt;last_name&gt;Van Sant&lt;/last_n ...</span></span>
-<span id="cb26-6"><a href="parsing-xml.html#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3] &lt;year&gt;1998&lt;/year&gt;</span></span>
-<span id="cb26-7"><a href="parsing-xml.html#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4] &lt;genre&gt;drama&lt;/genre&gt;</span></span></code></pre></div>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="parsing-xml.html#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># children of tu_mama</span></span>
-<span id="cb27-2"><a href="parsing-xml.html#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">xml_children</span>(tu_mama)</span>
-<span id="cb27-3"><a href="parsing-xml.html#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; {xml_nodeset (4)}</span></span>
-<span id="cb27-4"><a href="parsing-xml.html#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &lt;title&gt;Y tu mama tambien&lt;/title&gt;</span></span>
-<span id="cb27-5"><a href="parsing-xml.html#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2] &lt;director&gt;\n  &lt;first_name&gt;Alfonso&lt;/first_name&gt;\n  &lt;last_name&gt;Cuaron&lt;/last ...</span></span>
-<span id="cb27-6"><a href="parsing-xml.html#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3] &lt;year&gt;2001&lt;/year&gt;</span></span>
-<span id="cb27-7"><a href="parsing-xml.html#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4] &lt;genre&gt;drama&lt;/genre&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="parsing-xml.html#cb26-1" tabindex="-1"></a><span class="co"># children of good_will</span></span>
+<span id="cb26-2"><a href="parsing-xml.html#cb26-2" tabindex="-1"></a><span class="fu">xml_children</span>(good_will)</span>
+<span id="cb26-3"><a href="parsing-xml.html#cb26-3" tabindex="-1"></a><span class="co">#&gt; {xml_nodeset (4)}</span></span>
+<span id="cb26-4"><a href="parsing-xml.html#cb26-4" tabindex="-1"></a><span class="co">#&gt; [1] &lt;title&gt;Good Will Hunting&lt;/title&gt;</span></span>
+<span id="cb26-5"><a href="parsing-xml.html#cb26-5" tabindex="-1"></a><span class="co">#&gt; [2] &lt;director&gt;\n  &lt;first_name&gt;Gus&lt;/first_name&gt;\n  &lt;last_name&gt;Van Sant&lt;/last_n ...</span></span>
+<span id="cb26-6"><a href="parsing-xml.html#cb26-6" tabindex="-1"></a><span class="co">#&gt; [3] &lt;year&gt;1998&lt;/year&gt;</span></span>
+<span id="cb26-7"><a href="parsing-xml.html#cb26-7" tabindex="-1"></a><span class="co">#&gt; [4] &lt;genre&gt;drama&lt;/genre&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="parsing-xml.html#cb27-1" tabindex="-1"></a><span class="co"># children of tu_mama</span></span>
+<span id="cb27-2"><a href="parsing-xml.html#cb27-2" tabindex="-1"></a><span class="fu">xml_children</span>(tu_mama)</span>
+<span id="cb27-3"><a href="parsing-xml.html#cb27-3" tabindex="-1"></a><span class="co">#&gt; {xml_nodeset (4)}</span></span>
+<span id="cb27-4"><a href="parsing-xml.html#cb27-4" tabindex="-1"></a><span class="co">#&gt; [1] &lt;title&gt;Y tu mama tambien&lt;/title&gt;</span></span>
+<span id="cb27-5"><a href="parsing-xml.html#cb27-5" tabindex="-1"></a><span class="co">#&gt; [2] &lt;director&gt;\n  &lt;first_name&gt;Alfonso&lt;/first_name&gt;\n  &lt;last_name&gt;Cuaron&lt;/last ...</span></span>
+<span id="cb27-6"><a href="parsing-xml.html#cb27-6" tabindex="-1"></a><span class="co">#&gt; [3] &lt;year&gt;2001&lt;/year&gt;</span></span>
+<span id="cb27-7"><a href="parsing-xml.html#cb27-7" tabindex="-1"></a><span class="co">#&gt; [4] &lt;genre&gt;drama&lt;/genre&gt;</span></span></code></pre></div>
 <p>The visual diagram for <code>good_will</code> depicts the four nodes:</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-39"></span>
 <img src="images/xml/xml-movies-tree3.png" alt="Children nodes of 'Good Will Hunting'" width="85%" />
@@ -635,61 +640,61 @@ Figure 5.6: Children nodes of ‘Good Will Hunting’
 </div>
 <p>The code below shows a deeper inspection of <code>good_will</code>. The function
 <code>xml_name()</code> gives the name of a node.</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="parsing-xml.html#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># name of an element</span></span>
-<span id="cb28-2"><a href="parsing-xml.html#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">xml_name</span>(good_will)</span>
-<span id="cb28-3"><a href="parsing-xml.html#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;movie&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="parsing-xml.html#cb28-1" tabindex="-1"></a><span class="co"># name of an element</span></span>
+<span id="cb28-2"><a href="parsing-xml.html#cb28-2" tabindex="-1"></a><span class="fu">xml_name</span>(good_will)</span>
+<span id="cb28-3"><a href="parsing-xml.html#cb28-3" tabindex="-1"></a><span class="co">#&gt; [1] &quot;movie&quot;</span></span></code></pre></div>
 <p>The function <code>xml_attrs()</code> gives you the attributes of a node. In this case,
 the node of <code>good_will</code> has to attributes <code>"mins"</code> and <code>"lang"</code></p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="parsing-xml.html#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># attributes</span></span>
-<span id="cb29-2"><a href="parsing-xml.html#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">xml_attrs</span>(good_will)</span>
-<span id="cb29-3"><a href="parsing-xml.html#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  mins  lang </span></span>
-<span id="cb29-4"><a href="parsing-xml.html#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; &quot;126&quot; &quot;eng&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="parsing-xml.html#cb29-1" tabindex="-1"></a><span class="co"># attributes</span></span>
+<span id="cb29-2"><a href="parsing-xml.html#cb29-2" tabindex="-1"></a><span class="fu">xml_attrs</span>(good_will)</span>
+<span id="cb29-3"><a href="parsing-xml.html#cb29-3" tabindex="-1"></a><span class="co">#&gt;  mins  lang </span></span>
+<span id="cb29-4"><a href="parsing-xml.html#cb29-4" tabindex="-1"></a><span class="co">#&gt; &quot;126&quot; &quot;eng&quot;</span></span></code></pre></div>
 <p>As we previously saw, <code>xml_length()</code> gives the number of children nodes inside
 a given node:</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="parsing-xml.html#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># how many children</span></span>
-<span id="cb30-2"><a href="parsing-xml.html#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">xml_length</span>(good_will)</span>
-<span id="cb30-3"><a href="parsing-xml.html#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 4</span></span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="parsing-xml.html#cb30-1" tabindex="-1"></a><span class="co"># how many children</span></span>
+<span id="cb30-2"><a href="parsing-xml.html#cb30-2" tabindex="-1"></a><span class="fu">xml_length</span>(good_will)</span>
+<span id="cb30-3"><a href="parsing-xml.html#cb30-3" tabindex="-1"></a><span class="co">#&gt; [1] 4</span></span></code></pre></div>
 <p>Likewise, we can move along the children nodes, and find information about
 their names, their subchildren, and so on:</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="parsing-xml.html#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># name of children (of good_will)</span></span>
-<span id="cb31-2"><a href="parsing-xml.html#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">xml_name</span>(<span class="fu">xml_children</span>(good_will))</span>
-<span id="cb31-3"><a href="parsing-xml.html#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;title&quot;    &quot;director&quot; &quot;year&quot;     &quot;genre&quot;</span></span>
-<span id="cb31-4"><a href="parsing-xml.html#cb31-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-5"><a href="parsing-xml.html#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="co"># good_will title</span></span>
-<span id="cb31-6"><a href="parsing-xml.html#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="fu">xml_child</span>(good_will, <span class="st">&quot;title&quot;</span>)</span>
-<span id="cb31-7"><a href="parsing-xml.html#cb31-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; {xml_node}</span></span>
-<span id="cb31-8"><a href="parsing-xml.html#cb31-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; &lt;title&gt;</span></span></code></pre></div>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="parsing-xml.html#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># good_will title</span></span>
-<span id="cb32-2"><a href="parsing-xml.html#cb32-2" aria-hidden="true" tabindex="-1"></a>title1 <span class="ot">&lt;-</span> <span class="fu">xml_child</span>(good_will, <span class="st">&quot;title&quot;</span>)</span>
-<span id="cb32-3"><a href="parsing-xml.html#cb32-3" aria-hidden="true" tabindex="-1"></a>title1</span>
-<span id="cb32-4"><a href="parsing-xml.html#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; {xml_node}</span></span>
-<span id="cb32-5"><a href="parsing-xml.html#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; &lt;title&gt;</span></span>
-<span id="cb32-6"><a href="parsing-xml.html#cb32-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-7"><a href="parsing-xml.html#cb32-7" aria-hidden="true" tabindex="-1"></a><span class="co"># content good_will title</span></span>
-<span id="cb32-8"><a href="parsing-xml.html#cb32-8" aria-hidden="true" tabindex="-1"></a><span class="fu">xml_contents</span>(title1)</span>
-<span id="cb32-9"><a href="parsing-xml.html#cb32-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; {xml_nodeset (1)}</span></span>
-<span id="cb32-10"><a href="parsing-xml.html#cb32-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] Good Will Hunting</span></span>
-<span id="cb32-11"><a href="parsing-xml.html#cb32-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-12"><a href="parsing-xml.html#cb32-12" aria-hidden="true" tabindex="-1"></a><span class="co"># text good_will title</span></span>
-<span id="cb32-13"><a href="parsing-xml.html#cb32-13" aria-hidden="true" tabindex="-1"></a><span class="fu">xml_text</span>(title1)</span>
-<span id="cb32-14"><a href="parsing-xml.html#cb32-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Good Will Hunting&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="parsing-xml.html#cb31-1" tabindex="-1"></a><span class="co"># name of children (of good_will)</span></span>
+<span id="cb31-2"><a href="parsing-xml.html#cb31-2" tabindex="-1"></a><span class="fu">xml_name</span>(<span class="fu">xml_children</span>(good_will))</span>
+<span id="cb31-3"><a href="parsing-xml.html#cb31-3" tabindex="-1"></a><span class="co">#&gt; [1] &quot;title&quot;    &quot;director&quot; &quot;year&quot;     &quot;genre&quot;</span></span>
+<span id="cb31-4"><a href="parsing-xml.html#cb31-4" tabindex="-1"></a></span>
+<span id="cb31-5"><a href="parsing-xml.html#cb31-5" tabindex="-1"></a><span class="co"># good_will title</span></span>
+<span id="cb31-6"><a href="parsing-xml.html#cb31-6" tabindex="-1"></a><span class="fu">xml_child</span>(good_will, <span class="st">&quot;title&quot;</span>)</span>
+<span id="cb31-7"><a href="parsing-xml.html#cb31-7" tabindex="-1"></a><span class="co">#&gt; {xml_node}</span></span>
+<span id="cb31-8"><a href="parsing-xml.html#cb31-8" tabindex="-1"></a><span class="co">#&gt; &lt;title&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="parsing-xml.html#cb32-1" tabindex="-1"></a><span class="co"># good_will title</span></span>
+<span id="cb32-2"><a href="parsing-xml.html#cb32-2" tabindex="-1"></a>title1 <span class="ot">&lt;-</span> <span class="fu">xml_child</span>(good_will, <span class="st">&quot;title&quot;</span>)</span>
+<span id="cb32-3"><a href="parsing-xml.html#cb32-3" tabindex="-1"></a>title1</span>
+<span id="cb32-4"><a href="parsing-xml.html#cb32-4" tabindex="-1"></a><span class="co">#&gt; {xml_node}</span></span>
+<span id="cb32-5"><a href="parsing-xml.html#cb32-5" tabindex="-1"></a><span class="co">#&gt; &lt;title&gt;</span></span>
+<span id="cb32-6"><a href="parsing-xml.html#cb32-6" tabindex="-1"></a></span>
+<span id="cb32-7"><a href="parsing-xml.html#cb32-7" tabindex="-1"></a><span class="co"># content good_will title</span></span>
+<span id="cb32-8"><a href="parsing-xml.html#cb32-8" tabindex="-1"></a><span class="fu">xml_contents</span>(title1)</span>
+<span id="cb32-9"><a href="parsing-xml.html#cb32-9" tabindex="-1"></a><span class="co">#&gt; {xml_nodeset (1)}</span></span>
+<span id="cb32-10"><a href="parsing-xml.html#cb32-10" tabindex="-1"></a><span class="co">#&gt; [1] Good Will Hunting</span></span>
+<span id="cb32-11"><a href="parsing-xml.html#cb32-11" tabindex="-1"></a></span>
+<span id="cb32-12"><a href="parsing-xml.html#cb32-12" tabindex="-1"></a><span class="co"># text good_will title</span></span>
+<span id="cb32-13"><a href="parsing-xml.html#cb32-13" tabindex="-1"></a><span class="fu">xml_text</span>(title1)</span>
+<span id="cb32-14"><a href="parsing-xml.html#cb32-14" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Good Will Hunting&quot;</span></span></code></pre></div>
 </div>
 <div id="inspecting-director-node" class="section level4 hasAnchor" number="5.3.3.1">
 <h4><span class="header-section-number">5.3.3.1</span> Inspecting director node<a href="parsing-xml.html#inspecting-director-node" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="parsing-xml.html#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># good_will director</span></span>
-<span id="cb33-2"><a href="parsing-xml.html#cb33-2" aria-hidden="true" tabindex="-1"></a>dir1 <span class="ot">&lt;-</span> <span class="fu">xml_child</span>(good_will, <span class="st">&quot;director&quot;</span>)</span>
-<span id="cb33-3"><a href="parsing-xml.html#cb33-3" aria-hidden="true" tabindex="-1"></a>dir1</span>
-<span id="cb33-4"><a href="parsing-xml.html#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; {xml_node}</span></span>
-<span id="cb33-5"><a href="parsing-xml.html#cb33-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; &lt;director&gt;</span></span>
-<span id="cb33-6"><a href="parsing-xml.html#cb33-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &lt;first_name&gt;Gus&lt;/first_name&gt;</span></span>
-<span id="cb33-7"><a href="parsing-xml.html#cb33-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2] &lt;last_name&gt;Van Sant&lt;/last_name&gt;</span></span></code></pre></div>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="parsing-xml.html#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">xml_children</span>(dir1)</span>
-<span id="cb34-2"><a href="parsing-xml.html#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; {xml_nodeset (2)}</span></span>
-<span id="cb34-3"><a href="parsing-xml.html#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &lt;first_name&gt;Gus&lt;/first_name&gt;</span></span>
-<span id="cb34-4"><a href="parsing-xml.html#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2] &lt;last_name&gt;Van Sant&lt;/last_name&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="parsing-xml.html#cb33-1" tabindex="-1"></a><span class="co"># good_will director</span></span>
+<span id="cb33-2"><a href="parsing-xml.html#cb33-2" tabindex="-1"></a>dir1 <span class="ot">&lt;-</span> <span class="fu">xml_child</span>(good_will, <span class="st">&quot;director&quot;</span>)</span>
+<span id="cb33-3"><a href="parsing-xml.html#cb33-3" tabindex="-1"></a>dir1</span>
+<span id="cb33-4"><a href="parsing-xml.html#cb33-4" tabindex="-1"></a><span class="co">#&gt; {xml_node}</span></span>
+<span id="cb33-5"><a href="parsing-xml.html#cb33-5" tabindex="-1"></a><span class="co">#&gt; &lt;director&gt;</span></span>
+<span id="cb33-6"><a href="parsing-xml.html#cb33-6" tabindex="-1"></a><span class="co">#&gt; [1] &lt;first_name&gt;Gus&lt;/first_name&gt;</span></span>
+<span id="cb33-7"><a href="parsing-xml.html#cb33-7" tabindex="-1"></a><span class="co">#&gt; [2] &lt;last_name&gt;Van Sant&lt;/last_name&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="parsing-xml.html#cb34-1" tabindex="-1"></a><span class="fu">xml_children</span>(dir1)</span>
+<span id="cb34-2"><a href="parsing-xml.html#cb34-2" tabindex="-1"></a><span class="co">#&gt; {xml_nodeset (2)}</span></span>
+<span id="cb34-3"><a href="parsing-xml.html#cb34-3" tabindex="-1"></a><span class="co">#&gt; [1] &lt;first_name&gt;Gus&lt;/first_name&gt;</span></span>
+<span id="cb34-4"><a href="parsing-xml.html#cb34-4" tabindex="-1"></a><span class="co">#&gt; [2] &lt;last_name&gt;Van Sant&lt;/last_name&gt;</span></span></code></pre></div>
 <p>To extract just the text, we use <code>xml_text()</code>:</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="parsing-xml.html#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">xml_text</span>(dir1)</span>
-<span id="cb35-2"><a href="parsing-xml.html#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;GusVan Sant&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="parsing-xml.html#cb35-1" tabindex="-1"></a><span class="fu">xml_text</span>(dir1)</span>
+<span id="cb35-2"><a href="parsing-xml.html#cb35-2" tabindex="-1"></a><span class="co">#&gt; [1] &quot;GusVan Sant&quot;</span></span></code></pre></div>
 <p>The visual diagram for <code>good_will</code> with its director node is depicted in this
 figure:</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-48"></span>

@@ -247,7 +247,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10.4" data-path="apis.html"><a href="apis.html#interacting-with-aps-via-r"><i class="fa fa-check"></i><b>10.4</b> Interacting with AP’s via R</a>
 <ul>
 <li class="chapter" data-level="10.4.1" data-path="apis.html"><a href="apis.html#making-request-from-r"><i class="fa fa-check"></i><b>10.4.1</b> Making request from R</a></li>
+<li class="chapter" data-level="10.4.2" data-path="apis.html"><a href="apis.html#performing-a-request"><i class="fa fa-check"></i><b>10.4.2</b> Performing a Request</a></li>
+<li class="chapter" data-level="10.4.3" data-path="apis.html"><a href="apis.html#extracting-response-as-string"><i class="fa fa-check"></i><b>10.4.3</b> Extracting response as string</a></li>
+<li class="chapter" data-level="10.4.4" data-path="apis.html"><a href="apis.html#extracting-response-as-html"><i class="fa fa-check"></i><b>10.4.4</b> Extracting response as HTML</a></li>
 </ul></li>
+<li class="chapter" data-level="10.5" data-path="apis.html"><a href="apis.html#example-search-with-advice-id"><i class="fa fa-check"></i><b>10.5</b> Example: Search with Advice ID</a></li>
+<li class="chapter" data-level="10.6" data-path="apis.html"><a href="apis.html#example-search-query"><i class="fa fa-check"></i><b>10.6</b> Example: Search Query</a></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="api-pubmed.html"><a href="api-pubmed.html"><i class="fa fa-check"></i><b>11</b> PubMed API Example</a>
 <ul>
@@ -437,23 +442,23 @@ world record progression, the url is</p>
 <p><a href="https://en.wikipedia.org/wiki/Men%27s_long_jump_world_record_progression" class="uri">https://en.wikipedia.org/wiki/Men%27s_long_jump_world_record_progression</a></p>
 <p>If we try to use functions like <code>readHTMLTable</code> from <code>"XML"</code> package, it will
 fail</p>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="html.html#cb48-1" aria-hidden="true" tabindex="-1"></a>wiki <span class="ot">&lt;-</span> <span class="st">&#39;https://en.wikipedia.org/wiki/Men%27s_long_jump_world_record_progression&#39;</span></span>
-<span id="cb48-2"><a href="html.html#cb48-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-3"><a href="html.html#cb48-3" aria-hidden="true" tabindex="-1"></a><span class="co"># this fails</span></span>
-<span id="cb48-4"><a href="html.html#cb48-4" aria-hidden="true" tabindex="-1"></a>tbls <span class="ot">&lt;-</span> <span class="fu">readHTMLTable</span>(wiki)</span></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="html.html#cb48-1" tabindex="-1"></a>wiki <span class="ot">&lt;-</span> <span class="st">&#39;https://en.wikipedia.org/wiki/Men%27s_long_jump_world_record_progression&#39;</span></span>
+<span id="cb48-2"><a href="html.html#cb48-2" tabindex="-1"></a></span>
+<span id="cb48-3"><a href="html.html#cb48-3" tabindex="-1"></a><span class="co"># this fails</span></span>
+<span id="cb48-4"><a href="html.html#cb48-4" tabindex="-1"></a>tbls <span class="ot">&lt;-</span> <span class="fu">readHTMLTable</span>(wiki)</span></code></pre></div>
 <p>One option to read the html tables and extract them as R data frames, is to
 first download the html file to your computer, and then use <code>readHTMLTable()</code>
 to scrape the tables:</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="html.html#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># desired url</span></span>
-<span id="cb49-2"><a href="html.html#cb49-2" aria-hidden="true" tabindex="-1"></a>wiki <span class="ot">&lt;-</span> <span class="st">&#39;https://en.wikipedia.org/wiki/Men%27s_long_jump_world_record_progression&#39;</span></span>
-<span id="cb49-3"><a href="html.html#cb49-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb49-4"><a href="html.html#cb49-4" aria-hidden="true" tabindex="-1"></a><span class="co"># destination file</span></span>
-<span id="cb49-5"><a href="html.html#cb49-5" aria-hidden="true" tabindex="-1"></a>jump_html <span class="ot">&lt;-</span> <span class="st">&#39;men-long-jump-records.html&#39;</span></span>
-<span id="cb49-6"><a href="html.html#cb49-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb49-7"><a href="html.html#cb49-7" aria-hidden="true" tabindex="-1"></a><span class="co"># download file to your working directory</span></span>
-<span id="cb49-8"><a href="html.html#cb49-8" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(wiki, jump_html)</span>
-<span id="cb49-9"><a href="html.html#cb49-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb49-10"><a href="html.html#cb49-10" aria-hidden="true" tabindex="-1"></a>tbls <span class="ot">&lt;-</span> <span class="fu">readHTMLTable</span>(jump_html)</span></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="html.html#cb49-1" tabindex="-1"></a><span class="co"># desired url</span></span>
+<span id="cb49-2"><a href="html.html#cb49-2" tabindex="-1"></a>wiki <span class="ot">&lt;-</span> <span class="st">&#39;https://en.wikipedia.org/wiki/Men%27s_long_jump_world_record_progression&#39;</span></span>
+<span id="cb49-3"><a href="html.html#cb49-3" tabindex="-1"></a></span>
+<span id="cb49-4"><a href="html.html#cb49-4" tabindex="-1"></a><span class="co"># destination file</span></span>
+<span id="cb49-5"><a href="html.html#cb49-5" tabindex="-1"></a>jump_html <span class="ot">&lt;-</span> <span class="st">&#39;men-long-jump-records.html&#39;</span></span>
+<span id="cb49-6"><a href="html.html#cb49-6" tabindex="-1"></a></span>
+<span id="cb49-7"><a href="html.html#cb49-7" tabindex="-1"></a><span class="co"># download file to your working directory</span></span>
+<span id="cb49-8"><a href="html.html#cb49-8" tabindex="-1"></a><span class="fu">download.file</span>(wiki, jump_html)</span>
+<span id="cb49-9"><a href="html.html#cb49-9" tabindex="-1"></a></span>
+<span id="cb49-10"><a href="html.html#cb49-10" tabindex="-1"></a>tbls <span class="ot">&lt;-</span> <span class="fu">readHTMLTable</span>(jump_html)</span></code></pre></div>
 <p>We recommend using this option when:</p>
 <ul>
 <li>the data fits in your computer, in this way you also have the <em>raw data</em></li>

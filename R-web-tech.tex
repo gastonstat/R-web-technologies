@@ -5,16 +5,19 @@
 \documentclass[
 ]{book}
 \usepackage{amsmath,amssymb}
-\usepackage{lmodern}
 \usepackage{iftex}
 \ifPDFTeX
   \usepackage[T1]{fontenc}
   \usepackage[utf8]{inputenc}
   \usepackage{textcomp} % provide euro and other symbols
 \else % if luatex or xetex
-  \usepackage{unicode-math}
+  \usepackage{unicode-math} % this also loads fontspec
   \defaultfontfeatures{Scale=MatchLowercase}
   \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
 \fi
 % Use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
@@ -44,13 +47,13 @@
 \newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
 \newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
 \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
 \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
 \newcommand{\BuiltInTok}[1]{#1}
 \newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
 \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
 \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
 \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
 \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
 \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
@@ -58,7 +61,7 @@
 \newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
 \newcommand{\ExtensionTok}[1]{#1}
 \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
-\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
 \newcommand{\ImportTok}[1]{#1}
 \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
 \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
@@ -67,7 +70,7 @@
 \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
 \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
 \newcommand{\RegionMarkerTok}[1]{#1}
-\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
 \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
 \newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
 \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
@@ -108,7 +111,7 @@
 \bibliographystyle{plainnat}
 \IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
-\urlstyle{same} % disable monospaced font for URLs
+\urlstyle{same}
 \hypersetup{
   pdftitle={Web Technologies in R},
   pdfauthor={Gaston Sanchez},
@@ -563,7 +566,7 @@ provides a response back to the client.
 When you visit a URL in your web browser, say R's project website
 (\texttt{https://www.r-project.org}), an HTTP request is made and the response is
 rendered by the browser as the website you see. Although we don't see the
-``dialogue'' between client and server, tt is possible to inspect this
+``dialogue'' between client and server, it is possible to inspect this
 interaction using the development tools in a browser such as Chrome's DevTools
 (like the screenshot above).
 
@@ -704,14 +707,16 @@ Here's a table with HTTP methods, and their descriptions
 \begin{longtable}[]{@{}
   >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.4583}}
   >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5417}}@{}}
-\toprule()
+\toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
 Method
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 Description
 \end{minipage} \\
-\midrule()
+\midrule\noalign{}
 \endhead
+\bottomrule\noalign{}
+\endlastfoot
 \texttt{GET} & retrieves whatever information is identified by the Request-URI \\
 \texttt{POST} & request with data enclosed in the request body \\
 \texttt{HEAD} & identical to GET except that the server MUST NOT return a message-body in the response \\
@@ -719,7 +724,6 @@ Description
 \texttt{DELETE} & requests that the origin server delete the resource identified by the Request-URI \\
 \texttt{TRACE} & invokes a remote, application-layer loop-back of the request message \\
 \texttt{CONNECT} & for use with a proxy that can dynamically switch to being a tunnel \\
-\bottomrule()
 \end{longtable}
 
 So far we've seen that:
@@ -1066,7 +1070,7 @@ The following table lists some of the common additional XML elements:
   >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2656}}
   >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.4219}}
   >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3125}}@{}}
-\toprule()
+\toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
 Markup
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
@@ -1074,14 +1078,15 @@ Name
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 Description
 \end{minipage} \\
-\midrule()
+\midrule\noalign{}
 \endhead
+\bottomrule\noalign{}
+\endlastfoot
 \texttt{\textless{}?xml\ \textgreater{}} & XML Declaration & Identifies content as an XML document \\
 \texttt{\textless{}?PI\ \textgreater{}} & Processing Instruction & Processing instructions passed to application PI \\
 \texttt{\textless{}!DOCTYPE\ \textgreater{}} & Document-type Declaration & Defines the structure of an XML document \\
 \texttt{\textless{}!{[}CDATA{[}\ {]}{]}\textgreater{}} & CDATA Character Data & Anything inside a CDATA is ignored by the parser \\
 \texttt{\textless{}!-\/-\ \ -\/-\textgreater{}} & Comment & For writing comments \\
-\bottomrule()
 \end{longtable}
 
 \hypertarget{another-example}{%
@@ -1363,10 +1368,12 @@ Here's a table with the main navigation functions. Keep in mind that the
 applicability of the functions depends on the class of objects we are working on.
 
 \begin{longtable}[]{@{}ll@{}}
-\toprule()
+\toprule\noalign{}
 Function & Description \\
-\midrule()
+\midrule\noalign{}
 \endhead
+\bottomrule\noalign{}
+\endlastfoot
 \texttt{xml\_root()} & Returns root node \\
 \texttt{xml\_children()} & Returns children nodes \\
 \texttt{xml\_child()} & Returns specified children number \\
@@ -1376,7 +1383,6 @@ Function & Description \\
 \texttt{xml\_length()} & Returns number of children nodes \\
 \texttt{xml\_parents()} & Returns set of parent nodes \\
 \texttt{xml\_siblings()} & Returns set of sibling nodes \\
-\bottomrule()
 \end{longtable}
 
 \hypertarget{navigation-of-xml-html-tree}{%
@@ -1798,10 +1804,12 @@ element
 The main symbols to define path expressions are:
 
 \begin{longtable}[]{@{}ll@{}}
-\toprule()
+\toprule\noalign{}
 Symbol & Description \\
-\midrule()
+\midrule\noalign{}
 \endhead
+\bottomrule\noalign{}
+\endlastfoot
 \texttt{/} & selects from the root node \\
 \texttt{//} & selects nodes anywhere \\
 \texttt{.} & selects the current node \\
@@ -1810,7 +1818,6 @@ Symbol & Description \\
 \texttt{{[}{]}} & square brackets to indicate attributes \\
 \texttt{*} & matches any element node \\
 \texttt{@*} & matches any attribute node \\
-\bottomrule()
 \end{longtable}
 
 For instance:
@@ -1818,14 +1825,16 @@ For instance:
 \begin{longtable}[]{@{}
   >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.3492}}
   >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.6508}}@{}}
-\toprule()
+\toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
 Example
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 Description
 \end{minipage} \\
-\midrule()
+\midrule\noalign{}
 \endhead
+\bottomrule\noalign{}
+\endlastfoot
 \texttt{/node} & selects top level node \\
 \texttt{//node} & selects nodes at any level \\
 \texttt{node{[}@attr{]}} & node that has an attribute named \texttt{attr} \\
@@ -1833,7 +1842,6 @@ Description
 \texttt{node/@attr} & value of an attribute \texttt{attr} in node with such attribute \\
 \texttt{node/*} & any (child) element in node \\
 \texttt{node/@*} & value of any attribute in node \\
-\bottomrule()
 \end{longtable}
 
 \hypertarget{xpath-examples}{%
@@ -2605,10 +2613,12 @@ Here's another example of nested containers:
 Let's consider a less basic example with some tabular data set:
 
 \begin{longtable}[]{@{}lllll@{}}
-\toprule()
+\toprule\noalign{}
 Name & Gender & Homeland & Born & Jedi \\
-\midrule()
+\midrule\noalign{}
 \endhead
+\bottomrule\noalign{}
+\endlastfoot
 Anakin & male & Tatooine & 41.9BBY & yes \\
 Amidala & female & Naboo & 46BBY & no \\
 Luke & male & Tatooine & 19BBY & yes \\
@@ -2617,7 +2627,6 @@ Obi-Wan & male & Stewjon & 57BBY & yes \\
 Han & male & Corellia & 29BBY & no \\
 Palpatine & male & Naboo & 82BBY & no \\
 R2-D2 & unknown & Naboo & 33BBY & no \\
-\bottomrule()
 \end{longtable}
 
 How can we store this tabular data in JSON format? There are several ways to
@@ -3147,7 +3156,8 @@ You will need the following packages
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{library}\NormalTok{(httr)}
+\FunctionTok{library}\NormalTok{(httr2)}
+\FunctionTok{library}\NormalTok{(xml2)}
 \FunctionTok{library}\NormalTok{(jsonlite)}
 \end{Highlighting}
 \end{Shaded}
@@ -3174,12 +3184,12 @@ share data has become a standard thing to have.
 \hypertarget{a-little-bit-about-apis}{%
 \section{A little bit about APIs}\label{a-little-bit-about-apis}}
 
-API stands for Application Programming Interface. If this sounds too fancy or
-cryptic for you, then simply think of it as a ``Data Sharing Interface''.
+API stands for \textbf{Application Programming Interface}. If this sounds too fancy
+or cryptic for you, then simply think of it as a ``Data Sharing Interface''.
 
 Instead of having to download a data file, an API allows programmers to request
-data directly from a website. An API is a set of rules, protocols, and tools
-for building software and applications.
+data directly from a website. From a technical point of view, an API is a set
+of rules, protocols, and tools for building software and applications.
 
 \hypertarget{what-is-an-api}{%
 \subsubsection*{What is an API?}\label{what-is-an-api}}
@@ -3215,38 +3225,38 @@ and frustration.
 \hypertarget{using-r-as-an-http-client}{%
 \section{Using R as an HTTP Client}\label{using-r-as-an-http-client}}
 
-R has a few HTTP client packages: \texttt{"crul"}, \texttt{"curl"}, \texttt{"httr"}, and \texttt{"RCurl"};
+R has a few HTTP client packages: \texttt{"crul"}, \texttt{"curl"}, \texttt{"httr2"}, and \texttt{"RCurl"};
 you can think of them as ``high-level R HTTP clients'' which basically let you
-use R (and our computer) as an \textbf{HTTP client}.
+use R (and your computer) as an \textbf{HTTP client}.
 
-We will describe how to use functions from \texttt{"httr"}.
+We will describe how to use functions from \texttt{"httr2"} (pronounced \emph{hitter2}).
 
 \hypertarget{interacting-with-aps-via-r}{%
 \section{Interacting with AP's via R}\label{interacting-with-aps-via-r}}
 
-In R, we can use the \texttt{"httr"} library to make http requests and handle the
+In R, we can use the \texttt{"httr2"} package to make http requests and handle the
 responses.
 
 Let's start with baby steps using the website \url{https://api.adviceslip.com/}
-which provides an API to get advice from the internet.
+which provides an API to get a free piece of advice from the internet.
 
 The first thing you need to do is to look at the web page to familiarize
 yourself with the functionalities it provides.
 
 \begin{figure}
 
-{\centering \includegraphics[width=0.7\linewidth]{images/api/advice-slip} 
+{\centering \includegraphics[width=0.75\linewidth]{images/api/advice-slip} 
 
 }
 
 \caption{Advice Slip JSON API}\label{fig:unnamed-chunk-113}
 \end{figure}
 
-The url \texttt{https://api.adviceslip.com/random} will give you a random advice:
+The url \texttt{https://api.adviceslip.com/advice} will give you a random advice:
 
 \begin{figure}
 
-{\centering \includegraphics[width=0.7\linewidth]{images/api/advice-slip-happiness} 
+{\centering \includegraphics[width=0.75\linewidth]{images/api/advice-slip-happiness} 
 
 }
 
@@ -3256,150 +3266,284 @@ The url \texttt{https://api.adviceslip.com/random} will give you a random advice
 \hypertarget{making-request-from-r}{%
 \subsection{Making request from R}\label{making-request-from-r}}
 
-Notice that the format of the response is provided in JSON.
+Notice that the format of the response is provided in JSON. In the above
+example, the advice is given as:
 
-For instance, getting a random advice is quite simple, all you need is to make
-a \texttt{GET} request. The associated function in \texttt{"httr"} is \texttt{GET()} which makes a
-request to the URL \texttt{https://api.adviceslip.com/advice}
+\begin{verbatim}
+{"slip": {"id": 9, "advice": "True happiness always resides in the quest."}}
+\end{verbatim}
+
+which we can mentally rearrange as:
+
+\begin{verbatim}
+{
+  "slip": {
+    "id": 9, 
+    "advice": "True happiness always resides in the quest."
+  }
+}
+\end{verbatim}
+
+Getting a random advice is quite simple, all you need is to make an HTTP
+request using the url \texttt{https://api.adviceslip.com/advice}.
+
+Interestingly, we can make such request from R, using it as a server. This
+requires employing some functions from \texttt{"httr2"}.
+
+In \texttt{"httr2"}, you start by creating a \textbf{request}. How? You use the \texttt{request()}
+function which creates a request object. To be clear, \texttt{request()} does not
+submit the request, it only creates the object, which you can use to build up a
+complex request piece by piece, and works well with the pipe operators \texttt{\textbar{}\textgreater{}}
+or \texttt{\%\textgreater{}\%}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# getting a random advice}
-\NormalTok{request\_url }\OtherTok{\textless{}{-}} \StringTok{"https://api.adviceslip.com/advice"}
-
-\NormalTok{request\_get }\OtherTok{\textless{}{-}} \FunctionTok{GET}\NormalTok{(request\_url)}
-\NormalTok{request\_get}
+\CommentTok{\# start a request object}
+\NormalTok{advice\_url }\OtherTok{=} \StringTok{"https://api.adviceslip.com"}
+\NormalTok{req }\OtherTok{=} \FunctionTok{request}\NormalTok{(advice\_url)}
+\NormalTok{req}
+\CommentTok{\#\textgreater{} \textless{}httr2\_request\textgreater{}}
+\CommentTok{\#\textgreater{} GET https://api.adviceslip.com}
+\CommentTok{\#\textgreater{} Body: empty}
 \end{Highlighting}
 \end{Shaded}
 
-\begin{verbatim}
-Response [https://api.adviceslip.com/advice]
-  Date: 2020-10-16 02:08
-  Status: 200
-  Content-Type: text/html; charset=UTF-8
-  Size: 77 B
-\end{verbatim}
-
-The object \texttt{request\_get} is an object of class \texttt{"response"}, which is basically
-an R list that contains 10 elements:
+To see what this request will send to the server we perform a dry run:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{names}\NormalTok{(request\_get)}
+\NormalTok{req }\SpecialCharTok{|\textgreater{}} \FunctionTok{req\_dry\_run}\NormalTok{()}
+\CommentTok{\#\textgreater{} GET / HTTP/1.1}
+\CommentTok{\#\textgreater{} Host: api.adviceslip.com}
+\CommentTok{\#\textgreater{} User{-}Agent: httr2/1.0.0 r{-}curl/5.1.0 libcurl/7.79.1}
+\CommentTok{\#\textgreater{} Accept: */*}
+\CommentTok{\#\textgreater{} Accept{-}Encoding: deflate, gzip}
 \end{Highlighting}
 \end{Shaded}
 
-\begin{verbatim}
- [1] "url"         "status_code" "headers"     "all_headers" "cookies"    
- [6] "content"     "date"        "times"       "request"     "handle"
-\end{verbatim}
+What's going on with the first line \texttt{GET\ /\ HTTP/1.1}?
 
-As you can tell, one of the elements in \texttt{request\_get} is \texttt{"content"}. If you
-try the \texttt{\$} operator to extract this element and print it, you will get
-something like this:
+\begin{itemize}
+\item
+  The first term, \texttt{GET}, refers to the HTTP \textbf{method}, which is a
+  verb that tells the server what you want to do. In this case is \texttt{GET}, the most
+  common verb, indicating that we want to get a resource. Other verbs include
+  \texttt{POST}, to create a new resource; \texttt{PUT}, to replace an existing resource; and
+  \texttt{DELETE}, to delete a resource.
+\item
+  The second part, \texttt{/}, is the \textbf{path} which is the URL stripped of details
+  that the server already knows, i.e.~the protocol (http or https), and the host
+  (localhost).
+\item
+  The third element, \texttt{HTTP/1.1}, is the version of the HTTP protocol. This is
+  unimportant for our purposes because it's handled at a lower level.
+\end{itemize}
+
+In order to make a request with \texttt{"httr2"}, we need to complete the full path
+of the URL. In the above example, this is done with \texttt{req\_url\_path\_append()}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{request\_get}\SpecialCharTok{$}\NormalTok{content}
+\CommentTok{\# then we complete the full path}
+\NormalTok{req }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{req\_url\_path\_append}\NormalTok{(}\StringTok{"advice"}\NormalTok{) }
+\CommentTok{\#\textgreater{} \textless{}httr2\_request\textgreater{}}
+\CommentTok{\#\textgreater{} GET https://api.adviceslip.com/advice}
+\CommentTok{\#\textgreater{} Body: empty}
 \end{Highlighting}
 \end{Shaded}
 
-\begin{verbatim}
- [1] 7b 22 73 6c 69 70 22 3a 20 7b 20 22 69 64 22 3a 20 39 36 2c 20 22 61 64 76
-[26] 69 63 65 22 3a 20 22 44 6f 6e 27 74 20 67 69 76 65 20 74 6f 20 6f 74 68 65
-[51] 72 73 20 61 64 76 69 63 65 20 77 68 69 63 68 20 79 6f 75 20 77 6f 75 6c 64
-[76] 6e 27 74 20 66 6f 6c 6c 6f 77 2e 22 7d 7d
-\end{verbatim}
+\hypertarget{performing-a-request}{%
+\subsection{Performing a Request}\label{performing-a-request}}
 
-which is not very helpful.
-
-Instead of directly extracting the \texttt{"content"} element, it is recommended to
-use the extractor function \texttt{content()} which will return the content in the
-form of an \texttt{"html\_document"} object:
+Once we have the desired request object, then we can submit it or \textbf{perform}
+such request with \texttt{req\_perform()}:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{content}\NormalTok{(request\_get)}
+\CommentTok{\# then add on the query path}
+\NormalTok{resp }\OtherTok{=}\NormalTok{ req }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{req\_url\_path\_append}\NormalTok{(}\StringTok{"advice"}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{req\_perform}\NormalTok{()}
+
+\NormalTok{resp}
+\CommentTok{\#\textgreater{} \textless{}httr2\_response\textgreater{}}
+\CommentTok{\#\textgreater{} GET https://api.adviceslip.com/advice}
+\CommentTok{\#\textgreater{} Status: 200 OK}
+\CommentTok{\#\textgreater{} Content{-}Type: text/html}
+\CommentTok{\#\textgreater{} Body: In memory (77 bytes)}
 \end{Highlighting}
 \end{Shaded}
 
-\begin{verbatim}
-{html_document}
-<html>
-[1] <body><p>{"slip": { "id": 96, "advice": "Don't give to others advice which  ...
-\end{verbatim}
+As you can tell, the response has a success status (\texttt{200\ OK}), and the fetched
+content is text in html format.
 
-The above output is not the most friendly one. However, we can use the argument
-\texttt{as\ =\ "text"} to change the output into a character vector:
+The object \texttt{resp} is an object of class \texttt{"httr2\_response"}, which is basically
+an R list that contains 7 elements:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{request\_content }\OtherTok{\textless{}{-}} \FunctionTok{content}\NormalTok{(request\_get, }\AttributeTok{as =} \StringTok{"text"}\NormalTok{)}
-\NormalTok{request\_content}
+\FunctionTok{names}\NormalTok{(resp)}
+\CommentTok{\#\textgreater{} [1] "method"      "url"         "status\_code" "headers"     "body"       }
+\CommentTok{\#\textgreater{} [6] "request"     "cache" }
 \end{Highlighting}
 \end{Shaded}
 
-\begin{verbatim}
-[1] "{\"slip\": { \"id\": 96, \"advice\": \"Don't give to others advice which you wouldn't follow.\"}}"
-\end{verbatim}
-
-It turns out that this content is in JSON format. Therefore, we need to use
-a converting function \texttt{fromJSON()}
+As you can tell, one of the elements in \texttt{resp} is \texttt{"body"}. If we take a look
+at the body we get an interesting---but unhelpful---output:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{fromJSON}\NormalTok{(request\_content)}
+\NormalTok{resp}\SpecialCharTok{$}\NormalTok{body}
+\CommentTok{\#\textgreater{}  [1] 7b 22 73 6c 69 70 22 3a 20 7b 20 22 69 64 22 3a 20 39 2c 20 22 61 64 76}
+\CommentTok{\#\textgreater{} [25] 69 63 65 22 3a 20 22 54 72 75 65 20 68 61 70 70 69 6e 65 73 73 20 61 6c}
+\CommentTok{\#\textgreater{} [49] 77 61 79 73 20 72 65 73 69 64 65 73 20 69 6e 20 74 68 65 20 71 75 65 73}
+\CommentTok{\#\textgreater{} [73] 74 2e 22 7d 7d}
 \end{Highlighting}
 \end{Shaded}
 
-\begin{verbatim}
-$slip
-$slip$id
-[1] 96
-
-$slip$advice
-[1] "Don't give to others advice which you wouldn't follow."
-\end{verbatim}
-
-All of the above steps can be compactly integrated into a single block of code
-using the piper opeartor \texttt{\%\textgreater{}\%} as follows:
+What kind of object is \texttt{resp\$body}? Inspecting its \texttt{class()}, it turns out
+that this is an object of class \texttt{"raw"} or \emph{raw vector}, which is a vector
+that holds raw bytes in R.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# getting a random advice}
-\NormalTok{request\_url }\OtherTok{\textless{}{-}} \StringTok{"https://api.adviceslip.com/advice"}
-
-\NormalTok{random\_advice }\OtherTok{\textless{}{-}}\NormalTok{ request\_url }\SpecialCharTok{\%\textgreater{}\%}
-  \FunctionTok{GET}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}
-  \FunctionTok{content}\NormalTok{(}\AttributeTok{as =} \StringTok{"text"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
-  \FunctionTok{fromJSON}\NormalTok{()}
-
-\FunctionTok{names}\NormalTok{(random\_advice)}
-
-\NormalTok{random\_advice}\SpecialCharTok{$}\NormalTok{slip}
+\FunctionTok{class}\NormalTok{(resp}\SpecialCharTok{$}\NormalTok{body)}
+\CommentTok{\#\textgreater{} [1] "raw"}
 \end{Highlighting}
 \end{Shaded}
 
-\begin{verbatim}
-[1] "slip"
-$id
-[1] 23
+Technically speaking, a raw vector is printed with each byte separately
+represented as a pair of hex digits. If you want to see a character
+representation (with escape sequences for non-printing characters) use
+\texttt{rawToChar()}.
 
-$advice
-[1] "Your smile could make someone's day, don't forget to wear it."
-\end{verbatim}
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{body\_json }\OtherTok{=} \FunctionTok{rawToChar}\NormalTok{(resp}\SpecialCharTok{$}\NormalTok{body)}
+
+\NormalTok{body\_json}
+\CommentTok{\#\textgreater{} [1] "\{\textbackslash{}"slip\textbackslash{}": \{ \textbackslash{}"id\textbackslash{}": 9, \textbackslash{}"advice\textbackslash{}": \textbackslash{}"True happiness always resides in the quest.\textbackslash{}"\}\}"}
+\end{Highlighting}
+\end{Shaded}
+
+Converting the raw vector into text, we obtain the response body \texttt{body\_json}
+which is text in JSON format. Then, to parse this JSON text, we use \texttt{fromJSON()}
+which returns an R list:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{slip\_advice }\OtherTok{=} \FunctionTok{fromJSON}\NormalTok{(body\_json)}
+
+\NormalTok{slip\_advice}
+\CommentTok{\#\textgreater{} $slip}
+\CommentTok{\#\textgreater{} $slip$id}
+\CommentTok{\#\textgreater{} [1] 9}
+
+\CommentTok{\#\textgreater{} $slip$advice}
+\CommentTok{\#\textgreater{} [1] "True happiness always resides in the quest."}
+\end{Highlighting}
+\end{Shaded}
+
+And finally, we extract the piece of advice as follows:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{slip\_advice}\SpecialCharTok{$}\NormalTok{slip}\SpecialCharTok{$}\NormalTok{advice}
+\CommentTok{\#\textgreater{} [1] "True happiness always resides in the quest."}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{extracting-response-as-string}{%
+\subsection{Extracting response as string}\label{extracting-response-as-string}}
+
+Let me show you another more straightforward way to extract the content of the
+response body by using one the \texttt{resp\_body\_()} functions, in particular the
+\texttt{resp\_body\_string()} function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{resp }\SpecialCharTok{|\textgreater{}} \FunctionTok{resp\_body\_string}\NormalTok{()}
+\CommentTok{\#\textgreater{} [1] "\{\textbackslash{}"slip\textbackslash{}": \{ \textbackslash{}"id\textbackslash{}": 9, \textbackslash{}"advice\textbackslash{}": \textbackslash{}"True happiness always resides in the quest.\textbackslash{}"\}\}"}
+\end{Highlighting}
+\end{Shaded}
+
+Notice that we obtain the same JSON text, which we can parse with \texttt{fromJSON()}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{resp }\SpecialCharTok{|\textgreater{}} \FunctionTok{resp\_body\_string}\NormalTok{() }\SpecialCharTok{|\textgreater{}} \FunctionTok{fromJSON}\NormalTok{()}
+\CommentTok{\#\textgreater{} $slip}
+\CommentTok{\#\textgreater{} $slip$id}
+\CommentTok{\#\textgreater{} [1] 9}
+
+\CommentTok{\#\textgreater{} $slip$advice}
+\CommentTok{\#\textgreater{} [1] "True happiness always resides in the quest."}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{extracting-response-as-html}{%
+\subsection{Extracting response as HTML}\label{extracting-response-as-html}}
+
+A third equivalent method to extract the response body is with the function
+\texttt{resp\_body\_html()}. The reason shy we can do that in this case has to do with
+the fact that the content of the response is in HTML format:
+\texttt{Content-Type:\ text/html}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# the result comes back as html}
+\CommentTok{\# Let\textquotesingle{}s extract body from response}
+\NormalTok{doc\_html }\OtherTok{=}\NormalTok{ resp }\SpecialCharTok{|\textgreater{}} \FunctionTok{resp\_body\_html}\NormalTok{()}
+
+\NormalTok{doc\_html}
+\CommentTok{\#\textgreater{} \{html\_document\}}
+\CommentTok{\#\textgreater{} \textless{}html\textgreater{}}
+\CommentTok{\#\textgreater{} [1] \textless{}body\textgreater{}\textless{}p\textgreater{}\{"slip": \{ "id": 9, "advice": "True happiness always resides ...}
+\end{Highlighting}
+\end{Shaded}
+
+Since the output is an \texttt{html\_document}, we first need to extract the text of
+the \texttt{\textless{}p\textgreater{}} element. One option to achieve this is some xpath expression:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{txt\_json }\OtherTok{=}\NormalTok{ doc\_html }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{xml\_find\_all}\NormalTok{(}\AttributeTok{xpath =} \StringTok{"//p"}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{xml\_text}\NormalTok{()}
+
+\NormalTok{txt\_json}
+\CommentTok{\#\textgreater{} [1] "\{\textbackslash{}"slip\textbackslash{}": \{ \textbackslash{}"id\textbackslash{}": 9, \textbackslash{}"advice\textbackslash{}": \textbackslash{}"True happiness always resides in the quest.\textbackslash{}"\}\}"}
+\end{Highlighting}
+\end{Shaded}
+
+This still requires some JSON manipulation:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{slip\_advice }\OtherTok{=} \FunctionTok{fromJSON}\NormalTok{(txt\_json)}
+\NormalTok{slip\_advice}
+\CommentTok{\#\textgreater{} $slip}
+\CommentTok{\#\textgreater{} $slip$id}
+\CommentTok{\#\textgreater{} [1] 9}
+
+\CommentTok{\#\textgreater{} $slip$advice}
+\CommentTok{\#\textgreater{} [1] "True happiness always resides in the quest."}
+\end{Highlighting}
+\end{Shaded}
 
 \hypertarget{example-search-with-advice-id}{%
-\subsubsection*{Example: Search with Advice ID}\label{example-search-with-advice-id}}
-\addcontentsline{toc}{subsubsection}{Example: Search with Advice ID}
+\section{Example: Search with Advice ID}\label{example-search-with-advice-id}}
+
+The Advice Slip API also allows you to request an advice based on its ID.
 
 \begin{figure}
 
-{\centering \includegraphics[width=0.7\linewidth]{images/api/advice-slip-by-id} 
+{\centering \includegraphics[width=0.75\linewidth]{images/api/advice-slip-by-id} 
 
 }
 
-\caption{Random advices by id}\label{fig:unnamed-chunk-122}
+\caption{Random advices by id}\label{fig:unnamed-chunk-130}
 \end{figure}
 
 For example, the id = 5 results in the following advice:
@@ -3410,24 +3554,48 @@ For example, the id = 5 results in the following advice:
 
 }
 
-\caption{Random advice from Advice Slip}\label{fig:unnamed-chunk-123}
+\caption{Random advice from Advice Slip}\label{fig:unnamed-chunk-131}
 \end{figure}
+
+To make this request from R, we create the request object, and then perform
+such request
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# advice id=5}
-\NormalTok{advice\_id5 }\OtherTok{\textless{}{-}} \StringTok{"https://api.adviceslip.com/advice/5"} \SpecialCharTok{\%\textgreater{}\%}
-  \FunctionTok{GET}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}
-  \FunctionTok{content}\NormalTok{(}\AttributeTok{as =} \StringTok{"text"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
-  \FunctionTok{fromJSON}\NormalTok{()}
+\NormalTok{resp\_advice\_id5 }\OtherTok{\textless{}{-}}\NormalTok{ req }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{req\_url\_path\_append}\NormalTok{(}\StringTok{"advice/5"}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{req\_perform}\NormalTok{()}
+
+\NormalTok{resp\_advice\_id5}
+\CommentTok{\#\textgreater{} \textless{}httr2\_response\textgreater{}}
+\CommentTok{\#\textgreater{} GET https://api.adviceslip.com/advice/5}
+\CommentTok{\#\textgreater{} Status: 200 OK}
+\CommentTok{\#\textgreater{} Content{-}Type: text/html}
+\CommentTok{\#\textgreater{} Body: In memory (66 bytes)}
+\end{Highlighting}
+\end{Shaded}
+
+We can then extract the response body, for instance:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{advice\_id5 }\OtherTok{=}\NormalTok{ resp\_advice\_id5 }\SpecialCharTok{|\textgreater{}} \FunctionTok{resp\_body\_string}\NormalTok{() }\SpecialCharTok{|\textgreater{}} \FunctionTok{fromJSON}\NormalTok{()}
+\NormalTok{advice\_id5}
+\CommentTok{\#\textgreater{} $slip}
+\CommentTok{\#\textgreater{} $slip$id}
+\CommentTok{\#\textgreater{} [1] 5}
+
+\CommentTok{\#\textgreater{} $slip$advice}
+\CommentTok{\#\textgreater{} [1] "If you have the chance, take it!"}
 \end{Highlighting}
 \end{Shaded}
 
 \hypertarget{example-search-query}{%
-\subsubsection*{Example: Search Query}\label{example-search-query}}
-\addcontentsline{toc}{subsubsection}{Example: Search Query}
+\section{Example: Search Query}\label{example-search-query}}
 
-You can search for an advice specifying a search query:
+Another kind of request that you can do with the Advice Slip API is to search
+for an advice specifying a search query:
 
 \begin{figure}
 
@@ -3435,8 +3603,11 @@ You can search for an advice specifying a search query:
 
 }
 
-\caption{Random advices with search query}\label{fig:unnamed-chunk-125}
+\caption{Random advices with search query}\label{fig:unnamed-chunk-134}
 \end{figure}
+
+For example, say we are interested in searching for advice that includes the
+word \textbf{chance}. The corresponding URL path will have the following form:
 
 \texttt{https://api.adviceslip.com/advice/search/chance}
 
@@ -3446,18 +3617,70 @@ You can search for an advice specifying a search query:
 
 }
 
-\caption{Random advices with search query 'chance'}\label{fig:unnamed-chunk-126}
+\caption{Random advices with search query 'chance'}\label{fig:unnamed-chunk-135}
 \end{figure}
 
-Let's search for the term \texttt{chance}
+Let's search for the term \texttt{chance}. For sake of illustration, let's build a
+request object by appending the path elements: \texttt{advice}, \texttt{search}, and \texttt{chance}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# advice query \textquotesingle{}chance\textquotesingle{}}
-\NormalTok{advice\_chance }\OtherTok{\textless{}{-}} \StringTok{"https://api.adviceslip.com/advice/search/chance"} \SpecialCharTok{\%\textgreater{}\%}
-  \FunctionTok{GET}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}
-  \FunctionTok{content}\NormalTok{(}\AttributeTok{as =} \StringTok{"text"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
-  \FunctionTok{fromJSON}\NormalTok{()}
+\CommentTok{\# advice id=5}
+\NormalTok{resp\_advice\_chance }\OtherTok{\textless{}{-}}\NormalTok{ req }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{req\_url\_path\_append}\NormalTok{(}\StringTok{"advice"}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{req\_url\_path\_append}\NormalTok{(}\StringTok{"search"}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{req\_url\_path\_append}\NormalTok{(}\StringTok{"chance"}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{req\_perform}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+The above command can be shorten as:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# advice id=5}
+\NormalTok{resp\_advice\_chance }\OtherTok{\textless{}{-}}\NormalTok{ req }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{req\_url\_path\_append}\NormalTok{(}\StringTok{"advice/search/chance"}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{req\_perform}\NormalTok{()}
+
+\NormalTok{resp\_advice\_chance}
+\CommentTok{\#\textgreater{} \textless{}httr2\_response\textgreater{}}
+\CommentTok{\#\textgreater{} GET https://api.adviceslip.com/advice/search/chance}
+\CommentTok{\#\textgreater{} Status: 200 OK}
+\CommentTok{\#\textgreater{} Content{-}Type: text/html}
+\CommentTok{\#\textgreater{} Body: In memory (402 bytes)}
+\end{Highlighting}
+\end{Shaded}
+
+Having performed the request, we fetch the data by extracting the body as a
+string (in JSON format), and then parsing with \texttt{fromJSON()}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{advice\_chance }\OtherTok{=}\NormalTok{ resp\_advice\_chance }\SpecialCharTok{|\textgreater{}} \FunctionTok{resp\_body\_string}\NormalTok{() }\SpecialCharTok{|\textgreater{}} \FunctionTok{fromJSON}\NormalTok{()}
+
+\FunctionTok{names}\NormalTok{(advice\_chance)}
+\CommentTok{\#\textgreater{} [1] "total\_results" "query"         "slips" }
+\end{Highlighting}
+\end{Shaded}
+
+The \texttt{"slips"} element contains a data frame with 3 advice recommendations:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{advice\_chance}\SpecialCharTok{$}\NormalTok{slips}
+\CommentTok{\#\textgreater{}    id}
+\CommentTok{\#\textgreater{} 1   5}
+\CommentTok{\#\textgreater{} 2 184}
+\CommentTok{\#\textgreater{} 3 185}
+\CommentTok{\#\textgreater{}                                                                                            advice}
+\CommentTok{\#\textgreater{} 1                                                                If you have the chance, take it!}
+\CommentTok{\#\textgreater{} 2 You can fail at what you don\textquotesingle{}t want. So you might as well take a chance on doing what you love.}
+\CommentTok{\#\textgreater{} 3 You can fail at what you don\textquotesingle{}t want. So you might as well take a chance on doing what you love.}
+\CommentTok{\#\textgreater{}         date}
+\CommentTok{\#\textgreater{} 1 2016{-}12{-}25}
+\CommentTok{\#\textgreater{} 2 2017{-}03{-}10}
+\CommentTok{\#\textgreater{} 3 2016{-}08{-}05}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3499,7 +3722,7 @@ PubMed's website provides a search engine to obtain bibliographic information:
 
 }
 
-\caption{Partial screenshot of PubMed's homepage}\label{fig:unnamed-chunk-130}
+\caption{Partial screenshot of PubMed's homepage}\label{fig:unnamed-chunk-143}
 \end{figure}
 
 The simplest use of PubMed's search engine is to provide a query, very similar
@@ -3516,7 +3739,7 @@ below).
 
 }
 
-\caption{PubMed search example}\label{fig:unnamed-chunk-131}
+\caption{PubMed search example}\label{fig:unnamed-chunk-144}
 \end{figure}
 
 As of this writing (Fall 2020), there are 359 results that match the query
@@ -3533,7 +3756,7 @@ were published in 2018 and 2019 (see screenshot below)
 
 }
 
-\caption{PubMed search example (cont'd)}\label{fig:unnamed-chunk-132}
+\caption{PubMed search example (cont'd)}\label{fig:unnamed-chunk-145}
 \end{figure}
 
 If the obtained results are what you were looking for, you also have the option
@@ -3551,7 +3774,7 @@ fields (screenshot below).
 
 }
 
-\caption{PubMed search example (cont'd)}\label{fig:unnamed-chunk-133}
+\caption{PubMed search example (cont'd)}\label{fig:unnamed-chunk-146}
 \end{figure}
 
 In the Advanced search mode, you can find a large list of fields that give you
@@ -3789,7 +4012,7 @@ along with a list of unique document PubMed IDs (PMIDs) for those records.
 
 }
 
-\caption{List of PubMed IDs in XML format}\label{fig:unnamed-chunk-134}
+\caption{List of PubMed IDs in XML format}\label{fig:unnamed-chunk-147}
 \end{figure}
 
 \hypertarget{example-retrieving-records-with-efetch}{%
@@ -3825,7 +4048,7 @@ https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&id=33073741,
 
 }
 
-\caption{Return type in text format for abstract of specified IDs}\label{fig:unnamed-chunk-135}
+\caption{Return type in text format for abstract of specified IDs}\label{fig:unnamed-chunk-148}
 \end{figure}
 
 \hypertarget{example-retrieving-summaries-with-esummary}{%
@@ -3860,7 +4083,7 @@ ID 33073741.
 
 }
 
-\caption{Summary in XML format for specified IDs}\label{fig:unnamed-chunk-136}
+\caption{Summary in XML format for specified IDs}\label{fig:unnamed-chunk-149}
 \end{figure}
 
 \hypertarget{searching-pubmed-from-within-r}{%
@@ -4022,7 +4245,10 @@ with \texttt{xml\_text()}:
 \begin{Highlighting}[]
 \NormalTok{title\_nodes }\OtherTok{\textless{}{-}} \FunctionTok{xml\_nodes}\NormalTok{(summaries\_xml, }\AttributeTok{xpath =} \StringTok{\textquotesingle{}//Item[@Name="Title"]\textquotesingle{}}\NormalTok{)}
 \CommentTok{\#\textgreater{} Warning: \textasciigrave{}xml\_nodes()\textasciigrave{} was deprecated in rvest 1.0.0.}
-\CommentTok{\#\textgreater{} Please use \textasciigrave{}html\_elements()\textasciigrave{} instead.}
+\CommentTok{\#\textgreater{} i Please use \textasciigrave{}html\_elements()\textasciigrave{} instead.}
+\CommentTok{\#\textgreater{} This warning is displayed once every 8 hours.}
+\CommentTok{\#\textgreater{} Call \textasciigrave{}lifecycle::last\_lifecycle\_warnings()\textasciigrave{} to see where this warning was}
+\CommentTok{\#\textgreater{} generated.}
 \NormalTok{titles }\OtherTok{\textless{}{-}} \FunctionTok{xml\_text}\NormalTok{(title\_nodes)}
 \FunctionTok{head}\NormalTok{(titles)}
 \CommentTok{\#\textgreater{} [1] "Oral exposure to low{-}dose bisphenol A induces hyperplasia of dorsolateral prostate and upregulates EGFR expression in adult \textless{}i\textgreater{}Sprague{-}Dawley\textless{}/i\textgreater{} rats."                                   }

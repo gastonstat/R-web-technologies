@@ -247,7 +247,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10.4" data-path="apis.html"><a href="apis.html#interacting-with-aps-via-r"><i class="fa fa-check"></i><b>10.4</b> Interacting with AP’s via R</a>
 <ul>
 <li class="chapter" data-level="10.4.1" data-path="apis.html"><a href="apis.html#making-request-from-r"><i class="fa fa-check"></i><b>10.4.1</b> Making request from R</a></li>
+<li class="chapter" data-level="10.4.2" data-path="apis.html"><a href="apis.html#performing-a-request"><i class="fa fa-check"></i><b>10.4.2</b> Performing a Request</a></li>
+<li class="chapter" data-level="10.4.3" data-path="apis.html"><a href="apis.html#extracting-response-as-string"><i class="fa fa-check"></i><b>10.4.3</b> Extracting response as string</a></li>
+<li class="chapter" data-level="10.4.4" data-path="apis.html"><a href="apis.html#extracting-response-as-html"><i class="fa fa-check"></i><b>10.4.4</b> Extracting response as HTML</a></li>
 </ul></li>
+<li class="chapter" data-level="10.5" data-path="apis.html"><a href="apis.html#example-search-with-advice-id"><i class="fa fa-check"></i><b>10.5</b> Example: Search with Advice ID</a></li>
+<li class="chapter" data-level="10.6" data-path="apis.html"><a href="apis.html#example-search-query"><i class="fa fa-check"></i><b>10.6</b> Example: Search Query</a></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="api-pubmed.html"><a href="api-pubmed.html"><i class="fa fa-check"></i><b>11</b> PubMed API Example</a>
 <ul>
@@ -302,104 +307,104 @@ We’ll focus on the functions from <code>"jsonlite"</code>.</p>
 <h4>Example: single number to JSON-array<a href="jsonlite.html#example-single-number-to-json-array" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>Let’s begin with a super simple example by passing a single data value to the
 function <code>toJSON()</code>:</p>
-<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="jsonlite.html#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">toJSON</span>(pi, <span class="at">digits =</span> <span class="dv">4</span>)</span>
-<span id="cb59-2"><a href="jsonlite.html#cb59-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3.1416]</span></span></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="jsonlite.html#cb59-1" tabindex="-1"></a><span class="fu">toJSON</span>(pi, <span class="at">digits =</span> <span class="dv">4</span>)</span>
+<span id="cb59-2"><a href="jsonlite.html#cb59-2" tabindex="-1"></a><span class="co">#&gt; [3.1416]</span></span></code></pre></div>
 </div>
 <div id="example-vectors-to-json-arrays" class="section level4 unnumbered hasAnchor">
 <h4>Example: vectors to JSON-arrays<a href="jsonlite.html#example-vectors-to-json-arrays" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>Consider the following vectors</p>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="jsonlite.html#cb60-1" aria-hidden="true" tabindex="-1"></a>num <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>)</span>
-<span id="cb60-2"><a href="jsonlite.html#cb60-2" aria-hidden="true" tabindex="-1"></a>lts <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;a&#39;</span>, <span class="st">&#39;b&#39;</span>, <span class="st">&#39;c&#39;</span>, <span class="st">&#39;d&#39;</span>, <span class="st">&#39;e&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="jsonlite.html#cb60-1" tabindex="-1"></a>num <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>)</span>
+<span id="cb60-2"><a href="jsonlite.html#cb60-2" tabindex="-1"></a>lts <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;a&#39;</span>, <span class="st">&#39;b&#39;</span>, <span class="st">&#39;c&#39;</span>, <span class="st">&#39;d&#39;</span>, <span class="st">&#39;e&#39;</span>)</span></code></pre></div>
 <p>Applying <code>toJSON()</code> to the vectors <code>num</code> and <code>lts</code> produces JSON arrays:</p>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="jsonlite.html#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="fu">toJSON</span>(num)</span>
-<span id="cb61-2"><a href="jsonlite.html#cb61-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,2,3,4,5]</span></span>
-<span id="cb61-3"><a href="jsonlite.html#cb61-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb61-4"><a href="jsonlite.html#cb61-4" aria-hidden="true" tabindex="-1"></a><span class="fu">toJSON</span>(lts)</span>
-<span id="cb61-5"><a href="jsonlite.html#cb61-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [&quot;a&quot;,&quot;b&quot;,&quot;c&quot;,&quot;d&quot;,&quot;e&quot;]</span></span></code></pre></div>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="jsonlite.html#cb61-1" tabindex="-1"></a><span class="fu">toJSON</span>(num)</span>
+<span id="cb61-2"><a href="jsonlite.html#cb61-2" tabindex="-1"></a><span class="co">#&gt; [1,2,3,4,5]</span></span>
+<span id="cb61-3"><a href="jsonlite.html#cb61-3" tabindex="-1"></a></span>
+<span id="cb61-4"><a href="jsonlite.html#cb61-4" tabindex="-1"></a><span class="fu">toJSON</span>(lts)</span>
+<span id="cb61-5"><a href="jsonlite.html#cb61-5" tabindex="-1"></a><span class="co">#&gt; [&quot;a&quot;,&quot;b&quot;,&quot;c&quot;,&quot;d&quot;,&quot;e&quot;]</span></span></code></pre></div>
 <p>The argument <code>pretty = TRUE</code> allows you to obtain a JSON string with added
 indentation whitespace:</p>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="jsonlite.html#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">toJSON</span>(num, <span class="at">pretty =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb62-2"><a href="jsonlite.html#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1, 2, 3, 4, 5]</span></span>
-<span id="cb62-3"><a href="jsonlite.html#cb62-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-4"><a href="jsonlite.html#cb62-4" aria-hidden="true" tabindex="-1"></a><span class="fu">toJSON</span>(lts, <span class="at">pretty =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb62-5"><a href="jsonlite.html#cb62-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;, &quot;e&quot;]</span></span></code></pre></div>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="jsonlite.html#cb62-1" tabindex="-1"></a><span class="fu">toJSON</span>(num, <span class="at">pretty =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb62-2"><a href="jsonlite.html#cb62-2" tabindex="-1"></a><span class="co">#&gt; [1, 2, 3, 4, 5]</span></span>
+<span id="cb62-3"><a href="jsonlite.html#cb62-3" tabindex="-1"></a></span>
+<span id="cb62-4"><a href="jsonlite.html#cb62-4" tabindex="-1"></a><span class="fu">toJSON</span>(lts, <span class="at">pretty =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb62-5"><a href="jsonlite.html#cb62-5" tabindex="-1"></a><span class="co">#&gt; [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;, &quot;e&quot;]</span></span></code></pre></div>
 <p>What about an R vector with named elements? For example, here’s a vector <code>vec</code></p>
-<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="jsonlite.html#cb63-1" aria-hidden="true" tabindex="-1"></a>vec <span class="ot">&lt;-</span> num</span>
-<span id="cb63-2"><a href="jsonlite.html#cb63-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(vec) <span class="ot">&lt;-</span> lts</span>
-<span id="cb63-3"><a href="jsonlite.html#cb63-3" aria-hidden="true" tabindex="-1"></a>vec</span>
-<span id="cb63-4"><a href="jsonlite.html#cb63-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; a b c d e </span></span>
-<span id="cb63-5"><a href="jsonlite.html#cb63-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 2 3 4 5</span></span></code></pre></div>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="jsonlite.html#cb63-1" tabindex="-1"></a>vec <span class="ot">&lt;-</span> num</span>
+<span id="cb63-2"><a href="jsonlite.html#cb63-2" tabindex="-1"></a><span class="fu">names</span>(vec) <span class="ot">&lt;-</span> lts</span>
+<span id="cb63-3"><a href="jsonlite.html#cb63-3" tabindex="-1"></a>vec</span>
+<span id="cb63-4"><a href="jsonlite.html#cb63-4" tabindex="-1"></a><span class="co">#&gt; a b c d e </span></span>
+<span id="cb63-5"><a href="jsonlite.html#cb63-5" tabindex="-1"></a><span class="co">#&gt; 1 2 3 4 5</span></span></code></pre></div>
 <p>Converting <code>vec</code> to JSON, we get:</p>
-<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="jsonlite.html#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">toJSON</span>(vec)</span>
-<span id="cb64-2"><a href="jsonlite.html#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,2,3,4,5]</span></span></code></pre></div>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="jsonlite.html#cb64-1" tabindex="-1"></a><span class="fu">toJSON</span>(vec)</span>
+<span id="cb64-2"><a href="jsonlite.html#cb64-2" tabindex="-1"></a><span class="co">#&gt; [1,2,3,4,5]</span></span></code></pre></div>
 <p>As you can tell, the names of the elements in <code>vec</code> are lost in translation.</p>
 </div>
 <div id="example-matrix-to-json-array" class="section level4 unnumbered hasAnchor">
 <h4>Example: matrix to JSON-array<a href="jsonlite.html#example-matrix-to-json-array" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>Here’s another example from an matrix to a JSON array:</p>
-<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="jsonlite.html#cb65-1" aria-hidden="true" tabindex="-1"></a>mat <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">9</span><span class="sc">:</span><span class="dv">1</span>, <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">ncol =</span> <span class="dv">3</span>)</span>
-<span id="cb65-2"><a href="jsonlite.html#cb65-2" aria-hidden="true" tabindex="-1"></a>mat</span>
-<span id="cb65-3"><a href="jsonlite.html#cb65-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3]</span></span>
-<span id="cb65-4"><a href="jsonlite.html#cb65-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,]    9    6    3</span></span>
-<span id="cb65-5"><a href="jsonlite.html#cb65-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2,]    8    5    2</span></span>
-<span id="cb65-6"><a href="jsonlite.html#cb65-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3,]    7    4    1</span></span></code></pre></div>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="jsonlite.html#cb65-1" tabindex="-1"></a>mat <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">9</span><span class="sc">:</span><span class="dv">1</span>, <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">ncol =</span> <span class="dv">3</span>)</span>
+<span id="cb65-2"><a href="jsonlite.html#cb65-2" tabindex="-1"></a>mat</span>
+<span id="cb65-3"><a href="jsonlite.html#cb65-3" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3]</span></span>
+<span id="cb65-4"><a href="jsonlite.html#cb65-4" tabindex="-1"></a><span class="co">#&gt; [1,]    9    6    3</span></span>
+<span id="cb65-5"><a href="jsonlite.html#cb65-5" tabindex="-1"></a><span class="co">#&gt; [2,]    8    5    2</span></span>
+<span id="cb65-6"><a href="jsonlite.html#cb65-6" tabindex="-1"></a><span class="co">#&gt; [3,]    7    4    1</span></span></code></pre></div>
 <p><code>toJSON()</code> converts an R matrix into a JSON-array</p>
-<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="jsonlite.html#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">toJSON</span>(mat)</span>
-<span id="cb66-2"><a href="jsonlite.html#cb66-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [[9,6,3],[8,5,2],[7,4,1]]</span></span></code></pre></div>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="jsonlite.html#cb66-1" tabindex="-1"></a><span class="fu">toJSON</span>(mat)</span>
+<span id="cb66-2"><a href="jsonlite.html#cb66-2" tabindex="-1"></a><span class="co">#&gt; [[9,6,3],[8,5,2],[7,4,1]]</span></span></code></pre></div>
 <p>Notice that the returned output arranges the values of the matrix row-by-row,
 also referred to as <em>row-major</em>. This means that when the input is an R matrix,
 <code>toJSON()</code> uses its argument <code>matrix = "rowmajor"</code>.</p>
 <p>You can change the arrangement to <em>column-major</em> by specifying the argument
 <code>matrix = "columnmajor"</code>:</p>
-<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="jsonlite.html#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">toJSON</span>(mat, <span class="at">matrix =</span> <span class="st">&quot;columnmajor&quot;</span>)</span>
-<span id="cb67-2"><a href="jsonlite.html#cb67-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [[9,8,7],[6,5,4],[3,2,1]]</span></span></code></pre></div>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="jsonlite.html#cb67-1" tabindex="-1"></a><span class="fu">toJSON</span>(mat, <span class="at">matrix =</span> <span class="st">&quot;columnmajor&quot;</span>)</span>
+<span id="cb67-2"><a href="jsonlite.html#cb67-2" tabindex="-1"></a><span class="co">#&gt; [[9,8,7],[6,5,4],[3,2,1]]</span></span></code></pre></div>
 </div>
 <div id="example-data-frame-to-json-object" class="section level4 unnumbered hasAnchor">
 <h4>Example: data frame to JSON-object<a href="jsonlite.html#example-data-frame-to-json-object" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>We can also use <code>toJSON()</code> on data frames. Here’s an example of an assembled
 data frame <code>swdf</code> which will be converted to a JSON-object:</p>
-<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="jsonlite.html#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="co"># toy data</span></span>
-<span id="cb68-2"><a href="jsonlite.html#cb68-2" aria-hidden="true" tabindex="-1"></a>sw_data <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
-<span id="cb68-3"><a href="jsonlite.html#cb68-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">&quot;Anakin&quot;</span>, <span class="st">&quot;male&quot;</span>, <span class="st">&quot;Tatooine&quot;</span>, <span class="st">&quot;41.9BBY&quot;</span>,  <span class="st">&quot;yes&quot;</span>),  </span>
-<span id="cb68-4"><a href="jsonlite.html#cb68-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">&quot;Amidala&quot;</span>, <span class="st">&quot;female&quot;</span>, <span class="st">&quot;Naboo&quot;</span>, <span class="st">&quot;46BBY&quot;</span>, <span class="st">&quot;no&quot;</span>),</span>
-<span id="cb68-5"><a href="jsonlite.html#cb68-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">&quot;Luke&quot;</span>, <span class="st">&quot;male&quot;</span>, <span class="st">&quot;Tatooine&quot;</span>, <span class="st">&quot;19BBY&quot;</span>, <span class="st">&quot;yes&quot;</span>),</span>
-<span id="cb68-6"><a href="jsonlite.html#cb68-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">&quot;Leia&quot;</span>, <span class="st">&quot;female&quot;</span>, <span class="st">&quot;Alderaan&quot;</span>, <span class="st">&quot;19BBY&quot;</span>, <span class="st">&quot;no&quot;</span>)</span>
-<span id="cb68-7"><a href="jsonlite.html#cb68-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb68-8"><a href="jsonlite.html#cb68-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-9"><a href="jsonlite.html#cb68-9" aria-hidden="true" tabindex="-1"></a><span class="co"># convert to data.frame and add column names</span></span>
-<span id="cb68-10"><a href="jsonlite.html#cb68-10" aria-hidden="true" tabindex="-1"></a>swdf <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(sw_data, <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb68-11"><a href="jsonlite.html#cb68-11" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(swdf) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Name&quot;</span>, <span class="st">&quot;Gender&quot;</span>, <span class="st">&quot;Homeworld&quot;</span>, <span class="st">&quot;Born&quot;</span>, <span class="st">&quot;Jedi&quot;</span>)</span>
-<span id="cb68-12"><a href="jsonlite.html#cb68-12" aria-hidden="true" tabindex="-1"></a>swdf</span>
-<span id="cb68-13"><a href="jsonlite.html#cb68-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      Name Gender Homeworld    Born Jedi</span></span>
-<span id="cb68-14"><a href="jsonlite.html#cb68-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  Anakin   male  Tatooine 41.9BBY  yes</span></span>
-<span id="cb68-15"><a href="jsonlite.html#cb68-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 Amidala female     Naboo   46BBY   no</span></span>
-<span id="cb68-16"><a href="jsonlite.html#cb68-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3    Luke   male  Tatooine   19BBY  yes</span></span>
-<span id="cb68-17"><a href="jsonlite.html#cb68-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4    Leia female  Alderaan   19BBY   no</span></span></code></pre></div>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="jsonlite.html#cb68-1" tabindex="-1"></a><span class="co"># toy data</span></span>
+<span id="cb68-2"><a href="jsonlite.html#cb68-2" tabindex="-1"></a>sw_data <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
+<span id="cb68-3"><a href="jsonlite.html#cb68-3" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">&quot;Anakin&quot;</span>, <span class="st">&quot;male&quot;</span>, <span class="st">&quot;Tatooine&quot;</span>, <span class="st">&quot;41.9BBY&quot;</span>,  <span class="st">&quot;yes&quot;</span>),  </span>
+<span id="cb68-4"><a href="jsonlite.html#cb68-4" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">&quot;Amidala&quot;</span>, <span class="st">&quot;female&quot;</span>, <span class="st">&quot;Naboo&quot;</span>, <span class="st">&quot;46BBY&quot;</span>, <span class="st">&quot;no&quot;</span>),</span>
+<span id="cb68-5"><a href="jsonlite.html#cb68-5" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">&quot;Luke&quot;</span>, <span class="st">&quot;male&quot;</span>, <span class="st">&quot;Tatooine&quot;</span>, <span class="st">&quot;19BBY&quot;</span>, <span class="st">&quot;yes&quot;</span>),</span>
+<span id="cb68-6"><a href="jsonlite.html#cb68-6" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">&quot;Leia&quot;</span>, <span class="st">&quot;female&quot;</span>, <span class="st">&quot;Alderaan&quot;</span>, <span class="st">&quot;19BBY&quot;</span>, <span class="st">&quot;no&quot;</span>)</span>
+<span id="cb68-7"><a href="jsonlite.html#cb68-7" tabindex="-1"></a>)</span>
+<span id="cb68-8"><a href="jsonlite.html#cb68-8" tabindex="-1"></a></span>
+<span id="cb68-9"><a href="jsonlite.html#cb68-9" tabindex="-1"></a><span class="co"># convert to data.frame and add column names</span></span>
+<span id="cb68-10"><a href="jsonlite.html#cb68-10" tabindex="-1"></a>swdf <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(sw_data, <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb68-11"><a href="jsonlite.html#cb68-11" tabindex="-1"></a><span class="fu">names</span>(swdf) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Name&quot;</span>, <span class="st">&quot;Gender&quot;</span>, <span class="st">&quot;Homeworld&quot;</span>, <span class="st">&quot;Born&quot;</span>, <span class="st">&quot;Jedi&quot;</span>)</span>
+<span id="cb68-12"><a href="jsonlite.html#cb68-12" tabindex="-1"></a>swdf</span>
+<span id="cb68-13"><a href="jsonlite.html#cb68-13" tabindex="-1"></a><span class="co">#&gt;      Name Gender Homeworld    Born Jedi</span></span>
+<span id="cb68-14"><a href="jsonlite.html#cb68-14" tabindex="-1"></a><span class="co">#&gt; 1  Anakin   male  Tatooine 41.9BBY  yes</span></span>
+<span id="cb68-15"><a href="jsonlite.html#cb68-15" tabindex="-1"></a><span class="co">#&gt; 2 Amidala female     Naboo   46BBY   no</span></span>
+<span id="cb68-16"><a href="jsonlite.html#cb68-16" tabindex="-1"></a><span class="co">#&gt; 3    Luke   male  Tatooine   19BBY  yes</span></span>
+<span id="cb68-17"><a href="jsonlite.html#cb68-17" tabindex="-1"></a><span class="co">#&gt; 4    Leia female  Alderaan   19BBY   no</span></span></code></pre></div>
 <p>The default output when you pass a data frame to <code>jsonlite::toJSON()</code> is</p>
-<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="jsonlite.html#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="co"># convert R data.frame to JSON</span></span>
-<span id="cb69-2"><a href="jsonlite.html#cb69-2" aria-hidden="true" tabindex="-1"></a>sw_json <span class="ot">=</span> <span class="fu">toJSON</span>(swdf)</span>
-<span id="cb69-3"><a href="jsonlite.html#cb69-3" aria-hidden="true" tabindex="-1"></a>sw_json</span>
-<span id="cb69-4"><a href="jsonlite.html#cb69-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [{&quot;Name&quot;:&quot;Anakin&quot;,&quot;Gender&quot;:&quot;male&quot;,&quot;Homeworld&quot;:&quot;Tatooine&quot;,&quot;Born&quot;:&quot;41.9BBY&quot;,&quot;Jedi&quot;:&quot;yes&quot;},{&quot;Name&quot;:&quot;Amidala&quot;,&quot;Gender&quot;:&quot;female&quot;,&quot;Homeworld&quot;:&quot;Naboo&quot;,&quot;Born&quot;:&quot;46BBY&quot;,&quot;Jedi&quot;:&quot;no&quot;},{&quot;Name&quot;:&quot;Luke&quot;,&quot;Gender&quot;:&quot;male&quot;,&quot;Homeworld&quot;:&quot;Tatooine&quot;,&quot;Born&quot;:&quot;19BBY&quot;,&quot;Jedi&quot;:&quot;yes&quot;},{&quot;Name&quot;:&quot;Leia&quot;,&quot;Gender&quot;:&quot;female&quot;,&quot;Homeworld&quot;:&quot;Alderaan&quot;,&quot;Born&quot;:&quot;19BBY&quot;,&quot;Jedi&quot;:&quot;no&quot;}]</span></span></code></pre></div>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="jsonlite.html#cb69-1" tabindex="-1"></a><span class="co"># convert R data.frame to JSON</span></span>
+<span id="cb69-2"><a href="jsonlite.html#cb69-2" tabindex="-1"></a>sw_json <span class="ot">=</span> <span class="fu">toJSON</span>(swdf)</span>
+<span id="cb69-3"><a href="jsonlite.html#cb69-3" tabindex="-1"></a>sw_json</span>
+<span id="cb69-4"><a href="jsonlite.html#cb69-4" tabindex="-1"></a><span class="co">#&gt; [{&quot;Name&quot;:&quot;Anakin&quot;,&quot;Gender&quot;:&quot;male&quot;,&quot;Homeworld&quot;:&quot;Tatooine&quot;,&quot;Born&quot;:&quot;41.9BBY&quot;,&quot;Jedi&quot;:&quot;yes&quot;},{&quot;Name&quot;:&quot;Amidala&quot;,&quot;Gender&quot;:&quot;female&quot;,&quot;Homeworld&quot;:&quot;Naboo&quot;,&quot;Born&quot;:&quot;46BBY&quot;,&quot;Jedi&quot;:&quot;no&quot;},{&quot;Name&quot;:&quot;Luke&quot;,&quot;Gender&quot;:&quot;male&quot;,&quot;Homeworld&quot;:&quot;Tatooine&quot;,&quot;Born&quot;:&quot;19BBY&quot;,&quot;Jedi&quot;:&quot;yes&quot;},{&quot;Name&quot;:&quot;Leia&quot;,&quot;Gender&quot;:&quot;female&quot;,&quot;Homeworld&quot;:&quot;Alderaan&quot;,&quot;Born&quot;:&quot;19BBY&quot;,&quot;Jedi&quot;:&quot;no&quot;}]</span></span></code></pre></div>
 <p>The argument <code>dataframe</code> gives you more control on the output. This argument
 has three options:</p>
 <ul>
 <li><code>"rows"</code>: each row is converted to a JSON-object with <em>key-value</em> pairs
 formed by <code>"column_name": "row_value"</code>;</li>
 </ul>
-<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="jsonlite.html#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">toJSON</span>(swdf, <span class="at">dataframe =</span> <span class="st">&quot;rows&quot;</span>)</span>
-<span id="cb70-2"><a href="jsonlite.html#cb70-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [{&quot;Name&quot;:&quot;Anakin&quot;,&quot;Gender&quot;:&quot;male&quot;,&quot;Homeworld&quot;:&quot;Tatooine&quot;,&quot;Born&quot;:&quot;41.9BBY&quot;,&quot;Jedi&quot;:&quot;yes&quot;},{&quot;Name&quot;:&quot;Amidala&quot;,&quot;Gender&quot;:&quot;female&quot;,&quot;Homeworld&quot;:&quot;Naboo&quot;,&quot;Born&quot;:&quot;46BBY&quot;,&quot;Jedi&quot;:&quot;no&quot;},{&quot;Name&quot;:&quot;Luke&quot;,&quot;Gender&quot;:&quot;male&quot;,&quot;Homeworld&quot;:&quot;Tatooine&quot;,&quot;Born&quot;:&quot;19BBY&quot;,&quot;Jedi&quot;:&quot;yes&quot;},{&quot;Name&quot;:&quot;Leia&quot;,&quot;Gender&quot;:&quot;female&quot;,&quot;Homeworld&quot;:&quot;Alderaan&quot;,&quot;Born&quot;:&quot;19BBY&quot;,&quot;Jedi&quot;:&quot;no&quot;}]</span></span></code></pre></div>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="jsonlite.html#cb70-1" tabindex="-1"></a><span class="fu">toJSON</span>(swdf, <span class="at">dataframe =</span> <span class="st">&quot;rows&quot;</span>)</span>
+<span id="cb70-2"><a href="jsonlite.html#cb70-2" tabindex="-1"></a><span class="co">#&gt; [{&quot;Name&quot;:&quot;Anakin&quot;,&quot;Gender&quot;:&quot;male&quot;,&quot;Homeworld&quot;:&quot;Tatooine&quot;,&quot;Born&quot;:&quot;41.9BBY&quot;,&quot;Jedi&quot;:&quot;yes&quot;},{&quot;Name&quot;:&quot;Amidala&quot;,&quot;Gender&quot;:&quot;female&quot;,&quot;Homeworld&quot;:&quot;Naboo&quot;,&quot;Born&quot;:&quot;46BBY&quot;,&quot;Jedi&quot;:&quot;no&quot;},{&quot;Name&quot;:&quot;Luke&quot;,&quot;Gender&quot;:&quot;male&quot;,&quot;Homeworld&quot;:&quot;Tatooine&quot;,&quot;Born&quot;:&quot;19BBY&quot;,&quot;Jedi&quot;:&quot;yes&quot;},{&quot;Name&quot;:&quot;Leia&quot;,&quot;Gender&quot;:&quot;female&quot;,&quot;Homeworld&quot;:&quot;Alderaan&quot;,&quot;Born&quot;:&quot;19BBY&quot;,&quot;Jedi&quot;:&quot;no&quot;}]</span></span></code></pre></div>
 <ul>
 <li><code>"columns"</code>: each column is converted into a JSON-object with a single <em>key</em>
 for each column, and <em>values</em> stored as arrays;</li>
 </ul>
-<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="jsonlite.html#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="fu">toJSON</span>(swdf, <span class="at">dataframe =</span> <span class="st">&quot;columns&quot;</span>)</span>
-<span id="cb71-2"><a href="jsonlite.html#cb71-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; {&quot;Name&quot;:[&quot;Anakin&quot;,&quot;Amidala&quot;,&quot;Luke&quot;,&quot;Leia&quot;],&quot;Gender&quot;:[&quot;male&quot;,&quot;female&quot;,&quot;male&quot;,&quot;female&quot;],&quot;Homeworld&quot;:[&quot;Tatooine&quot;,&quot;Naboo&quot;,&quot;Tatooine&quot;,&quot;Alderaan&quot;],&quot;Born&quot;:[&quot;41.9BBY&quot;,&quot;46BBY&quot;,&quot;19BBY&quot;,&quot;19BBY&quot;],&quot;Jedi&quot;:[&quot;yes&quot;,&quot;no&quot;,&quot;yes&quot;,&quot;no&quot;]}</span></span></code></pre></div>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="jsonlite.html#cb71-1" tabindex="-1"></a><span class="fu">toJSON</span>(swdf, <span class="at">dataframe =</span> <span class="st">&quot;columns&quot;</span>)</span>
+<span id="cb71-2"><a href="jsonlite.html#cb71-2" tabindex="-1"></a><span class="co">#&gt; {&quot;Name&quot;:[&quot;Anakin&quot;,&quot;Amidala&quot;,&quot;Luke&quot;,&quot;Leia&quot;],&quot;Gender&quot;:[&quot;male&quot;,&quot;female&quot;,&quot;male&quot;,&quot;female&quot;],&quot;Homeworld&quot;:[&quot;Tatooine&quot;,&quot;Naboo&quot;,&quot;Tatooine&quot;,&quot;Alderaan&quot;],&quot;Born&quot;:[&quot;41.9BBY&quot;,&quot;46BBY&quot;,&quot;19BBY&quot;,&quot;19BBY&quot;],&quot;Jedi&quot;:[&quot;yes&quot;,&quot;no&quot;,&quot;yes&quot;,&quot;no&quot;]}</span></span></code></pre></div>
 <ul>
 <li><code>"values"</code>: the values in each column are converted to a JSON-array, and
 the names of the columns are lost.</li>
 </ul>
-<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="jsonlite.html#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="fu">toJSON</span>(swdf, <span class="at">dataframe =</span> <span class="st">&quot;values&quot;</span>)</span>
-<span id="cb72-2"><a href="jsonlite.html#cb72-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [[&quot;Anakin&quot;,&quot;male&quot;,&quot;Tatooine&quot;,&quot;41.9BBY&quot;,&quot;yes&quot;],[&quot;Amidala&quot;,&quot;female&quot;,&quot;Naboo&quot;,&quot;46BBY&quot;,&quot;no&quot;],[&quot;Luke&quot;,&quot;male&quot;,&quot;Tatooine&quot;,&quot;19BBY&quot;,&quot;yes&quot;],[&quot;Leia&quot;,&quot;female&quot;,&quot;Alderaan&quot;,&quot;19BBY&quot;,&quot;no&quot;]]</span></span></code></pre></div>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="jsonlite.html#cb72-1" tabindex="-1"></a><span class="fu">toJSON</span>(swdf, <span class="at">dataframe =</span> <span class="st">&quot;values&quot;</span>)</span>
+<span id="cb72-2"><a href="jsonlite.html#cb72-2" tabindex="-1"></a><span class="co">#&gt; [[&quot;Anakin&quot;,&quot;male&quot;,&quot;Tatooine&quot;,&quot;41.9BBY&quot;,&quot;yes&quot;],[&quot;Amidala&quot;,&quot;female&quot;,&quot;Naboo&quot;,&quot;46BBY&quot;,&quot;no&quot;],[&quot;Luke&quot;,&quot;male&quot;,&quot;Tatooine&quot;,&quot;19BBY&quot;,&quot;yes&quot;],[&quot;Leia&quot;,&quot;female&quot;,&quot;Alderaan&quot;,&quot;19BBY&quot;,&quot;no&quot;]]</span></span></code></pre></div>
 </div>
 </div>
 <div id="function-fromjson" class="section level2 hasAnchor" number="9.2">
@@ -409,48 +414,48 @@ common to have data in JSON format which needs to be converted into an R object.
 <p>The function <code>jsonlite::fromJSON()</code> converts a JSON-object to an R object.</p>
 <div id="example-json-array-to-r-vector" class="section level4 unnumbered hasAnchor">
 <h4>Example: JSON-array to R vector<a href="jsonlite.html#example-json-array-to-r-vector" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="jsonlite.html#cb73-1" aria-hidden="true" tabindex="-1"></a>json_array <span class="ot">&lt;-</span> <span class="st">&#39;[&quot;computing&quot;, &quot;with&quot;, &quot;data&quot;]&#39;</span></span>
-<span id="cb73-2"><a href="jsonlite.html#cb73-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb73-3"><a href="jsonlite.html#cb73-3" aria-hidden="true" tabindex="-1"></a><span class="fu">fromJSON</span>(json_array)</span>
-<span id="cb73-4"><a href="jsonlite.html#cb73-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;computing&quot; &quot;with&quot;      &quot;data&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="jsonlite.html#cb73-1" tabindex="-1"></a>json_array <span class="ot">&lt;-</span> <span class="st">&#39;[&quot;computing&quot;, &quot;with&quot;, &quot;data&quot;]&#39;</span></span>
+<span id="cb73-2"><a href="jsonlite.html#cb73-2" tabindex="-1"></a></span>
+<span id="cb73-3"><a href="jsonlite.html#cb73-3" tabindex="-1"></a><span class="fu">fromJSON</span>(json_array)</span>
+<span id="cb73-4"><a href="jsonlite.html#cb73-4" tabindex="-1"></a><span class="co">#&gt; [1] &quot;computing&quot; &quot;with&quot;      &quot;data&quot;</span></span></code></pre></div>
 </div>
 <div id="example-json-object-to-r-object" class="section level4 unnumbered hasAnchor">
 <h4>Example: JSON-object to R object<a href="jsonlite.html#example-json-object-to-r-object" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>Consider a simple JSON-object, and its conversion to R with
 <code>jsonlite::fromJSON()</code></p>
-<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="jsonlite.html#cb74-1" aria-hidden="true" tabindex="-1"></a>json_obj1 <span class="ot">&lt;-</span> <span class="st">&#39;{&quot;name&quot;: &quot;Jessica&quot;}&#39;</span></span>
-<span id="cb74-2"><a href="jsonlite.html#cb74-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb74-3"><a href="jsonlite.html#cb74-3" aria-hidden="true" tabindex="-1"></a><span class="fu">fromJSON</span>(json_obj1)</span>
-<span id="cb74-4"><a href="jsonlite.html#cb74-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $name</span></span>
-<span id="cb74-5"><a href="jsonlite.html#cb74-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Jessica&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="jsonlite.html#cb74-1" tabindex="-1"></a>json_obj1 <span class="ot">&lt;-</span> <span class="st">&#39;{&quot;name&quot;: &quot;Jessica&quot;}&#39;</span></span>
+<span id="cb74-2"><a href="jsonlite.html#cb74-2" tabindex="-1"></a></span>
+<span id="cb74-3"><a href="jsonlite.html#cb74-3" tabindex="-1"></a><span class="fu">fromJSON</span>(json_obj1)</span>
+<span id="cb74-4"><a href="jsonlite.html#cb74-4" tabindex="-1"></a><span class="co">#&gt; $name</span></span>
+<span id="cb74-5"><a href="jsonlite.html#cb74-5" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Jessica&quot;</span></span></code></pre></div>
 <p>Notice that the obtained object is an R list in which the <em>key</em> becomes the
 name of the list, and the <em>value</em> becomes the content of the list’s element.</p>
 <p>Consider a less simple JSON-object:</p>
-<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="jsonlite.html#cb75-1" aria-hidden="true" tabindex="-1"></a>json_obj2 <span class="ot">&lt;-</span> <span class="st">&#39;{&quot;name1&quot;: &quot;Nicole&quot;, &quot;name2&quot;: &quot;Pleuni&quot;, &quot;name3&quot;: &quot;Rori&quot;}&#39;</span></span>
-<span id="cb75-2"><a href="jsonlite.html#cb75-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb75-3"><a href="jsonlite.html#cb75-3" aria-hidden="true" tabindex="-1"></a><span class="fu">fromJSON</span>(json_obj2)</span>
-<span id="cb75-4"><a href="jsonlite.html#cb75-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $name1</span></span>
-<span id="cb75-5"><a href="jsonlite.html#cb75-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Nicole&quot;</span></span>
-<span id="cb75-6"><a href="jsonlite.html#cb75-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb75-7"><a href="jsonlite.html#cb75-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $name2</span></span>
-<span id="cb75-8"><a href="jsonlite.html#cb75-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Pleuni&quot;</span></span>
-<span id="cb75-9"><a href="jsonlite.html#cb75-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb75-10"><a href="jsonlite.html#cb75-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $name3</span></span>
-<span id="cb75-11"><a href="jsonlite.html#cb75-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Rori&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="jsonlite.html#cb75-1" tabindex="-1"></a>json_obj2 <span class="ot">&lt;-</span> <span class="st">&#39;{&quot;name1&quot;: &quot;Nicole&quot;, &quot;name2&quot;: &quot;Pleuni&quot;, &quot;name3&quot;: &quot;Rori&quot;}&#39;</span></span>
+<span id="cb75-2"><a href="jsonlite.html#cb75-2" tabindex="-1"></a></span>
+<span id="cb75-3"><a href="jsonlite.html#cb75-3" tabindex="-1"></a><span class="fu">fromJSON</span>(json_obj2)</span>
+<span id="cb75-4"><a href="jsonlite.html#cb75-4" tabindex="-1"></a><span class="co">#&gt; $name1</span></span>
+<span id="cb75-5"><a href="jsonlite.html#cb75-5" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Nicole&quot;</span></span>
+<span id="cb75-6"><a href="jsonlite.html#cb75-6" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb75-7"><a href="jsonlite.html#cb75-7" tabindex="-1"></a><span class="co">#&gt; $name2</span></span>
+<span id="cb75-8"><a href="jsonlite.html#cb75-8" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Pleuni&quot;</span></span>
+<span id="cb75-9"><a href="jsonlite.html#cb75-9" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb75-10"><a href="jsonlite.html#cb75-10" tabindex="-1"></a><span class="co">#&gt; $name3</span></span>
+<span id="cb75-11"><a href="jsonlite.html#cb75-11" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Rori&quot;</span></span></code></pre></div>
 <p>Another example:</p>
-<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="jsonlite.html#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fromJSON</span>(<span class="st">&#39;{&quot;name&quot;: [&quot;X&quot;, &quot;Y&quot;], &quot;grams&quot;: [30, 20], &quot;qty&quot;: [4, null],</span></span>
-<span id="cb76-2"><a href="jsonlite.html#cb76-2" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;new&quot;: [true, false]}&#39;</span>)</span>
-<span id="cb76-3"><a href="jsonlite.html#cb76-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $name</span></span>
-<span id="cb76-4"><a href="jsonlite.html#cb76-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;X&quot; &quot;Y&quot;</span></span>
-<span id="cb76-5"><a href="jsonlite.html#cb76-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb76-6"><a href="jsonlite.html#cb76-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $grams</span></span>
-<span id="cb76-7"><a href="jsonlite.html#cb76-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 30 20</span></span>
-<span id="cb76-8"><a href="jsonlite.html#cb76-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb76-9"><a href="jsonlite.html#cb76-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $qty</span></span>
-<span id="cb76-10"><a href="jsonlite.html#cb76-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1]  4 NA</span></span>
-<span id="cb76-11"><a href="jsonlite.html#cb76-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb76-12"><a href="jsonlite.html#cb76-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $new</span></span>
-<span id="cb76-13"><a href="jsonlite.html#cb76-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1]  TRUE FALSE</span></span></code></pre></div>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="jsonlite.html#cb76-1" tabindex="-1"></a><span class="fu">fromJSON</span>(<span class="st">&#39;{&quot;name&quot;: [&quot;X&quot;, &quot;Y&quot;], &quot;grams&quot;: [30, 20], &quot;qty&quot;: [4, null],</span></span>
+<span id="cb76-2"><a href="jsonlite.html#cb76-2" tabindex="-1"></a><span class="st">&quot;new&quot;: [true, false]}&#39;</span>)</span>
+<span id="cb76-3"><a href="jsonlite.html#cb76-3" tabindex="-1"></a><span class="co">#&gt; $name</span></span>
+<span id="cb76-4"><a href="jsonlite.html#cb76-4" tabindex="-1"></a><span class="co">#&gt; [1] &quot;X&quot; &quot;Y&quot;</span></span>
+<span id="cb76-5"><a href="jsonlite.html#cb76-5" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb76-6"><a href="jsonlite.html#cb76-6" tabindex="-1"></a><span class="co">#&gt; $grams</span></span>
+<span id="cb76-7"><a href="jsonlite.html#cb76-7" tabindex="-1"></a><span class="co">#&gt; [1] 30 20</span></span>
+<span id="cb76-8"><a href="jsonlite.html#cb76-8" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb76-9"><a href="jsonlite.html#cb76-9" tabindex="-1"></a><span class="co">#&gt; $qty</span></span>
+<span id="cb76-10"><a href="jsonlite.html#cb76-10" tabindex="-1"></a><span class="co">#&gt; [1]  4 NA</span></span>
+<span id="cb76-11"><a href="jsonlite.html#cb76-11" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb76-12"><a href="jsonlite.html#cb76-12" tabindex="-1"></a><span class="co">#&gt; $new</span></span>
+<span id="cb76-13"><a href="jsonlite.html#cb76-13" tabindex="-1"></a><span class="co">#&gt; [1]  TRUE FALSE</span></span></code></pre></div>
 </div>
 <div id="example-json-object-to-r-object-1" class="section level4 unnumbered hasAnchor">
 <h4>Example: JSON-object to R object<a href="jsonlite.html#example-json-object-to-r-object-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
@@ -465,29 +470,29 @@ name of the list, and the <em>value</em> becomes the content of the list’s ele
 <p>and assume that the above data is stored as a single (continuous) string in
 an R character vector <code>json_sw</code>; applying <code>fromJSON()</code> to this string gives
 you the following list:</p>
-<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="jsonlite.html#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fromJSON</span>(json_sw)</span>
-<span id="cb78-2"><a href="jsonlite.html#cb78-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $Name</span></span>
-<span id="cb78-3"><a href="jsonlite.html#cb78-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Anakin&quot;  &quot;Amidala&quot; &quot;Luke&quot;    &quot;Leia&quot;   </span></span>
-<span id="cb78-4"><a href="jsonlite.html#cb78-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb78-5"><a href="jsonlite.html#cb78-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $Gender</span></span>
-<span id="cb78-6"><a href="jsonlite.html#cb78-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;male&quot;   &quot;female&quot; &quot;male&quot;   &quot;female&quot;</span></span>
-<span id="cb78-7"><a href="jsonlite.html#cb78-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb78-8"><a href="jsonlite.html#cb78-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $Homeworld</span></span>
-<span id="cb78-9"><a href="jsonlite.html#cb78-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Tatooine&quot; &quot;Naboo&quot;    &quot;Tatooine&quot; &quot;Alderaan&quot;</span></span>
-<span id="cb78-10"><a href="jsonlite.html#cb78-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb78-11"><a href="jsonlite.html#cb78-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $Born</span></span>
-<span id="cb78-12"><a href="jsonlite.html#cb78-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;41.9BBY&quot; &quot;46BBY&quot;   &quot;19BBY&quot;   &quot;19BBY&quot;  </span></span>
-<span id="cb78-13"><a href="jsonlite.html#cb78-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb78-14"><a href="jsonlite.html#cb78-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $Jedi</span></span>
-<span id="cb78-15"><a href="jsonlite.html#cb78-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;yes&quot; &quot;no&quot;  &quot;yes&quot; &quot;no&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="jsonlite.html#cb78-1" tabindex="-1"></a><span class="fu">fromJSON</span>(json_sw)</span>
+<span id="cb78-2"><a href="jsonlite.html#cb78-2" tabindex="-1"></a><span class="co">#&gt; $Name</span></span>
+<span id="cb78-3"><a href="jsonlite.html#cb78-3" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Anakin&quot;  &quot;Amidala&quot; &quot;Luke&quot;    &quot;Leia&quot;   </span></span>
+<span id="cb78-4"><a href="jsonlite.html#cb78-4" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb78-5"><a href="jsonlite.html#cb78-5" tabindex="-1"></a><span class="co">#&gt; $Gender</span></span>
+<span id="cb78-6"><a href="jsonlite.html#cb78-6" tabindex="-1"></a><span class="co">#&gt; [1] &quot;male&quot;   &quot;female&quot; &quot;male&quot;   &quot;female&quot;</span></span>
+<span id="cb78-7"><a href="jsonlite.html#cb78-7" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb78-8"><a href="jsonlite.html#cb78-8" tabindex="-1"></a><span class="co">#&gt; $Homeworld</span></span>
+<span id="cb78-9"><a href="jsonlite.html#cb78-9" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Tatooine&quot; &quot;Naboo&quot;    &quot;Tatooine&quot; &quot;Alderaan&quot;</span></span>
+<span id="cb78-10"><a href="jsonlite.html#cb78-10" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb78-11"><a href="jsonlite.html#cb78-11" tabindex="-1"></a><span class="co">#&gt; $Born</span></span>
+<span id="cb78-12"><a href="jsonlite.html#cb78-12" tabindex="-1"></a><span class="co">#&gt; [1] &quot;41.9BBY&quot; &quot;46BBY&quot;   &quot;19BBY&quot;   &quot;19BBY&quot;  </span></span>
+<span id="cb78-13"><a href="jsonlite.html#cb78-13" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb78-14"><a href="jsonlite.html#cb78-14" tabindex="-1"></a><span class="co">#&gt; $Jedi</span></span>
+<span id="cb78-15"><a href="jsonlite.html#cb78-15" tabindex="-1"></a><span class="co">#&gt; [1] &quot;yes&quot; &quot;no&quot;  &quot;yes&quot; &quot;no&quot;</span></span></code></pre></div>
 <p>Can this be transformed into a data frame? Yes, by passing the obtained list
 to the function <code>data.frame()</code>:</p>
-<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="jsonlite.html#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="fu">fromJSON</span>(json_sw))</span>
-<span id="cb79-2"><a href="jsonlite.html#cb79-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      Name Gender Homeworld    Born Jedi</span></span>
-<span id="cb79-3"><a href="jsonlite.html#cb79-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  Anakin   male  Tatooine 41.9BBY  yes</span></span>
-<span id="cb79-4"><a href="jsonlite.html#cb79-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 Amidala female     Naboo   46BBY   no</span></span>
-<span id="cb79-5"><a href="jsonlite.html#cb79-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3    Luke   male  Tatooine   19BBY  yes</span></span>
-<span id="cb79-6"><a href="jsonlite.html#cb79-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4    Leia female  Alderaan   19BBY   no</span></span></code></pre></div>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="jsonlite.html#cb79-1" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="fu">fromJSON</span>(json_sw))</span>
+<span id="cb79-2"><a href="jsonlite.html#cb79-2" tabindex="-1"></a><span class="co">#&gt;      Name Gender Homeworld    Born Jedi</span></span>
+<span id="cb79-3"><a href="jsonlite.html#cb79-3" tabindex="-1"></a><span class="co">#&gt; 1  Anakin   male  Tatooine 41.9BBY  yes</span></span>
+<span id="cb79-4"><a href="jsonlite.html#cb79-4" tabindex="-1"></a><span class="co">#&gt; 2 Amidala female     Naboo   46BBY   no</span></span>
+<span id="cb79-5"><a href="jsonlite.html#cb79-5" tabindex="-1"></a><span class="co">#&gt; 3    Luke   male  Tatooine   19BBY  yes</span></span>
+<span id="cb79-6"><a href="jsonlite.html#cb79-6" tabindex="-1"></a><span class="co">#&gt; 4    Leia female  Alderaan   19BBY   no</span></span></code></pre></div>
 </div>
 </div>
 <div id="reading-json-data" class="section level2 hasAnchor" number="9.3">
@@ -507,9 +512,9 @@ Figure 9.1: Random advice from Advice Slip
 </p>
 </div>
 <p>As you can tell, the content is a simple JSON string</p>
-<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="jsonlite.html#cb80-1" aria-hidden="true" tabindex="-1"></a>advice_url <span class="ot">&lt;-</span> <span class="st">&quot;https://api.adviceslip.com/advice&quot;</span></span>
-<span id="cb80-2"><a href="jsonlite.html#cb80-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb80-3"><a href="jsonlite.html#cb80-3" aria-hidden="true" tabindex="-1"></a><span class="fu">fromJSON</span>(advice_url)</span></code></pre></div>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="jsonlite.html#cb80-1" tabindex="-1"></a>advice_url <span class="ot">&lt;-</span> <span class="st">&quot;https://api.adviceslip.com/advice&quot;</span></span>
+<span id="cb80-2"><a href="jsonlite.html#cb80-2" tabindex="-1"></a></span>
+<span id="cb80-3"><a href="jsonlite.html#cb80-3" tabindex="-1"></a><span class="fu">fromJSON</span>(advice_url)</span></code></pre></div>
 <pre><code>#&gt; $slip
 #&gt; $slip$id
 #&gt; [1] 9
@@ -536,26 +541,26 @@ the hexadecimal digits of the corresponding color:</p>
   &quot;yellowgreen&quot;: &quot;#9acd32&quot;
 }</code></pre>
 <p>We pass the url to <code>jsonlite::fromJSON()</code></p>
-<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="jsonlite.html#cb83-1" aria-hidden="true" tabindex="-1"></a>colors_json <span class="ot">&lt;-</span> <span class="st">&quot;https://raw.githubusercontent.com/bahamas10/css-color-names/master/css-color-names.json&quot;</span></span>
-<span id="cb83-2"><a href="jsonlite.html#cb83-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb83-3"><a href="jsonlite.html#cb83-3" aria-hidden="true" tabindex="-1"></a>hex_colors <span class="ot">&lt;-</span> <span class="fu">fromJSON</span>(colors_json)</span></code></pre></div>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="jsonlite.html#cb83-1" tabindex="-1"></a>colors_json <span class="ot">&lt;-</span> <span class="st">&quot;https://raw.githubusercontent.com/bahamas10/css-color-names/master/css-color-names.json&quot;</span></span>
+<span id="cb83-2"><a href="jsonlite.html#cb83-2" tabindex="-1"></a></span>
+<span id="cb83-3"><a href="jsonlite.html#cb83-3" tabindex="-1"></a>hex_colors <span class="ot">&lt;-</span> <span class="fu">fromJSON</span>(colors_json)</span></code></pre></div>
 <p>The output in <code>hex_colors</code> is a list with 148 elements;
 the first five elements are displayed below:</p>
-<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="jsonlite.html#cb84-1" aria-hidden="true" tabindex="-1"></a>hex_colors[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span>
-<span id="cb84-2"><a href="jsonlite.html#cb84-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $aliceblue</span></span>
-<span id="cb84-3"><a href="jsonlite.html#cb84-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;#f0f8ff&quot;</span></span>
-<span id="cb84-4"><a href="jsonlite.html#cb84-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb84-5"><a href="jsonlite.html#cb84-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $antiquewhite</span></span>
-<span id="cb84-6"><a href="jsonlite.html#cb84-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;#faebd7&quot;</span></span>
-<span id="cb84-7"><a href="jsonlite.html#cb84-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb84-8"><a href="jsonlite.html#cb84-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $aqua</span></span>
-<span id="cb84-9"><a href="jsonlite.html#cb84-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;#00ffff&quot;</span></span>
-<span id="cb84-10"><a href="jsonlite.html#cb84-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb84-11"><a href="jsonlite.html#cb84-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $aquamarine</span></span>
-<span id="cb84-12"><a href="jsonlite.html#cb84-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;#7fffd4&quot;</span></span>
-<span id="cb84-13"><a href="jsonlite.html#cb84-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb84-14"><a href="jsonlite.html#cb84-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $azure</span></span>
-<span id="cb84-15"><a href="jsonlite.html#cb84-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;#f0ffff&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="jsonlite.html#cb84-1" tabindex="-1"></a>hex_colors[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span>
+<span id="cb84-2"><a href="jsonlite.html#cb84-2" tabindex="-1"></a><span class="co">#&gt; $aliceblue</span></span>
+<span id="cb84-3"><a href="jsonlite.html#cb84-3" tabindex="-1"></a><span class="co">#&gt; [1] &quot;#f0f8ff&quot;</span></span>
+<span id="cb84-4"><a href="jsonlite.html#cb84-4" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb84-5"><a href="jsonlite.html#cb84-5" tabindex="-1"></a><span class="co">#&gt; $antiquewhite</span></span>
+<span id="cb84-6"><a href="jsonlite.html#cb84-6" tabindex="-1"></a><span class="co">#&gt; [1] &quot;#faebd7&quot;</span></span>
+<span id="cb84-7"><a href="jsonlite.html#cb84-7" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb84-8"><a href="jsonlite.html#cb84-8" tabindex="-1"></a><span class="co">#&gt; $aqua</span></span>
+<span id="cb84-9"><a href="jsonlite.html#cb84-9" tabindex="-1"></a><span class="co">#&gt; [1] &quot;#00ffff&quot;</span></span>
+<span id="cb84-10"><a href="jsonlite.html#cb84-10" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb84-11"><a href="jsonlite.html#cb84-11" tabindex="-1"></a><span class="co">#&gt; $aquamarine</span></span>
+<span id="cb84-12"><a href="jsonlite.html#cb84-12" tabindex="-1"></a><span class="co">#&gt; [1] &quot;#7fffd4&quot;</span></span>
+<span id="cb84-13"><a href="jsonlite.html#cb84-13" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb84-14"><a href="jsonlite.html#cb84-14" tabindex="-1"></a><span class="co">#&gt; $azure</span></span>
+<span id="cb84-15"><a href="jsonlite.html#cb84-15" tabindex="-1"></a><span class="co">#&gt; [1] &quot;#f0ffff&quot;</span></span></code></pre></div>
 
 </div>
 </div>

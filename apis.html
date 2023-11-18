@@ -247,7 +247,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10.4" data-path="apis.html"><a href="apis.html#interacting-with-aps-via-r"><i class="fa fa-check"></i><b>10.4</b> Interacting with AP’s via R</a>
 <ul>
 <li class="chapter" data-level="10.4.1" data-path="apis.html"><a href="apis.html#making-request-from-r"><i class="fa fa-check"></i><b>10.4.1</b> Making request from R</a></li>
+<li class="chapter" data-level="10.4.2" data-path="apis.html"><a href="apis.html#performing-a-request"><i class="fa fa-check"></i><b>10.4.2</b> Performing a Request</a></li>
+<li class="chapter" data-level="10.4.3" data-path="apis.html"><a href="apis.html#extracting-response-as-string"><i class="fa fa-check"></i><b>10.4.3</b> Extracting response as string</a></li>
+<li class="chapter" data-level="10.4.4" data-path="apis.html"><a href="apis.html#extracting-response-as-html"><i class="fa fa-check"></i><b>10.4.4</b> Extracting response as HTML</a></li>
 </ul></li>
+<li class="chapter" data-level="10.5" data-path="apis.html"><a href="apis.html#example-search-with-advice-id"><i class="fa fa-check"></i><b>10.5</b> Example: Search with Advice ID</a></li>
+<li class="chapter" data-level="10.6" data-path="apis.html"><a href="apis.html#example-search-query"><i class="fa fa-check"></i><b>10.6</b> Example: Search Query</a></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="api-pubmed.html"><a href="api-pubmed.html"><i class="fa fa-check"></i><b>11</b> PubMed API Example</a>
 <ul>
@@ -283,8 +288,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>In this chapter we’ll give you a crash introduction to Web APIs, and how to
 use R for interacting with them.</p>
 <p>You will need the following packages</p>
-<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="apis.html#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(httr)</span>
-<span id="cb85-2"><a href="apis.html#cb85-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(jsonlite)</span></code></pre></div>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="apis.html#cb85-1" tabindex="-1"></a><span class="fu">library</span>(httr2)</span>
+<span id="cb85-2"><a href="apis.html#cb85-2" tabindex="-1"></a><span class="fu">library</span>(xml2)</span>
+<span id="cb85-3"><a href="apis.html#cb85-3" tabindex="-1"></a><span class="fu">library</span>(jsonlite)</span></code></pre></div>
 <div id="introduction-1" class="section level2 hasAnchor" number="10.1">
 <h2><span class="header-section-number">10.1</span> Introduction<a href="apis.html#introduction-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>So far we’ve been dealing with data sets in various formats: internal data
@@ -303,11 +309,11 @@ share data has become a standard thing to have.</p>
 </div>
 <div id="a-little-bit-about-apis" class="section level2 hasAnchor" number="10.2">
 <h2><span class="header-section-number">10.2</span> A little bit about APIs<a href="apis.html#a-little-bit-about-apis" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>API stands for Application Programming Interface. If this sounds too fancy or
-cryptic for you, then simply think of it as a “Data Sharing Interface”.</p>
+<p>API stands for <strong>Application Programming Interface</strong>. If this sounds too fancy
+or cryptic for you, then simply think of it as a “Data Sharing Interface”.</p>
 <p>Instead of having to download a data file, an API allows programmers to request
-data directly from a website. An API is a set of rules, protocols, and tools
-for building software and applications.</p>
+data directly from a website. From a technical point of view, an API is a set
+of rules, protocols, and tools for building software and applications.</p>
 <div id="what-is-an-api" class="section level4 unnumbered hasAnchor">
 <h4>What is an API?<a href="apis.html#what-is-an-api" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>“API” is a general term for the place where one computer program (the client)
@@ -335,148 +341,296 @@ and frustration.</p>
 </div>
 <div id="using-r-as-an-http-client" class="section level2 hasAnchor" number="10.3">
 <h2><span class="header-section-number">10.3</span> Using R as an HTTP Client<a href="apis.html#using-r-as-an-http-client" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>R has a few HTTP client packages: <code>"crul"</code>, <code>"curl"</code>, <code>"httr"</code>, and <code>"RCurl"</code>;
+<p>R has a few HTTP client packages: <code>"crul"</code>, <code>"curl"</code>, <code>"httr2"</code>, and <code>"RCurl"</code>;
 you can think of them as “high-level R HTTP clients” which basically let you
-use R (and our computer) as an <strong>HTTP client</strong>.</p>
-<p>We will describe how to use functions from <code>"httr"</code>.</p>
+use R (and your computer) as an <strong>HTTP client</strong>.</p>
+<p>We will describe how to use functions from <code>"httr2"</code> (pronounced <em>hitter2</em>).</p>
 </div>
 <div id="interacting-with-aps-via-r" class="section level2 hasAnchor" number="10.4">
 <h2><span class="header-section-number">10.4</span> Interacting with AP’s via R<a href="apis.html#interacting-with-aps-via-r" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>In R, we can use the <code>"httr"</code> library to make http requests and handle the
+<p>In R, we can use the <code>"httr2"</code> package to make http requests and handle the
 responses.</p>
 <p>Let’s start with baby steps using the website <a href="https://api.adviceslip.com/" class="uri">https://api.adviceslip.com/</a>
-which provides an API to get advice from the internet.</p>
+which provides an API to get a free piece of advice from the internet.</p>
 <p>The first thing you need to do is to look at the web page to familiarize
 yourself with the functionalities it provides.</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-113"></span>
-<img src="images/api/advice-slip.png" alt="Advice Slip JSON API" width="70%" />
+<img src="images/api/advice-slip.png" alt="Advice Slip JSON API" width="75%" />
 <p class="caption">
 Figure 10.1: Advice Slip JSON API
 </p>
 </div>
-<p>The url <code>https://api.adviceslip.com/random</code> will give you a random advice:</p>
+<p><br></p>
+<p>The url <code>https://api.adviceslip.com/advice</code> will give you a random advice:</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-114"></span>
-<img src="images/api/advice-slip-happiness.png" alt="Random advice from Advice Slip" width="70%" />
+<img src="images/api/advice-slip-happiness.png" alt="Random advice from Advice Slip" width="75%" />
 <p class="caption">
 Figure 10.2: Random advice from Advice Slip
 </p>
 </div>
 <div id="making-request-from-r" class="section level3 hasAnchor" number="10.4.1">
 <h3><span class="header-section-number">10.4.1</span> Making request from R<a href="apis.html#making-request-from-r" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Notice that the format of the response is provided in JSON.</p>
-<p>For instance, getting a random advice is quite simple, all you need is to make
-a <code>GET</code> request. The associated function in <code>"httr"</code> is <code>GET()</code> which makes a
-request to the URL <code>https://api.adviceslip.com/advice</code></p>
-<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="apis.html#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="co"># getting a random advice</span></span>
-<span id="cb86-2"><a href="apis.html#cb86-2" aria-hidden="true" tabindex="-1"></a>request_url <span class="ot">&lt;-</span> <span class="st">&quot;https://api.adviceslip.com/advice&quot;</span></span>
-<span id="cb86-3"><a href="apis.html#cb86-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb86-4"><a href="apis.html#cb86-4" aria-hidden="true" tabindex="-1"></a>request_get <span class="ot">&lt;-</span> <span class="fu">GET</span>(request_url)</span>
-<span id="cb86-5"><a href="apis.html#cb86-5" aria-hidden="true" tabindex="-1"></a>request_get</span></code></pre></div>
-<pre><code>Response [https://api.adviceslip.com/advice]
-  Date: 2020-10-16 02:08
-  Status: 200
-  Content-Type: text/html; charset=UTF-8
-  Size: 77 B</code></pre>
-<p>The object <code>request_get</code> is an object of class <code>"response"</code>, which is basically
-an R list that contains 10 elements:</p>
-<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="apis.html#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(request_get)</span></code></pre></div>
-<pre><code> [1] &quot;url&quot;         &quot;status_code&quot; &quot;headers&quot;     &quot;all_headers&quot; &quot;cookies&quot;    
- [6] &quot;content&quot;     &quot;date&quot;        &quot;times&quot;       &quot;request&quot;     &quot;handle&quot;</code></pre>
-<p>As you can tell, one of the elements in <code>request_get</code> is <code>"content"</code>. If you
-try the <code>$</code> operator to extract this element and print it, you will get
-something like this:</p>
-<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="apis.html#cb90-1" aria-hidden="true" tabindex="-1"></a>request_get<span class="sc">$</span>content</span></code></pre></div>
-<pre><code> [1] 7b 22 73 6c 69 70 22 3a 20 7b 20 22 69 64 22 3a 20 39 36 2c 20 22 61 64 76
-[26] 69 63 65 22 3a 20 22 44 6f 6e 27 74 20 67 69 76 65 20 74 6f 20 6f 74 68 65
-[51] 72 73 20 61 64 76 69 63 65 20 77 68 69 63 68 20 79 6f 75 20 77 6f 75 6c 64
-[76] 6e 27 74 20 66 6f 6c 6c 6f 77 2e 22 7d 7d</code></pre>
-<p>which is not very helpful.</p>
-<p>Instead of directly extracting the <code>"content"</code> element, it is recommended to
-use the extractor function <code>content()</code> which will return the content in the
-form of an <code>"html_document"</code> object:</p>
-<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="apis.html#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="fu">content</span>(request_get)</span></code></pre></div>
-<pre><code>{html_document}
-&lt;html&gt;
-[1] &lt;body&gt;&lt;p&gt;{&quot;slip&quot;: { &quot;id&quot;: 96, &quot;advice&quot;: &quot;Don&#39;t give to others advice which  ...</code></pre>
-<p>The above output is not the most friendly one. However, we can use the argument
-<code>as = "text"</code> to change the output into a character vector:</p>
-<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="apis.html#cb94-1" aria-hidden="true" tabindex="-1"></a>request_content <span class="ot">&lt;-</span> <span class="fu">content</span>(request_get, <span class="at">as =</span> <span class="st">&quot;text&quot;</span>)</span>
-<span id="cb94-2"><a href="apis.html#cb94-2" aria-hidden="true" tabindex="-1"></a>request_content</span></code></pre></div>
-<pre><code>[1] &quot;{\&quot;slip\&quot;: { \&quot;id\&quot;: 96, \&quot;advice\&quot;: \&quot;Don&#39;t give to others advice which you wouldn&#39;t follow.\&quot;}}&quot;</code></pre>
-<p>It turns out that this content is in JSON format. Therefore, we need to use
-a converting function <code>fromJSON()</code></p>
-<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="apis.html#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fromJSON</span>(request_content)</span></code></pre></div>
-<pre><code>$slip
-$slip$id
-[1] 96
-
-$slip$advice
-[1] &quot;Don&#39;t give to others advice which you wouldn&#39;t follow.&quot;</code></pre>
-<p>All of the above steps can be compactly integrated into a single block of code
-using the piper opeartor <code>%&gt;%</code> as follows:</p>
-<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="apis.html#cb98-1" aria-hidden="true" tabindex="-1"></a><span class="co"># getting a random advice</span></span>
-<span id="cb98-2"><a href="apis.html#cb98-2" aria-hidden="true" tabindex="-1"></a>request_url <span class="ot">&lt;-</span> <span class="st">&quot;https://api.adviceslip.com/advice&quot;</span></span>
-<span id="cb98-3"><a href="apis.html#cb98-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-4"><a href="apis.html#cb98-4" aria-hidden="true" tabindex="-1"></a>random_advice <span class="ot">&lt;-</span> request_url <span class="sc">%&gt;%</span></span>
-<span id="cb98-5"><a href="apis.html#cb98-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">GET</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb98-6"><a href="apis.html#cb98-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">content</span>(<span class="at">as =</span> <span class="st">&quot;text&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb98-7"><a href="apis.html#cb98-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fromJSON</span>()</span>
-<span id="cb98-8"><a href="apis.html#cb98-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-9"><a href="apis.html#cb98-9" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(random_advice)</span>
-<span id="cb98-10"><a href="apis.html#cb98-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-11"><a href="apis.html#cb98-11" aria-hidden="true" tabindex="-1"></a>random_advice<span class="sc">$</span>slip</span></code></pre></div>
-<pre><code>[1] &quot;slip&quot;
-$id
-[1] 23
-
-$advice
-[1] &quot;Your smile could make someone&#39;s day, don&#39;t forget to wear it.&quot;</code></pre>
-<div id="example-search-with-advice-id" class="section level4 unnumbered hasAnchor">
-<h4>Example: Search with Advice ID<a href="apis.html#example-search-with-advice-id" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-122"></span>
-<img src="images/api/advice-slip-by-id.png" alt="Random advices by id" width="70%" />
+<p>Notice that the format of the response is provided in JSON. In the above
+example, the advice is given as:</p>
+<pre><code>{&quot;slip&quot;: {&quot;id&quot;: 9, &quot;advice&quot;: &quot;True happiness always resides in the quest.&quot;}}</code></pre>
+<p>which we can mentally rearrange as:</p>
+<pre><code>{
+  &quot;slip&quot;: {
+    &quot;id&quot;: 9, 
+    &quot;advice&quot;: &quot;True happiness always resides in the quest.&quot;
+  }
+}</code></pre>
+<p>Getting a random advice is quite simple, all you need is to make an HTTP
+request using the url <code>https://api.adviceslip.com/advice</code>.</p>
+<p>Interestingly, we can make such request from R, using it as a server. This
+requires employing some functions from <code>"httr2"</code>.</p>
+<p>In <code>"httr2"</code>, you start by creating a <strong>request</strong>. How? You use the <code>request()</code>
+function which creates a request object. To be clear, <code>request()</code> does not
+submit the request, it only creates the object, which you can use to build up a
+complex request piece by piece, and works well with the pipe operators <code>|&gt;</code>
+or <code>%&gt;%</code>.</p>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="apis.html#cb88-1" tabindex="-1"></a><span class="co"># start a request object</span></span>
+<span id="cb88-2"><a href="apis.html#cb88-2" tabindex="-1"></a>advice_url <span class="ot">=</span> <span class="st">&quot;https://api.adviceslip.com&quot;</span></span>
+<span id="cb88-3"><a href="apis.html#cb88-3" tabindex="-1"></a>req <span class="ot">=</span> <span class="fu">request</span>(advice_url)</span>
+<span id="cb88-4"><a href="apis.html#cb88-4" tabindex="-1"></a>req</span>
+<span id="cb88-5"><a href="apis.html#cb88-5" tabindex="-1"></a><span class="co">#&gt; &lt;httr2_request&gt;</span></span>
+<span id="cb88-6"><a href="apis.html#cb88-6" tabindex="-1"></a><span class="co">#&gt; GET https://api.adviceslip.com</span></span>
+<span id="cb88-7"><a href="apis.html#cb88-7" tabindex="-1"></a><span class="co">#&gt; Body: empty</span></span></code></pre></div>
+<p>To see what this request will send to the server we perform a dry run:</p>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="apis.html#cb89-1" tabindex="-1"></a>req <span class="sc">|&gt;</span> <span class="fu">req_dry_run</span>()</span>
+<span id="cb89-2"><a href="apis.html#cb89-2" tabindex="-1"></a><span class="co">#&gt; GET / HTTP/1.1</span></span>
+<span id="cb89-3"><a href="apis.html#cb89-3" tabindex="-1"></a><span class="co">#&gt; Host: api.adviceslip.com</span></span>
+<span id="cb89-4"><a href="apis.html#cb89-4" tabindex="-1"></a><span class="co">#&gt; User-Agent: httr2/1.0.0 r-curl/5.1.0 libcurl/7.79.1</span></span>
+<span id="cb89-5"><a href="apis.html#cb89-5" tabindex="-1"></a><span class="co">#&gt; Accept: */*</span></span>
+<span id="cb89-6"><a href="apis.html#cb89-6" tabindex="-1"></a><span class="co">#&gt; Accept-Encoding: deflate, gzip</span></span></code></pre></div>
+<p>What’s going on with the first line <code>GET / HTTP/1.1</code>?</p>
+<ul>
+<li><p>The first term, <code>GET</code>, refers to the HTTP <strong>method</strong>, which is a
+verb that tells the server what you want to do. In this case is <code>GET</code>, the most
+common verb, indicating that we want to get a resource. Other verbs include
+<code>POST</code>, to create a new resource; <code>PUT</code>, to replace an existing resource; and
+<code>DELETE</code>, to delete a resource.</p></li>
+<li><p>The second part, <code>/</code>, is the <strong>path</strong> which is the URL stripped of details
+that the server already knows, i.e. the protocol (http or https), and the host
+(localhost).</p></li>
+<li><p>The third element, <code>HTTP/1.1</code>, is the version of the HTTP protocol. This is
+unimportant for our purposes because it’s handled at a lower level.</p></li>
+</ul>
+<p>In order to make a request with <code>"httr2"</code>, we need to complete the full path
+of the URL. In the above example, this is done with <code>req_url_path_append()</code></p>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="apis.html#cb90-1" tabindex="-1"></a><span class="co"># then we complete the full path</span></span>
+<span id="cb90-2"><a href="apis.html#cb90-2" tabindex="-1"></a>req <span class="sc">|&gt;</span></span>
+<span id="cb90-3"><a href="apis.html#cb90-3" tabindex="-1"></a>  <span class="fu">req_url_path_append</span>(<span class="st">&quot;advice&quot;</span>) </span>
+<span id="cb90-4"><a href="apis.html#cb90-4" tabindex="-1"></a><span class="co">#&gt; &lt;httr2_request&gt;</span></span>
+<span id="cb90-5"><a href="apis.html#cb90-5" tabindex="-1"></a><span class="co">#&gt; GET https://api.adviceslip.com/advice</span></span>
+<span id="cb90-6"><a href="apis.html#cb90-6" tabindex="-1"></a><span class="co">#&gt; Body: empty</span></span></code></pre></div>
+</div>
+<div id="performing-a-request" class="section level3 hasAnchor" number="10.4.2">
+<h3><span class="header-section-number">10.4.2</span> Performing a Request<a href="apis.html#performing-a-request" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Once we have the desired request object, then we can submit it or <strong>perform</strong>
+such request with <code>req_perform()</code>:</p>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="apis.html#cb91-1" tabindex="-1"></a><span class="co"># then add on the query path</span></span>
+<span id="cb91-2"><a href="apis.html#cb91-2" tabindex="-1"></a>resp <span class="ot">=</span> req <span class="sc">|&gt;</span></span>
+<span id="cb91-3"><a href="apis.html#cb91-3" tabindex="-1"></a>  <span class="fu">req_url_path_append</span>(<span class="st">&quot;advice&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb91-4"><a href="apis.html#cb91-4" tabindex="-1"></a>  <span class="fu">req_perform</span>()</span>
+<span id="cb91-5"><a href="apis.html#cb91-5" tabindex="-1"></a></span>
+<span id="cb91-6"><a href="apis.html#cb91-6" tabindex="-1"></a>resp</span>
+<span id="cb91-7"><a href="apis.html#cb91-7" tabindex="-1"></a><span class="co">#&gt; &lt;httr2_response&gt;</span></span>
+<span id="cb91-8"><a href="apis.html#cb91-8" tabindex="-1"></a><span class="co">#&gt; GET https://api.adviceslip.com/advice</span></span>
+<span id="cb91-9"><a href="apis.html#cb91-9" tabindex="-1"></a><span class="co">#&gt; Status: 200 OK</span></span>
+<span id="cb91-10"><a href="apis.html#cb91-10" tabindex="-1"></a><span class="co">#&gt; Content-Type: text/html</span></span>
+<span id="cb91-11"><a href="apis.html#cb91-11" tabindex="-1"></a><span class="co">#&gt; Body: In memory (77 bytes)</span></span></code></pre></div>
+<p>As you can tell, the response has a success status (<code>200 OK</code>), and the fetched
+content is text in html format.</p>
+<p>The object <code>resp</code> is an object of class <code>"httr2_response"</code>, which is basically
+an R list that contains 7 elements:</p>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="apis.html#cb92-1" tabindex="-1"></a><span class="fu">names</span>(resp)</span>
+<span id="cb92-2"><a href="apis.html#cb92-2" tabindex="-1"></a><span class="co">#&gt; [1] &quot;method&quot;      &quot;url&quot;         &quot;status_code&quot; &quot;headers&quot;     &quot;body&quot;       </span></span>
+<span id="cb92-3"><a href="apis.html#cb92-3" tabindex="-1"></a><span class="co">#&gt; [6] &quot;request&quot;     &quot;cache&quot; </span></span></code></pre></div>
+<p>As you can tell, one of the elements in <code>resp</code> is <code>"body"</code>. If we take a look
+at the body we get an interesting—but unhelpful—output:</p>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="apis.html#cb93-1" tabindex="-1"></a>resp<span class="sc">$</span>body</span>
+<span id="cb93-2"><a href="apis.html#cb93-2" tabindex="-1"></a><span class="co">#&gt;  [1] 7b 22 73 6c 69 70 22 3a 20 7b 20 22 69 64 22 3a 20 39 2c 20 22 61 64 76</span></span>
+<span id="cb93-3"><a href="apis.html#cb93-3" tabindex="-1"></a><span class="co">#&gt; [25] 69 63 65 22 3a 20 22 54 72 75 65 20 68 61 70 70 69 6e 65 73 73 20 61 6c</span></span>
+<span id="cb93-4"><a href="apis.html#cb93-4" tabindex="-1"></a><span class="co">#&gt; [49] 77 61 79 73 20 72 65 73 69 64 65 73 20 69 6e 20 74 68 65 20 71 75 65 73</span></span>
+<span id="cb93-5"><a href="apis.html#cb93-5" tabindex="-1"></a><span class="co">#&gt; [73] 74 2e 22 7d 7d</span></span></code></pre></div>
+<p>What kind of object is <code>resp$body</code>? Inspecting its <code>class()</code>, it turns out
+that this is an object of class <code>"raw"</code> or <em>raw vector</em>, which is a vector
+that holds raw bytes in R.</p>
+<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="apis.html#cb94-1" tabindex="-1"></a><span class="fu">class</span>(resp<span class="sc">$</span>body)</span>
+<span id="cb94-2"><a href="apis.html#cb94-2" tabindex="-1"></a><span class="co">#&gt; [1] &quot;raw&quot;</span></span></code></pre></div>
+<p>Technically speaking, a raw vector is printed with each byte separately
+represented as a pair of hex digits. If you want to see a character
+representation (with escape sequences for non-printing characters) use
+<code>rawToChar()</code>.</p>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="apis.html#cb95-1" tabindex="-1"></a>body_json <span class="ot">=</span> <span class="fu">rawToChar</span>(resp<span class="sc">$</span>body)</span>
+<span id="cb95-2"><a href="apis.html#cb95-2" tabindex="-1"></a></span>
+<span id="cb95-3"><a href="apis.html#cb95-3" tabindex="-1"></a>body_json</span>
+<span id="cb95-4"><a href="apis.html#cb95-4" tabindex="-1"></a><span class="co">#&gt; [1] &quot;{\&quot;slip\&quot;: { \&quot;id\&quot;: 9, \&quot;advice\&quot;: \&quot;True happiness always resides in the quest.\&quot;}}&quot;</span></span></code></pre></div>
+<p>Converting the raw vector into text, we obtain the response body <code>body_json</code>
+which is text in JSON format. Then, to parse this JSON text, we use <code>fromJSON()</code>
+which returns an R list:</p>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="apis.html#cb96-1" tabindex="-1"></a>slip_advice <span class="ot">=</span> <span class="fu">fromJSON</span>(body_json)</span>
+<span id="cb96-2"><a href="apis.html#cb96-2" tabindex="-1"></a></span>
+<span id="cb96-3"><a href="apis.html#cb96-3" tabindex="-1"></a>slip_advice</span>
+<span id="cb96-4"><a href="apis.html#cb96-4" tabindex="-1"></a><span class="co">#&gt; $slip</span></span>
+<span id="cb96-5"><a href="apis.html#cb96-5" tabindex="-1"></a><span class="co">#&gt; $slip$id</span></span>
+<span id="cb96-6"><a href="apis.html#cb96-6" tabindex="-1"></a><span class="co">#&gt; [1] 9</span></span>
+<span id="cb96-7"><a href="apis.html#cb96-7" tabindex="-1"></a></span>
+<span id="cb96-8"><a href="apis.html#cb96-8" tabindex="-1"></a><span class="co">#&gt; $slip$advice</span></span>
+<span id="cb96-9"><a href="apis.html#cb96-9" tabindex="-1"></a><span class="co">#&gt; [1] &quot;True happiness always resides in the quest.&quot;</span></span></code></pre></div>
+<p>And finally, we extract the piece of advice as follows:</p>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="apis.html#cb97-1" tabindex="-1"></a>slip_advice<span class="sc">$</span>slip<span class="sc">$</span>advice</span>
+<span id="cb97-2"><a href="apis.html#cb97-2" tabindex="-1"></a><span class="co">#&gt; [1] &quot;True happiness always resides in the quest.&quot;</span></span></code></pre></div>
+</div>
+<div id="extracting-response-as-string" class="section level3 hasAnchor" number="10.4.3">
+<h3><span class="header-section-number">10.4.3</span> Extracting response as string<a href="apis.html#extracting-response-as-string" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Let me show you another more straightforward way to extract the content of the
+response body by using one the <code>resp_body_()</code> functions, in particular the
+<code>resp_body_string()</code> function:</p>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="apis.html#cb98-1" tabindex="-1"></a>resp <span class="sc">|&gt;</span> <span class="fu">resp_body_string</span>()</span>
+<span id="cb98-2"><a href="apis.html#cb98-2" tabindex="-1"></a><span class="co">#&gt; [1] &quot;{\&quot;slip\&quot;: { \&quot;id\&quot;: 9, \&quot;advice\&quot;: \&quot;True happiness always resides in the quest.\&quot;}}&quot;</span></span></code></pre></div>
+<p>Notice that we obtain the same JSON text, which we can parse with <code>fromJSON()</code></p>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="apis.html#cb99-1" tabindex="-1"></a>resp <span class="sc">|&gt;</span> <span class="fu">resp_body_string</span>() <span class="sc">|&gt;</span> <span class="fu">fromJSON</span>()</span>
+<span id="cb99-2"><a href="apis.html#cb99-2" tabindex="-1"></a><span class="co">#&gt; $slip</span></span>
+<span id="cb99-3"><a href="apis.html#cb99-3" tabindex="-1"></a><span class="co">#&gt; $slip$id</span></span>
+<span id="cb99-4"><a href="apis.html#cb99-4" tabindex="-1"></a><span class="co">#&gt; [1] 9</span></span>
+<span id="cb99-5"><a href="apis.html#cb99-5" tabindex="-1"></a></span>
+<span id="cb99-6"><a href="apis.html#cb99-6" tabindex="-1"></a><span class="co">#&gt; $slip$advice</span></span>
+<span id="cb99-7"><a href="apis.html#cb99-7" tabindex="-1"></a><span class="co">#&gt; [1] &quot;True happiness always resides in the quest.&quot;</span></span></code></pre></div>
+</div>
+<div id="extracting-response-as-html" class="section level3 hasAnchor" number="10.4.4">
+<h3><span class="header-section-number">10.4.4</span> Extracting response as HTML<a href="apis.html#extracting-response-as-html" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>A third equivalent method to extract the response body is with the function
+<code>resp_body_html()</code>. The reason shy we can do that in this case has to do with
+the fact that the content of the response is in HTML format:
+<code>Content-Type: text/html</code>.</p>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="apis.html#cb100-1" tabindex="-1"></a><span class="co"># the result comes back as html</span></span>
+<span id="cb100-2"><a href="apis.html#cb100-2" tabindex="-1"></a><span class="co"># Let&#39;s extract body from response</span></span>
+<span id="cb100-3"><a href="apis.html#cb100-3" tabindex="-1"></a>doc_html <span class="ot">=</span> resp <span class="sc">|&gt;</span> <span class="fu">resp_body_html</span>()</span>
+<span id="cb100-4"><a href="apis.html#cb100-4" tabindex="-1"></a></span>
+<span id="cb100-5"><a href="apis.html#cb100-5" tabindex="-1"></a>doc_html</span>
+<span id="cb100-6"><a href="apis.html#cb100-6" tabindex="-1"></a><span class="co">#&gt; {html_document}</span></span>
+<span id="cb100-7"><a href="apis.html#cb100-7" tabindex="-1"></a><span class="co">#&gt; &lt;html&gt;</span></span>
+<span id="cb100-8"><a href="apis.html#cb100-8" tabindex="-1"></a><span class="co">#&gt; [1] &lt;body&gt;&lt;p&gt;{&quot;slip&quot;: { &quot;id&quot;: 9, &quot;advice&quot;: &quot;True happiness always resides ...</span></span></code></pre></div>
+<p>Since the output is an <code>html_document</code>, we first need to extract the text of
+the <code>&lt;p&gt;</code> element. One option to achieve this is some xpath expression:</p>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="apis.html#cb101-1" tabindex="-1"></a>txt_json <span class="ot">=</span> doc_html <span class="sc">|&gt;</span> </span>
+<span id="cb101-2"><a href="apis.html#cb101-2" tabindex="-1"></a>  <span class="fu">xml_find_all</span>(<span class="at">xpath =</span> <span class="st">&quot;//p&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb101-3"><a href="apis.html#cb101-3" tabindex="-1"></a>  <span class="fu">xml_text</span>()</span>
+<span id="cb101-4"><a href="apis.html#cb101-4" tabindex="-1"></a></span>
+<span id="cb101-5"><a href="apis.html#cb101-5" tabindex="-1"></a>txt_json</span>
+<span id="cb101-6"><a href="apis.html#cb101-6" tabindex="-1"></a><span class="co">#&gt; [1] &quot;{\&quot;slip\&quot;: { \&quot;id\&quot;: 9, \&quot;advice\&quot;: \&quot;True happiness always resides in the quest.\&quot;}}&quot;</span></span></code></pre></div>
+<p>This still requires some JSON manipulation:</p>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="apis.html#cb102-1" tabindex="-1"></a>slip_advice <span class="ot">=</span> <span class="fu">fromJSON</span>(txt_json)</span>
+<span id="cb102-2"><a href="apis.html#cb102-2" tabindex="-1"></a>slip_advice</span>
+<span id="cb102-3"><a href="apis.html#cb102-3" tabindex="-1"></a><span class="co">#&gt; $slip</span></span>
+<span id="cb102-4"><a href="apis.html#cb102-4" tabindex="-1"></a><span class="co">#&gt; $slip$id</span></span>
+<span id="cb102-5"><a href="apis.html#cb102-5" tabindex="-1"></a><span class="co">#&gt; [1] 9</span></span>
+<span id="cb102-6"><a href="apis.html#cb102-6" tabindex="-1"></a></span>
+<span id="cb102-7"><a href="apis.html#cb102-7" tabindex="-1"></a><span class="co">#&gt; $slip$advice</span></span>
+<span id="cb102-8"><a href="apis.html#cb102-8" tabindex="-1"></a><span class="co">#&gt; [1] &quot;True happiness always resides in the quest.&quot;</span></span></code></pre></div>
+</div>
+</div>
+<div id="example-search-with-advice-id" class="section level2 hasAnchor" number="10.5">
+<h2><span class="header-section-number">10.5</span> Example: Search with Advice ID<a href="apis.html#example-search-with-advice-id" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The Advice Slip API also allows you to request an advice based on its ID.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-130"></span>
+<img src="images/api/advice-slip-by-id.png" alt="Random advices by id" width="75%" />
 <p class="caption">
 Figure 10.3: Random advices by id
 </p>
 </div>
 <p>For example, the id = 5 results in the following advice:</p>
-<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-123"></span>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-131"></span>
 <img src="images/api/advice-slip-id5.png" alt="Random advice from Advice Slip" width="70%" />
 <p class="caption">
 Figure 10.4: Random advice from Advice Slip
 </p>
 </div>
-<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="apis.html#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="co"># advice id=5</span></span>
-<span id="cb100-2"><a href="apis.html#cb100-2" aria-hidden="true" tabindex="-1"></a>advice_id5 <span class="ot">&lt;-</span> <span class="st">&quot;https://api.adviceslip.com/advice/5&quot;</span> <span class="sc">%&gt;%</span></span>
-<span id="cb100-3"><a href="apis.html#cb100-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">GET</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb100-4"><a href="apis.html#cb100-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">content</span>(<span class="at">as =</span> <span class="st">&quot;text&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb100-5"><a href="apis.html#cb100-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fromJSON</span>()</span></code></pre></div>
+<p>To make this request from R, we create the request object, and then perform
+such request</p>
+<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="apis.html#cb103-1" tabindex="-1"></a><span class="co"># advice id=5</span></span>
+<span id="cb103-2"><a href="apis.html#cb103-2" tabindex="-1"></a>resp_advice_id5 <span class="ot">&lt;-</span> req <span class="sc">|&gt;</span></span>
+<span id="cb103-3"><a href="apis.html#cb103-3" tabindex="-1"></a>  <span class="fu">req_url_path_append</span>(<span class="st">&quot;advice/5&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb103-4"><a href="apis.html#cb103-4" tabindex="-1"></a>  <span class="fu">req_perform</span>()</span>
+<span id="cb103-5"><a href="apis.html#cb103-5" tabindex="-1"></a></span>
+<span id="cb103-6"><a href="apis.html#cb103-6" tabindex="-1"></a>resp_advice_id5</span>
+<span id="cb103-7"><a href="apis.html#cb103-7" tabindex="-1"></a><span class="co">#&gt; &lt;httr2_response&gt;</span></span>
+<span id="cb103-8"><a href="apis.html#cb103-8" tabindex="-1"></a><span class="co">#&gt; GET https://api.adviceslip.com/advice/5</span></span>
+<span id="cb103-9"><a href="apis.html#cb103-9" tabindex="-1"></a><span class="co">#&gt; Status: 200 OK</span></span>
+<span id="cb103-10"><a href="apis.html#cb103-10" tabindex="-1"></a><span class="co">#&gt; Content-Type: text/html</span></span>
+<span id="cb103-11"><a href="apis.html#cb103-11" tabindex="-1"></a><span class="co">#&gt; Body: In memory (66 bytes)</span></span></code></pre></div>
+<p>We can then extract the response body, for instance:</p>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="apis.html#cb104-1" tabindex="-1"></a>advice_id5 <span class="ot">=</span> resp_advice_id5 <span class="sc">|&gt;</span> <span class="fu">resp_body_string</span>() <span class="sc">|&gt;</span> <span class="fu">fromJSON</span>()</span>
+<span id="cb104-2"><a href="apis.html#cb104-2" tabindex="-1"></a>advice_id5</span>
+<span id="cb104-3"><a href="apis.html#cb104-3" tabindex="-1"></a><span class="co">#&gt; $slip</span></span>
+<span id="cb104-4"><a href="apis.html#cb104-4" tabindex="-1"></a><span class="co">#&gt; $slip$id</span></span>
+<span id="cb104-5"><a href="apis.html#cb104-5" tabindex="-1"></a><span class="co">#&gt; [1] 5</span></span>
+<span id="cb104-6"><a href="apis.html#cb104-6" tabindex="-1"></a></span>
+<span id="cb104-7"><a href="apis.html#cb104-7" tabindex="-1"></a><span class="co">#&gt; $slip$advice</span></span>
+<span id="cb104-8"><a href="apis.html#cb104-8" tabindex="-1"></a><span class="co">#&gt; [1] &quot;If you have the chance, take it!&quot;</span></span></code></pre></div>
 </div>
-<div id="example-search-query" class="section level4 unnumbered hasAnchor">
-<h4>Example: Search Query<a href="apis.html#example-search-query" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p>You can search for an advice specifying a search query:</p>
-<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-125"></span>
+<div id="example-search-query" class="section level2 hasAnchor" number="10.6">
+<h2><span class="header-section-number">10.6</span> Example: Search Query<a href="apis.html#example-search-query" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Another kind of request that you can do with the Advice Slip API is to search
+for an advice specifying a search query:</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-134"></span>
 <img src="images/api/advice-slip-search.png" alt="Random advices with search query" width="70%" />
 <p class="caption">
 Figure 10.5: Random advices with search query
 </p>
 </div>
+<p>For example, say we are interested in searching for advice that includes the
+word <strong>chance</strong>. The corresponding URL path will have the following form:</p>
 <p><code>https://api.adviceslip.com/advice/search/chance</code></p>
-<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-126"></span>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-135"></span>
 <img src="images/api/advice-slip-chance.png" alt="Random advices with search query 'chance'" width="75%" />
 <p class="caption">
 Figure 10.6: Random advices with search query ‘chance’
 </p>
 </div>
-<p>Let’s search for the term <code>chance</code></p>
-<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="apis.html#cb101-1" aria-hidden="true" tabindex="-1"></a><span class="co"># advice query &#39;chance&#39;</span></span>
-<span id="cb101-2"><a href="apis.html#cb101-2" aria-hidden="true" tabindex="-1"></a>advice_chance <span class="ot">&lt;-</span> <span class="st">&quot;https://api.adviceslip.com/advice/search/chance&quot;</span> <span class="sc">%&gt;%</span></span>
-<span id="cb101-3"><a href="apis.html#cb101-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">GET</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb101-4"><a href="apis.html#cb101-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">content</span>(<span class="at">as =</span> <span class="st">&quot;text&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb101-5"><a href="apis.html#cb101-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fromJSON</span>()</span></code></pre></div>
+<p>Let’s search for the term <code>chance</code>. For sake of illustration, let’s build a
+request object by appending the path elements: <code>advice</code>, <code>search</code>, and <code>chance</code></p>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="apis.html#cb105-1" tabindex="-1"></a><span class="co"># advice id=5</span></span>
+<span id="cb105-2"><a href="apis.html#cb105-2" tabindex="-1"></a>resp_advice_chance <span class="ot">&lt;-</span> req <span class="sc">|&gt;</span></span>
+<span id="cb105-3"><a href="apis.html#cb105-3" tabindex="-1"></a>  <span class="fu">req_url_path_append</span>(<span class="st">&quot;advice&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb105-4"><a href="apis.html#cb105-4" tabindex="-1"></a>  <span class="fu">req_url_path_append</span>(<span class="st">&quot;search&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb105-5"><a href="apis.html#cb105-5" tabindex="-1"></a>  <span class="fu">req_url_path_append</span>(<span class="st">&quot;chance&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb105-6"><a href="apis.html#cb105-6" tabindex="-1"></a>  <span class="fu">req_perform</span>()</span></code></pre></div>
+<p>The above command can be shorten as:</p>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="apis.html#cb106-1" tabindex="-1"></a><span class="co"># advice id=5</span></span>
+<span id="cb106-2"><a href="apis.html#cb106-2" tabindex="-1"></a>resp_advice_chance <span class="ot">&lt;-</span> req <span class="sc">|&gt;</span></span>
+<span id="cb106-3"><a href="apis.html#cb106-3" tabindex="-1"></a>  <span class="fu">req_url_path_append</span>(<span class="st">&quot;advice/search/chance&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb106-4"><a href="apis.html#cb106-4" tabindex="-1"></a>  <span class="fu">req_perform</span>()</span>
+<span id="cb106-5"><a href="apis.html#cb106-5" tabindex="-1"></a></span>
+<span id="cb106-6"><a href="apis.html#cb106-6" tabindex="-1"></a>resp_advice_chance</span>
+<span id="cb106-7"><a href="apis.html#cb106-7" tabindex="-1"></a><span class="co">#&gt; &lt;httr2_response&gt;</span></span>
+<span id="cb106-8"><a href="apis.html#cb106-8" tabindex="-1"></a><span class="co">#&gt; GET https://api.adviceslip.com/advice/search/chance</span></span>
+<span id="cb106-9"><a href="apis.html#cb106-9" tabindex="-1"></a><span class="co">#&gt; Status: 200 OK</span></span>
+<span id="cb106-10"><a href="apis.html#cb106-10" tabindex="-1"></a><span class="co">#&gt; Content-Type: text/html</span></span>
+<span id="cb106-11"><a href="apis.html#cb106-11" tabindex="-1"></a><span class="co">#&gt; Body: In memory (402 bytes)</span></span></code></pre></div>
+<p>Having performed the request, we fetch the data by extracting the body as a
+string (in JSON format), and then parsing with <code>fromJSON()</code></p>
+<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="apis.html#cb107-1" tabindex="-1"></a>advice_chance <span class="ot">=</span> resp_advice_chance <span class="sc">|&gt;</span> <span class="fu">resp_body_string</span>() <span class="sc">|&gt;</span> <span class="fu">fromJSON</span>()</span>
+<span id="cb107-2"><a href="apis.html#cb107-2" tabindex="-1"></a></span>
+<span id="cb107-3"><a href="apis.html#cb107-3" tabindex="-1"></a><span class="fu">names</span>(advice_chance)</span>
+<span id="cb107-4"><a href="apis.html#cb107-4" tabindex="-1"></a><span class="co">#&gt; [1] &quot;total_results&quot; &quot;query&quot;         &quot;slips&quot; </span></span></code></pre></div>
+<p>The <code>"slips"</code> element contains a data frame with 3 advice recommendations:</p>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="apis.html#cb108-1" tabindex="-1"></a>advice_chance<span class="sc">$</span>slips</span>
+<span id="cb108-2"><a href="apis.html#cb108-2" tabindex="-1"></a><span class="co">#&gt;    id</span></span>
+<span id="cb108-3"><a href="apis.html#cb108-3" tabindex="-1"></a><span class="co">#&gt; 1   5</span></span>
+<span id="cb108-4"><a href="apis.html#cb108-4" tabindex="-1"></a><span class="co">#&gt; 2 184</span></span>
+<span id="cb108-5"><a href="apis.html#cb108-5" tabindex="-1"></a><span class="co">#&gt; 3 185</span></span>
+<span id="cb108-6"><a href="apis.html#cb108-6" tabindex="-1"></a><span class="co">#&gt;                                                                                            advice</span></span>
+<span id="cb108-7"><a href="apis.html#cb108-7" tabindex="-1"></a><span class="co">#&gt; 1                                                                If you have the chance, take it!</span></span>
+<span id="cb108-8"><a href="apis.html#cb108-8" tabindex="-1"></a><span class="co">#&gt; 2 You can fail at what you don&#39;t want. So you might as well take a chance on doing what you love.</span></span>
+<span id="cb108-9"><a href="apis.html#cb108-9" tabindex="-1"></a><span class="co">#&gt; 3 You can fail at what you don&#39;t want. So you might as well take a chance on doing what you love.</span></span>
+<span id="cb108-10"><a href="apis.html#cb108-10" tabindex="-1"></a><span class="co">#&gt;         date</span></span>
+<span id="cb108-11"><a href="apis.html#cb108-11" tabindex="-1"></a><span class="co">#&gt; 1 2016-12-25</span></span>
+<span id="cb108-12"><a href="apis.html#cb108-12" tabindex="-1"></a><span class="co">#&gt; 2 2017-03-10</span></span>
+<span id="cb108-13"><a href="apis.html#cb108-13" tabindex="-1"></a><span class="co">#&gt; 3 2016-08-05</span></span></code></pre></div>
 
-</div>
-</div>
 </div>
 </div>
             </section>
