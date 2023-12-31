@@ -6,9 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Gaston Sanchez">
 
-<title>Web Technologies in R</title>
+<title>Web Technologies in R - 3&nbsp; Basics of HTTP</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -31,7 +30,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./1-01-introduction.html" rel="next">
+<link href="./2-01-xml.html" rel="next">
+<link href="./1-02-web.html" rel="prev">
 <link href="./images/favicon.ico" rel="icon">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -85,7 +85,7 @@ ga('send', {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title">Web Technologies in R</h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Basics of HTTP</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -110,7 +110,7 @@ ga('send', {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">About</a>
+  <a href="./index.html" class="sidebar-item-text sidebar-link">About</a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -133,7 +133,7 @@ ga('send', {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./1-03-http.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Basics of HTTP</span></a>
+  <a href="./1-03-http.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Basics of HTTP</span></a>
   </div>
 </li>
       </ul>
@@ -222,11 +222,16 @@ ga('send', {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#about" id="toc-about" class="nav-link active" data-scroll-target="#about">About</a>
+  <li><a href="#what-is-http" id="toc-what-is-http" class="nav-link active" data-scroll-target="#what-is-http"><span class="toc-section-number">3.1</span>  What is HTTP?</a></li>
+  <li><a href="#a-quick-introduction-to-http" id="toc-a-quick-introduction-to-http" class="nav-link" data-scroll-target="#a-quick-introduction-to-http"><span class="toc-section-number">3.2</span>  A quick introduction to HTTP</a>
   <ul class="collapse">
-  <li><a href="#my-series-of-r-tutorials" id="toc-my-series-of-r-tutorials" class="nav-link" data-scroll-target="#my-series-of-r-tutorials">My Series of R Tutorials</a></li>
-  <li><a href="#donation" id="toc-donation" class="nav-link" data-scroll-target="#donation">Donation</a></li>
-  <li><a href="#license" id="toc-license" class="nav-link" data-scroll-target="#license">License</a></li>
+  <li><a href="#http-example" id="toc-http-example" class="nav-link" data-scroll-target="#http-example"><span class="toc-section-number">3.2.1</span>  HTTP Example</a></li>
+  <li><a href="#http-request" id="toc-http-request" class="nav-link" data-scroll-target="#http-request"><span class="toc-section-number">3.2.2</span>  HTTP Request</a></li>
+  <li><a href="#http-response" id="toc-http-response" class="nav-link" data-scroll-target="#http-response"><span class="toc-section-number">3.2.3</span>  HTTP Response</a></li>
+  </ul></li>
+  <li><a href="#anatomy-of-an-http-message" id="toc-anatomy-of-an-http-message" class="nav-link" data-scroll-target="#anatomy-of-an-http-message"><span class="toc-section-number">3.3</span>  Anatomy of an HTTP message</a>
+  <ul class="collapse">
+  <li><a href="#http-methods" id="toc-http-methods" class="nav-link" data-scroll-target="#http-methods"><span class="toc-section-number">3.3.1</span>  HTTP Methods</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -236,20 +241,13 @@ ga('send', {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block">Web Technologies in R</h1>
-<p class="subtitle lead">A Short Introduction to Web Technologies in R</p>
+<h1 class="title"><span id="http" class="quarto-section-identifier d-none d-lg-block"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Basics of HTTP</span></span></h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p><a href="https://www.gastonsanchez.com" target="_blank"><b>Gaston Sanchez</b></a> </p>
-          </div>
-  </div>
     
     
   </div>
@@ -257,41 +255,196 @@ ga('send', {
 
 </header>
 
-<p>1st Edition: November 2022 <br> 2nd Edition: December 2023</p>
-<section id="about" class="level1 unnumbered">
-<h1 class="unnumbered">About</h1>
-<p>In this manuscript I provide an overview of some of the Web Technologies available in R.</p>
-<section id="about-you" class="level4 unnumbered">
-<h4 class="unnumbered anchored" data-anchor-id="about-you">About You</h4>
-<p>I am assuming that you have both R or RStudio installed in your computer. If this is not the case, you can take a look at <strong>Breaking the Ice with R</strong></p>
-<p><a href="https://www.gastonsanchez.com/R-ice-breaker" target="_blank">https://www.gastonsanchez.com/R-ice-breaker</a></p>
+<p>In the preceding chapter you were given a high-level description about how the Web works. In this chapter we take the next step to give you a basic introduction to HTTP which is the protocol that servers and browsers use to communicate and exchange information on the Web.</p>
+<section id="what-is-http" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="what-is-http"><span class="header-section-number">3.1</span> What is HTTP?</h2>
+<p>HTTP is the acronym for <em>Hypertext Transfer Protocol</em>. Perhaps the two most important terms in this name are <em>Protocol</em> and <em>Transfer</em>.</p>
+<p>According to the dictionary, a <strong>protocol</strong> is:</p>
+<blockquote class="blockquote">
+<p>“A system of rules that explain the correct conduct and procedures to be followed in formal situations”</p>
+</blockquote>
+<p>In turn, a <strong>transfer protocol</strong> is a communications protocol:</p>
+<blockquote class="blockquote">
+<p>“A communications protocol is a system of digital rules for data exchange within or between computers.”</p>
+</blockquote>
+<p>So, what is HTTP? Simply put, HTTP is the set of rules for transferring things such as text, images, sound, video and other multimedia files over the Web.</p>
 </section>
-<section id="citation" class="level4 unnumbered">
-<h4 class="unnumbered anchored" data-anchor-id="citation">Citation</h4>
-<p>You can cite this work as:</p>
-<p>Sanchez, G. (2022) A Short Introduction to Web Data Technologies in R. <br> https://www.gastonsanchez.com/R-web-technologies</p>
-<hr>
-</section>
-<section id="my-series-of-r-tutorials" class="level3 unnumbered">
-<h3 class="unnumbered anchored" data-anchor-id="my-series-of-r-tutorials">My Series of R Tutorials</h3>
-<p>This document is part of a series of texts that I’ve written about Programming and Data Analysis in R:</p>
+<section id="a-quick-introduction-to-http" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="a-quick-introduction-to-http"><span class="header-section-number">3.2</span> A quick introduction to HTTP</h2>
 <ul>
-<li><p><strong>Breaking the Ice with R: Getting Started with R and RStudio</strong> <br> <a href="https://www.gastonsanchez.com/R-ice-breaker" class="uri">https://www.gastonsanchez.com/R-ice-breaker</a></p></li>
-<li><p><strong>Tidy Hurricanes: Analyzing Tropical Storms with Tidyverse Tools</strong> <br> <a href="https://www.gastonsanchez.com/R-tidy-hurricanes" class="uri">https://www.gastonsanchez.com/R-tidy-hurricanes</a></p></li>
-<li><p><strong>R Coding Basics: An Introduction to the Basics of Coding in R</strong> <br> <a href="https://www.gastonsanchez.com/R-coding-basics" class="uri">https://www.gastonsanchez.com/R-coding-basics</a></p></li>
-<li><p><strong>Rolling Dice: Exploring Simulations in Games of Chance with R</strong> <br> <a href="https://www.gastonsanchez.com/R-rolling-dice" class="uri">https://www.gastonsanchez.com/R-rolling-dice</a></p></li>
-<li><p><strong>Web Technologies in R: A Short Introduction to Web Technologies in R</strong> <br> <a href="https://www.gastonsanchez.com/R-web-technologies" class="uri">https://www.gastonsanchez.com/R-web-technologies</a></p></li>
+<li><p>Whenever you surf the web, your browser sends <strong>HTTP request messages</strong></p></li>
+<li><p>the HTTP requests are sent to Web servers</p></li>
+<li><p>web servers handle these requests by returning <strong>HTTP response messages</strong></p></li>
+<li><p>the messages contain the requested resource(s)</p></li>
 </ul>
-<hr>
+<section id="http-example" class="level3" data-number="3.2.1">
+<h3 data-number="3.2.1" class="anchored" data-anchor-id="http-example"><span class="header-section-number">3.2.1</span> HTTP Example</h3>
+<p>Suppose we open the browser in order to visit R project’s homepage</p>
+<pre><code>https://www.r-project.org</code></pre>
+<p>Although we don’t see it, there’s is a client-server dialogue taking place, illustrated in the diagram below:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/http/web-scheme6.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<p></p><figcaption class="figure-caption">Client makes a request, and the serve responds</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+<p>Using Chrome’s <strong>DevTools</strong> (developer tools), we can see the associated information related to the HTTP “conversation” between the client and the server. We provide the content of this dialogue in the following block:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/http/web-http-devtools.png" class="img-fluid figure-img" style="width:90.0%"></p>
+<p></p><figcaption class="figure-caption">Inspecting HTTP messages via DevTools</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+<p>Think of an HTTP request as a set of information sent to the server. When the server receives the request, it (the server) processes the information and provides a response back to the client.</p>
+<p>When you visit a URL in your web browser, say R’s project website (<code>https://www.r-project.org</code>), an HTTP request is made and the response is rendered by the browser as the website you see. Although we don’t see the “dialogue” between client and server, it is possible to inspect this interaction using the development tools in a browser such as Chrome’s DevTools (like the screenshot above).</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/http/web-http-headers.png" class="img-fluid figure-img" style="width:40.0%"></p>
+<p></p><figcaption class="figure-caption">DevTools menu tab for inspecting HTTP messages</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The above is a screen-capture in which we can see that the request is composed of a URL (R’s project website), and a request method (<code>GET</code>) which is what the browser employs to access a website.</p>
 </section>
-<section id="donation" class="level3 unnumbered">
-<h3 class="unnumbered anchored" data-anchor-id="donation">Donation</h3>
-<p>As a Data Science and Statistics educator, I love to share the work I do. Each month I spend dozens of hours curating learning materials like this resource. If you find any value and usefulness in it, please consider making a <a href="https://www.paypal.com/donate?business=ZF6U7K5MW25W2&amp;currency_code=USD" target="_blank">one-time donation—via paypal—in any amount</a> (e.g.&nbsp;the amount you would spend inviting me a cup of coffee or any other drink). Your support really matters.</p>
-<p><a href="https://www.paypal.com/donate?business=ZF6U7K5MW25W2&amp;currency_code=USD" target="_blank"><img src="https://www.gastonsanchez.com/images/donate.png" width="140" height="60"></a></p>
+<section id="http-request" class="level3" data-number="3.2.2">
+<h3 data-number="3.2.2" class="anchored" data-anchor-id="http-request"><span class="header-section-number">3.2.2</span> HTTP Request</h3>
+<p>There are several components of an HTTP request (see figure below), but we will focus on the most relevant:</p>
+<ul>
+<li><p><code>URL</code>: the address or endpoint for the request</p></li>
+<li><p>HTTP method or verb: a specific method invoked on the endpoint (<code>GET</code>, <code>POST</code>, <code>DELETE</code>, <code>PUT</code>)</p></li>
+<li><p>Headers: additional data sent to the server, such as who is making the request and what type of response is expected</p></li>
+<li><p>Body: data sent to the server outside of the headers, common for <code>POST</code> and <code>PUT</code> requests</p></li>
+</ul>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/http/web-http-request-headers.png" class="img-fluid figure-img" style="width:90.0%"></p>
+<p></p><figcaption class="figure-caption">HTTP request headers</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
 </section>
-<section id="license" class="level3 unnumbered">
-<h3 class="unnumbered anchored" data-anchor-id="license">License</h3>
-<p><a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>This work is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</p>
+<section id="http-response" class="level3" data-number="3.2.3">
+<h3 data-number="3.2.3" class="anchored" data-anchor-id="http-response"><span class="header-section-number">3.2.3</span> HTTP Response</h3>
+<p>The response headers include the HTTP status code that informs the client how the request was received. There are also other details about the content delivered by the server. In the above example accessing www.r-project.com, we can see the status code success <code>200</code>, along with other details about the response content. Notice that the returned content is HTML. This HTML content is what the browser renders into a webpage.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/http/web-http-response-headers.png" class="img-fluid figure-img" style="width:50.0%"></p>
+<p></p><figcaption class="figure-caption">HTTP response headers</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="anatomy-of-an-http-message" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="anatomy-of-an-http-message"><span class="header-section-number">3.3</span> Anatomy of an HTTP message</h2>
+<p>HTTP messages consist of 2 parts (separated by a blank line)</p>
+<ol type="1">
+<li>A message <strong>header</strong>
+<ul>
+<li>the first line in the header is the request/response line</li>
+<li>the rest of the lines are <em>headers</em> formed of <code>name:value</code> pairs</li>
+</ul></li>
+<li>An optional message <strong>body</strong></li>
+</ol>
+<p>The client (your browser) sends a request to the server:</p>
+<pre><code>GET / HTTP/1.1
+User-Agent: curl/7.24.0 (x86_64-apple-darwin12.0) libcurl/7.24.0 OpenSSL/0.9.8y zlib/1.2.5
+Host: r-project.org
+Accept: */*</code></pre>
+<ul>
+<li>The first line is the <strong>request line</strong> which contains: <code>GET / HTTP/1.1</code></li>
+<li>The rest of the <em>headers</em> are just <code>name:value</code> pairs, e.g.&nbsp;<code>Host: r-project.org</code></li>
+</ul>
+<p>The server sends a <strong>response</strong> to the client:</p>
+<pre><code>HTTP/1.1 301 Moved Permanently
+Date: Thu, 01 May 2014 16:54:43 GMT
+Server: Apache/2.2.22 (Debian)
+Location: http://www.r-project.org/
+Vary: Accept-Encoding
+Content-Length: 312
+Content-Type: text/html; charset=iso-8859-1
+ 
+&lt;!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN"&gt;
+&lt;html&gt;
+...
+&lt;/html&gt;</code></pre>
+<ul>
+<li>The first line is the <strong>status line</strong> which contains: <code>GET / HTTP/1.1</code></li>
+<li>The next lines contain <strong>header values</strong></li>
+<li>The <strong>body</strong> message appears after the blank line, in this case is the content of the HTML page</li>
+</ul>
+<section id="http-methods" class="level3" data-number="3.3.1">
+<h3 data-number="3.3.1" class="anchored" data-anchor-id="http-methods"><span class="header-section-number">3.3.1</span> HTTP Methods</h3>
+<p>Here’s a table with HTTP methods, and their descriptions</p>
+<table class="table">
+<colgroup>
+<col style="width: 45%">
+<col style="width: 54%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Method</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>GET</code></td>
+<td style="text-align: left;">retrieves whatever information is identified by the Request-URI</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>POST</code></td>
+<td style="text-align: left;">request with data enclosed in the request body</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>HEAD</code></td>
+<td style="text-align: left;">identical to GET except that the server MUST NOT return a message-body in the response</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>PUT</code></td>
+<td style="text-align: left;">requests that the enclosed entity be stored under the supplied Request-URI</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>DELETE</code></td>
+<td style="text-align: left;">requests that the origin server delete the resource identified by the Request-URI</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>TRACE</code></td>
+<td style="text-align: left;">invokes a remote, application-layer loop-back of the request message</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>CONNECT</code></td>
+<td style="text-align: left;">for use with a proxy that can dynamically switch to being a tunnel</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<p>So far we’ve seen that:</p>
+<ul>
+<li><p>The HTTP protocol is a standardized method for transferring data or documents over the Web</p></li>
+<li><p>The clients’ requests and the servers’ responses are handled via the HTTP protocol</p></li>
+<li><p>There are 2 types of HTTP messages: <strong>requests</strong> and <strong>responses</strong></p></li>
+<li><p>We don’t actually see HTTP messages but they are there behind the scenes</p></li>
+</ul>
 
 
 </section>
@@ -398,10 +551,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="./1-02-web.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">The Web</span></span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./1-01-introduction.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./2-01-xml.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Basics of XML</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

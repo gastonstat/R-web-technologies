@@ -6,9 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Gaston Sanchez">
 
-<title>Web Technologies in R</title>
+<title>Web Technologies in R - 2&nbsp; The Web</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -31,7 +30,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./1-01-introduction.html" rel="next">
+<link href="./1-03-http.html" rel="next">
+<link href="./1-01-introduction.html" rel="prev">
 <link href="./images/favicon.ico" rel="icon">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -85,7 +85,7 @@ ga('send', {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title">Web Technologies in R</h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">The Web</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -110,7 +110,7 @@ ga('send', {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">About</a>
+  <a href="./index.html" class="sidebar-item-text sidebar-link">About</a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -128,7 +128,7 @@ ga('send', {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./1-02-web.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">The Web</span></a>
+  <a href="./1-02-web.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">The Web</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -222,12 +222,8 @@ ga('send', {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#about" id="toc-about" class="nav-link active" data-scroll-target="#about">About</a>
-  <ul class="collapse">
-  <li><a href="#my-series-of-r-tutorials" id="toc-my-series-of-r-tutorials" class="nav-link" data-scroll-target="#my-series-of-r-tutorials">My Series of R Tutorials</a></li>
-  <li><a href="#donation" id="toc-donation" class="nav-link" data-scroll-target="#donation">Donation</a></li>
-  <li><a href="#license" id="toc-license" class="nav-link" data-scroll-target="#license">License</a></li>
-  </ul></li>
+  <li><a href="#surfing-the-web" id="toc-surfing-the-web" class="nav-link active" data-scroll-target="#surfing-the-web"><span class="toc-section-number">2.1</span>  Surfing the Web</a></li>
+  <li><a href="#how-does-the-web-work" id="toc-how-does-the-web-work" class="nav-link" data-scroll-target="#how-does-the-web-work"><span class="toc-section-number">2.2</span>  How Does the Web Work?</a></li>
   </ul>
 </nav>
     </div>
@@ -236,20 +232,13 @@ ga('send', {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block">Web Technologies in R</h1>
-<p class="subtitle lead">A Short Introduction to Web Technologies in R</p>
+<h1 class="title"><span id="web" class="quarto-section-identifier d-none d-lg-block"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">The Web</span></span></h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p><a href="https://www.gastonsanchez.com" target="_blank"><b>Gaston Sanchez</b></a> </p>
-          </div>
-  </div>
     
     
   </div>
@@ -257,41 +246,98 @@ ga('send', {
 
 </header>
 
-<p>1st Edition: November 2022 <br> 2nd Edition: December 2023</p>
-<section id="about" class="level1 unnumbered">
-<h1 class="unnumbered">About</h1>
-<p>In this manuscript I provide an overview of some of the Web Technologies available in R.</p>
-<section id="about-you" class="level4 unnumbered">
-<h4 class="unnumbered anchored" data-anchor-id="about-you">About You</h4>
-<p>I am assuming that you have both R or RStudio installed in your computer. If this is not the case, you can take a look at <strong>Breaking the Ice with R</strong></p>
-<p><a href="https://www.gastonsanchez.com/R-ice-breaker" target="_blank">https://www.gastonsanchez.com/R-ice-breaker</a></p>
-</section>
-<section id="citation" class="level4 unnumbered">
-<h4 class="unnumbered anchored" data-anchor-id="citation">Citation</h4>
-<p>You can cite this work as:</p>
-<p>Sanchez, G. (2022) A Short Introduction to Web Data Technologies in R. <br> https://www.gastonsanchez.com/R-web-technologies</p>
-<hr>
-</section>
-<section id="my-series-of-r-tutorials" class="level3 unnumbered">
-<h3 class="unnumbered anchored" data-anchor-id="my-series-of-r-tutorials">My Series of R Tutorials</h3>
-<p>This document is part of a series of texts that I’ve written about Programming and Data Analysis in R:</p>
+<p>In this chapter I provide a brief and superficial description of the Web and how it works.</p>
+<section id="surfing-the-web" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="surfing-the-web"><span class="header-section-number">2.1</span> Surfing the Web</h2>
+<p>Think about when you surf the web:</p>
 <ul>
-<li><p><strong>Breaking the Ice with R: Getting Started with R and RStudio</strong> <br> <a href="https://www.gastonsanchez.com/R-ice-breaker" class="uri">https://www.gastonsanchez.com/R-ice-breaker</a></p></li>
-<li><p><strong>Tidy Hurricanes: Analyzing Tropical Storms with Tidyverse Tools</strong> <br> <a href="https://www.gastonsanchez.com/R-tidy-hurricanes" class="uri">https://www.gastonsanchez.com/R-tidy-hurricanes</a></p></li>
-<li><p><strong>R Coding Basics: An Introduction to the Basics of Coding in R</strong> <br> <a href="https://www.gastonsanchez.com/R-coding-basics" class="uri">https://www.gastonsanchez.com/R-coding-basics</a></p></li>
-<li><p><strong>Rolling Dice: Exploring Simulations in Games of Chance with R</strong> <br> <a href="https://www.gastonsanchez.com/R-rolling-dice" class="uri">https://www.gastonsanchez.com/R-rolling-dice</a></p></li>
-<li><p><strong>Web Technologies in R: A Short Introduction to Web Technologies in R</strong> <br> <a href="https://www.gastonsanchez.com/R-web-technologies" class="uri">https://www.gastonsanchez.com/R-web-technologies</a></p></li>
+<li><p>You open a web browser (e.g.&nbsp;Google Chrome, Safari, Firefox)</p></li>
+<li><p>You type in or click the URL of a website you wish to visit (e.g.&nbsp; https://www.r-project.org)</p></li>
+<li><p>You wait some fractions of a second, and then the website shows up in your screen.</p></li>
 </ul>
-<hr>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/http/web-scheme1.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<p></p><figcaption class="figure-caption">Surfing the web</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+<p>What exactly is happening “behind the scenes”?</p>
+<ul>
+<li><p>People access websites using software called a <strong>Web browser</strong> (e.g.&nbsp;Google Chrome, Safari, Firefox)</p></li>
+<li><p>A browser is a software that, among other things, <strong>requests</strong> information (e.g.&nbsp;request to access R project’s website)</p></li>
+<li><p>Using more proper language, the browser in your computer is the <strong>client that requests</strong> a variety of resources (e.g.&nbsp;pages, images, videos, audio, scripts)</p></li>
+<li><p>The client’s request is sent to <strong>Web servers</strong></p></li>
+<li><p>A <strong>server</strong> is the software-computer in charge of <strong>serving</strong> the resources that the clients request.</p></li>
+<li><p>The server <strong>sends responses</strong> back to the client</p></li>
+</ul>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/http/web-scheme2.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<p></p><figcaption class="figure-caption">Client makes a request, and the serve responds</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+<p>To be more accurate, the server is the software that allows the computer to communicate with other computers; however, it is common to use the term “server” to refer to the computer running the software, which also contains other files and programs. Simply put, a server is basically a computer connected to the Internet. The Internet, in turn, is just a network of connected computers forming a system of standards and rules. The purpose of connecting computers together is to share information.</p>
+<p>The job of the server software is to wait for a request for information, then retrieve and send that information back to the client(s) as fast as possible. In other words, Web servers have a full time job, waiting for requests from Web browsers all over the world.</p>
 </section>
-<section id="donation" class="level3 unnumbered">
-<h3 class="unnumbered anchored" data-anchor-id="donation">Donation</h3>
-<p>As a Data Science and Statistics educator, I love to share the work I do. Each month I spend dozens of hours curating learning materials like this resource. If you find any value and usefulness in it, please consider making a <a href="https://www.paypal.com/donate?business=ZF6U7K5MW25W2&amp;currency_code=USD" target="_blank">one-time donation—via paypal—in any amount</a> (e.g.&nbsp;the amount you would spend inviting me a cup of coffee or any other drink). Your support really matters.</p>
-<p><a href="https://www.paypal.com/donate?business=ZF6U7K5MW25W2&amp;currency_code=USD" target="_blank"><img src="https://www.gastonsanchez.com/images/donate.png" width="140" height="60"></a></p>
-</section>
-<section id="license" class="level3 unnumbered">
-<h3 class="unnumbered anchored" data-anchor-id="license">License</h3>
-<p><a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>This work is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</p>
+<section id="how-does-the-web-work" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="how-does-the-web-work"><span class="header-section-number">2.2</span> How Does the Web Work?</h2>
+<p>Now that we have the high level intuition of clients making requests, and servers sending responses back to clients, let’s describe things in more detail.</p>
+<p>To make web pages, programmers, developers and designers create files written in a special type of syntax called <strong>HyperText Markup Language</strong> or HTML for short. These files are stored in a Web server.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/http/web-scheme3.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<p></p><figcaption class="figure-caption">HTML files are the building blocks of web pages</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+<p>To be more precise, Web servers store more than one single HTML file. In practice, websites are made of several directories containing various types of files (image files, audio files, video files, scripts, etc).</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/http/web-scheme5.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<p></p><figcaption class="figure-caption">Web server containing several types of files, not just HTML files</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+<p>Once HTML files are put on the web server, any browser (e.g.&nbsp;Chrome, Safari, Firefox, Explorer) can retrieve the web page over the internet. The browser on your laptop, on your tablet, on your cellphone, you name it. As long as the device you are using is connected to the internet, the browser will retrieve the web page. The HTML content in the web page tells the browser everything it needs to know to display the page.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/http/web-scheme4.png" class="img-fluid figure-img" style="width:75.0%"></p>
+<p></p><figcaption class="figure-caption">Diagram of the Web</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+<p>On a side note, it’s important to distinguish the Internet from the Web. The Web, originally called the World Wide Web, is just one option to share information over the Internet. What characterizes the Web is that it allows documents to be linked to one another using <em>hypertext</em> links or hyperlinks, thus forming a web of interconnected resources.</p>
+<section id="in-summary" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="in-summary">In Summary</h4>
+<ul>
+<li><p>The Web is a massive distributed information system connecting software and computers to share information.</p></li>
+<li><p>The software and computers that form the Web are divided into two types: <em>clients</em> and <em>servers</em>.</p></li>
+<li><p>The way clients and servers dialogue between each other is by following formal <strong>protocols of communication</strong>.</p></li>
+<li><p>The main type of protocol that clients and servers use is the HyperText Transfer Protocol (HTTP).</p></li>
+<li><p>But there are other ways in which computers can exchange information such as email, file transfer (FTP), and many others.</p></li>
+</ul>
 
 
 </section>
@@ -398,10 +444,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="./1-01-introduction.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./1-01-introduction.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./1-03-http.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Basics of HTTP</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
